@@ -1,0 +1,91 @@
+#{
+#   ignore memory leak in main
+#   Memcheck:Leak
+#   ...
+#   fun:main
+#}
+
+#{
+#   ignore memory Freemismatch in main
+#   Memcheck:Free
+#   ...
+#   fun:main
+#}
+
+{
+   ignore initial
+   Memcheck:Value1
+   ...
+   fun:*
+}
+{
+   ignore initial
+   Memcheck:Value4
+   ...
+   fun:*
+}
+{
+   ignore initial
+   Memcheck:Value8
+   ...
+   fun:*
+}
+{
+   ignore initial
+   Memcheck:Value16
+   ...
+   fun:*
+}
+{
+   ignore Addr
+   Memcheck:Addr1
+   ...
+   fun:*
+}
+{
+   ignore Addr
+   Memcheck:Addr2
+   ...
+   fun:*
+}
+{
+   ignore Addr
+   Memcheck:Addr4
+   ...
+   fun:*
+}
+{
+   ignore Addr
+   Memcheck:Addr8
+   ...
+   fun:*
+}
+{
+   ignore Addr
+   Memcheck:Addr16
+   ...
+   fun:*
+}
+
+{
+   ignore Cond
+   Memcheck:Cond
+   ...
+   fun:*
+}
+
+#Leak,Value1/4/8/16/32,Param,Addr1/4/8/16/32,Overlap
+#{
+#   ignore memory leak in functions
+#   Memcheck:Leak
+#   ...
+#   fun:*
+#}
+
+#Leak,Value1/4/8/16,Param,Addr1/4/8/16,Overlap,Free
+{
+   ignore memory leak in functions
+   Memcheck:Overlap
+   ...
+   fun:*
+}

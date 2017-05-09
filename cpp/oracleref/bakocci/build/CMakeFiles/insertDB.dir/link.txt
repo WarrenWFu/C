@@ -1,0 +1,1 @@
+/usr/bin/c++       CMakeFiles/insertDB.dir/occi.cpp.o  -o insertDB -rdynamic /mnt/winshared/myyb/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so /mnt/winshared/myyb/product/Linux64/opt/oracle.oci.Linux64/lib/libocci.so -Wl,-rpath,/mnt/winshared/myyb/product/Linux64/opt/oracle.oci.Linux64/lib 

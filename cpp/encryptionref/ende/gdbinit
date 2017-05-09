@@ -1,0 +1,4 @@
+set args 11 "/home/spring/project/qhjk/product/Linux64/var/certs/qhjk20160309.crt" "/home/spring/project/qhjk/product/Linux64/var/certs/A09700000002.key"
+set logging on
+set print element 0
+start

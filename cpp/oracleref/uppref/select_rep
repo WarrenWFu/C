@@ -1,0 +1,1241 @@
+--------------------------------------------------------------------------------
+I1 cache:         32768 B, 64 B, 8-way associative
+D1 cache:         32768 B, 64 B, 8-way associative
+LL cache:         6291456 B, 64 B, 12-way associative
+Command:          ./selectDB 100
+Data file:        cachegrind.out
+Events recorded:  Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Events shown:     Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Event sort order: Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Thresholds:       0.1 100 100 100 100 100 100 100 100
+Include dirs:     
+User annotated:   /mnt/winshared/myyb/library/libaps/src/db/cdbc.cpp
+                  /mnt/winshared/myyb/library/libaps/packages/db.oracle/db.oracle.module.cpp
+                  /mnt/winshared/it/cpp/tests/oracleref/uppref/upporacle.cpp
+Auto-annotation:  off
+
+--------------------------------------------------------------------------------
+         Ir    I1mr   ILmr         Dr    D1mr    DLmr          Dw       D1mw    DLmw 
+--------------------------------------------------------------------------------
+258,957,909 460,246 21,026 16,841,540 398,387 127,528 169,137,192 20,365,712 207,214  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+         Ir   I1mr  ILmr        Dr   D1mr   DLmr          Dw       D1mw    DLmw  file:function
+--------------------------------------------------------------------------------
+185,190,799  5,121    37    26,912  2,853      7 162,173,810 20,259,328 170,549  ???:__memset_x86_64
+ 29,235,492    528   197 3,732,365     27     11     771,082          0       0  ???:r0_sha512_block_k8_64_fast
+  8,911,455    489    59 2,960,328 95,528 10,376   1,157,511        965     146  ???:do_lookup_x
+  3,564,964    285    32   626,996 10,161  7,276     268,626        784      70  ???:_dl_lookup_symbol_x
+  2,532,527    136    68   703,811 90,442 82,710     247,452     34,688  32,754  ???:_dl_relocate_object
+  2,487,283     42    21 1,360,332      0      0      16,476          0       0  ???:r_crn_kdf_pbkdf2_derive_key
+  1,945,880  1,849    29   461,952 10,597  8,986     429,046     10,741     242  ???:memcpy
+  1,525,014     30    10    73,791      0      0     524,736          1       0  ???:r0_sha512_final
+  1,164,812  8,900   287   387,628    600      1      87,084         98       0  ???:kpuscn0
+  1,158,368     54    51   148,355    206      8     202,894         17       0  ???:ttcdty
+    580,760     86     9   185,380  3,233    732           1          0       0  ???:strcmp
+    572,312    241    16   208,896  3,604  1,884      61,964        786     104  ???:check_match.12447
+    541,108  7,362    66    77,594  2,930     31      80,866      2,085     124  ???:_int_malloc
+    516,537     16     6   139,383      0      0     139,383          0       0  ???:r0_digest_g128b_final_small
+    406,200    200     2   130,000    600      5      73,000          0       0  ???:lxwctex
+    401,400    707   131    41,193      1      0      10,026          5       0  ???:r0_sha256_block_k8_64_fast
+    385,709     18     6   114,888      0      0      82,060          0       0  ???:r0_digest_g128u_update_small
+    369,988 63,950 2,966   337,047 61,164  2,014      13,034        126      17  ???:???
+    355,123 12,316    37    85,997  1,382      2      63,908      2,536       3  ???:kghalo
+    322,007     70    16    84,784    291     64      21,651         34       0  ???:LdiMatchString
+    264,736     17     2    99,276      0      0      49,638          0       0  ???:R1_DGST_CTX_restore_snapshot
+
+--------------------------------------------------------------------------------
+-- User-annotated source: /mnt/winshared/myyb/library/libaps/src/db/cdbc.cpp
+--------------------------------------------------------------------------------
+   Ir I1mr ILmr  Dr D1mr DLmr  Dw D1mw DLmw 
+
+-- line 75 ----------------------------------------
+    .    .    .   .    .    .   .    .    .              mDriverLoader = NULL;
+    .    .    .   .    .    .   .    .    .          }
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      
+    .    .    .   .    .    .   .    .    .      U_LOG_X(eTRACE) << "Drivers unloaded.";
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    7    1    1   0    0    0   5    0    0  DriverManager::DriverManager():
+   22    2    2   7    1    0   6    0    0  mDriverLoader(NULL)
+    .    .    .   .    .    .   .    .    .  {
+   10    0    0   1    0    0   3    0    0      mDriverLoader = new PluginFactory<Driver>;
+    6    1    1   1    0    0   1    0    0      mDriverDir = "";
+    6    1    1   5    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Driver& DriverManager::loadDriver(const string& name )  
+    6    0    0   0    0    0   4    0    0  {
+   30    3    3   1    0    0   7    0    0      U_LOG_X(eTRACE) << "loadDriver("<< name << ")";
+    .    .    .   .    .    .   .    .    .  
+    2    0    0   0    0    0   2    1    0      DriverManager& manager = DriverManager::instanceEx();
+    5    0    0   2    0    0   1    0    0      return *(manager.loadDriver_(name));
+    5    1    0   4    1    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  // 加载后直到进程退出才释放驱动
+    .    .    .   .    .    .   .    .    .  Driver* DriverManager::loadDriver_(const string& name )
+    7    1    1   0    0    0   5    1    1  {
+    6    0    0   1    0    0   1    1    1      if (name=="")
+    .    .    .   .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, "loadDriver(name) not specified!");
+    .    .    .   .    .    .   .    .    .      
+    6    1    1   1    0    0   1    0    0      ScopedLock<Mutex> lock(mMutex);
+    .    .    .   .    .    .   .    .    .      
+    .    .    .   .    .    .   .    .    .      // 是否已加载?
+   10    1    1   1    0    0   3    1    1      vector<Driver*>::const_iterator it = mDrivers.begin();
+   13    1    1   1    0    0   3    0    0      for (;it!=mDrivers.end();it++)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          if (name== (*it)->name())
+    .    .    .   .    .    .   .    .    .              return *it;
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      // 加载动态库
+   26    3    3   2    0    0   5    0    0      mDriverDir = FileInfo::setDirSepStyle(mDriverDir, eDirSepStyleUNIX);
+   23    2    2   4    0    0   3    0    0      if (mDriverDir!="" && mDriverDir[mDriverDir.length()-1]!='/')
+    .    .    .   .    .    .   .    .    .          mDriverDir += "/";
+    .    .    .   .    .    .   .    .    .  
+   17    2    2   2    0    0   3    0    0      string path = mDriverDir + "libaps.db." + name;
+    .    .    .   .    .    .   .    .    .      //path += "";
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  #ifdef WIN32
+    .    .    .   .    .    .   .    .    .      path += ".dll";
+    .    .    .   .    .    .   .    .    .  #else 
+    4    0    0   0    0    0   1    0    0      path += ".so";
+    .    .    .   .    .    .   .    .    .  #endif
+    .    .    .   .    .    .   .    .    .      
+   30    3    3   0    0    0   7    0    0      U_LOG_X(eTRACE) << "loadPluginFile("<< path << ")";
+    .    .    .   .    .    .   .    .    .      
+    .    .    .   .    .    .   .    .    .      try
+    .    .    .   .    .    .   .    .    .      {
+   27    4    3   2    1    0   6    0    0          mDriverLoader->loadFile(path.c_str());
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      catch (Exception& e)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, formatStr("Fail to load (%s): %s", path.c_str(), StrHelper::trim(e.what()).c_str()) );
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .  
+   15    3    3   1    1    0   3    0    0      string moduleName = "db."+name+".module";
+    1    0    0   0    0    0   1    0    0      Driver* pDriver = NULL;
+    .    .    .   .    .    .   .    .    .      
+    .    .    .   .    .    .   .    .    .      try
+    .    .    .   .    .    .   .    .    .      {
+   27    3    3   2    1    0   7    1    0          pDriver = mDriverLoader->create(moduleName.c_str());
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      catch (Exception& e)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, formatStr("Fail to create (%s): %s", moduleName.c_str(), StrHelper::trim(e.what()).c_str()) );
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      catch (...)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, formatStr("Fail to create (%s)", moduleName.c_str()));
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      
+    3    2    2   1    0    0   0    0    0      if(pDriver==NULL)
+    .    .    .   .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, formatStr("Fail to create %s Driver", moduleName.c_str()) );
+    .    .    .   .    .    .   .    .    .  
+    5    2    2   1    0    0   1    0    0      pDriver->setDriverImagePath(path);
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      // 缓存 
+    6    0    0   1    0    0   1    0    0      mDrivers.push_back(pDriver);
+    .    .    .   .    .    .   .    .    .  
+   41    3    3   2    1    0  10    0    0      U_LOG_X(eTRACE) << "Driver[" << name <<"] load, total "<< mDrivers.size() << " drivers.";
+   13    3    3   1    0    0   3    0    0      return pDriver;
+    5    0    0   4    1    1   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Connection* DriverManager::getConnection(const string& url )
+    4    0    0   0    0    0   2    0    0  {
+    5    0    0   1    0    0   2    0    0      return DriverManager::instance()->getConnection_(url);
+    2    1    0   2    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Connection* DriverManager::connect(const string& url, const string& user, const string& passwd )
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return DriverManager::instance()->connect_(url, user, passwd);
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  void DriverManager::setDriverDir( const string&dir )
+    6    2    2   0    0    0   4    0    0  {
+    6    1    0   1    1    0   2    0    0      DriverManager::instance()->mDriverDir = dir;
+   27    2    2   1    0    0   6    0    0      U_LOG_X(eTRACE) << "Setting DriverDir to "<< dir ;
+    5    0    0   4    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  string DriverManager::getDriverDir()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return DriverManager::instance()->mDriverDir;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  void DriverManager::freeConnection( Connection*pConn )
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      if(pConn!=NULL)
+    .    .    .   .    .    .   .    .    .          pConn->getDriver()->freeConnection(pConn);
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Connection* DriverManager::getConnection_(const string& url)
+    7    2    2   0    0    0   5    1    0  {
+    6    0    0   1    0    0   1    0    0      ScopedLock<Mutex> lock(mMutex);
+   34    3    3   2    0    0   8    0    0      U_LOG_X(eTRACE) << "getConnection("<< url << ") #"<< this;
+    .    .    .   .    .    .   .    .    .  
+    8    1    1   1    0    0   1    0    0      if (mDrivers.size()==0)
+    .    .    .   .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, string("No database driver loaded!").c_str());
+    .    .    .   .    .    .   .    .    .  
+   10    2    2   1    0    0   3    1    0      vector<Driver*>::const_iterator it = mDrivers.begin();
+   13    2    2   1    0    0   3    0    0      for (;it!=mDrivers.end();it++)
+    .    .    .   .    .    .   .    .    .      {
+   13    1    1   4    3    0   2    0    0          if ((*it)->acceptURL(url))
+   13    2    0   4    2    1   2    0    0              return (*it)->getConnection(url);
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      
+    .    .    .   .    .    .   .    .    .      logSQLExceptionX(Z_SOURCEINFO, -1, string("Unknown connect string: "+url).c_str());
+    4    1    1   0    0    0   1    0    0      return NULL;
+    5    1    1   4    2    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Connection* DriverManager::connect_(const string& url, const string& user, const string& passwd)
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      ScopedLock<Mutex> lock(mMutex);
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      Connection*pConn = NULL;
+    .    .    .   .    .    .   .    .    .      
+-- line 226 ----------------------------------------
+-- line 250 ----------------------------------------
+    .    .    .   .    .    .   .    .    .      
+    .    .    .   .    .    .   .    .    .      if (!bCheckURL)
+    .    .    .   .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, string("Unknown connect string: "+url).c_str());
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      return pConn;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    4    1    1   0    0    0   2    0    0  Driver::Driver():
+   10    1    1   4    1    1   3    0    0  mCustomFunction(NULL)
+    .    .    .   .    .    .   .    .    .  {
+    2    0    0   2    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Driver::~Driver()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  //////////////////////////////////////////////////////////////////////////
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    5    1    1   0    0    0   3    0    0  Connection::Connection(Driver*driver):
+    .    .    .   .    .    .   .    .    .  bConnected_(false),
+   13    1    1   6    1    1   4    0    0  mDriver(driver)
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      
+    2    0    0   2    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Connection::~Connection()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  bool Connection::connected()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return bConnected_;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  //////////////////////////////////////////////////////////////////////////
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    4    1    1   0    0    0   2    0    0  Statement::Statement():
+   10    1    1   4    1    1   3    0    0  SQLState_(eSQLStateInitial)
+    .    .    .   .    .    .   .    .    .  {
+    2    0    0   2    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Statement::~Statement()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  void Statement::setSQL(const string& sql )
+-- line 302 ----------------------------------------
+-- line 306 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  string Statement::getSQL( )
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return sql_;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  //////////////////////////////////////////////////////////////////////////
+    .    .    .   .    .    .   .    .    .  
+    7    1    1   2    1    0   3    0    0  ResultSet::ResultSet()
+    .    .    .   .    .    .   .    .    .  {
+    2    0    0   2    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  ResultSet::~ResultSet()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  //-----------------------------------------------------
+    .    .    .   .    .    .   .    .    .  
+-- line 324 ----------------------------------------
+-- line 391 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      Z_ASSERT( column>=0 && column< (int)Columns_.size() );
+    .    .    .   .    .    .   .    .    .      return Columns_[column].Nullable;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  //-----------------------------------------------------
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+   23    2    2   5    0    0   8    0    0  ResultSetMetaData::ResultSetMetaData()
+    .    .    .   .    .    .   .    .    .  {
+    5    1    1   4    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  ResultSetMetaData::~ResultSetMetaData()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  int ResultSetMetaData::getColumnLenth( int column )
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return Columns_[column].Length;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+1,300  200    2 200    0    0 600    0    0  ResultSetMetaData::Column_t::Column_t()
+    .    .    .   .    .    .   .    .    .  {
+  200    0    0 100    0    0 100    0    0      Length = 0;
+  200    0    0 100    0    0 100    0    0      DisplaySize = 0;
+  200  100    1 100    0    0 100    0    0      Type = 0;
+  200    0    0 100    0    0 100    0    0      Precision = 0;
+  200    0    0 100    0    0 100    0    0      Scale = 0;
+  200    0    0 100    0    0 100    0    0      CaseSensitive = false;
+  200    0    0 100    0    0 100    0    0      AutoIncrement = false;
+  200    0    0 100    0    0 100    0    0      Nullable = false;
+  500    0    0 400    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  //-----------------------------------------------------
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  bool AnyValue::isNull()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return bNull;
+    .    .    .   .    .    .   .    .    .  }
+-- line 432 ----------------------------------------
+-- line 736 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  string Driver::driverImagePath()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return mImagePath;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  void Driver::setDriverImagePath(const string& path )
+    5    1    1   0    0    0   3    0    0  {
+    6    1    1   2    0    0   1    0    0      mImagePath = path;
+    2    0    0   2    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Driver::CustomFunction* Driver::customFunction()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return mCustomFunction;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  Driver::CustomFunction::~CustomFunction()
+-- line 754 ----------------------------------------
+-- line 761 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  //////////////////////////////////////////////////////////////////////////
+    .    .    .   .    .    .   .    .    .  #ifndef UPP_ERRCODE
+    .    .    .   .    .    .   .    .    .  #define UPP_ERRCODE 7999
+    .    .    .   .    .    .   .    .    .  #define UPP_ERRCODESTR "7999"
+    .    .    .   .    .    .   .    .    .  #endif 
+    .    .    .   .    .    .   .    .    .  
+  500  100    1   0    0    0 300    0    0  SimpleQuery::SimpleQuery( Connection*p ):
+    .    .    .   .    .    .   .    .    .  pConn(p),
+  900  100    1 400    0    0 300    0    0  pStm(NULL)
+    .    .    .   .    .    .   .    .    .  {
+  200    0    0 200    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  SimpleQuery::SimpleQuery( const SimpleQuery&o ):
+    .    .    .   .    .    .   .    .    .  pConn(NULL),
+    .    .    .   .    .    .   .    .    .  pStm(NULL)
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      mRetCode = eSQLRtnFail;
+    .    .    .   .    .    .   .    .    .      pConn = o.pConn;
+    .    .    .   .    .    .   .    .    .      pStm = o.pStm;
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      setDbError(UPP_ERRCODE, "SimpleQuery::query not called!");
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+  600  100    1   0    0    0 400    0    0  SimpleQuery::~SimpleQuery()
+    .    .    .   .    .    .   .    .    .  {
+  800  100    1 400    0    0   0    0    0      if (pStm!=NULL && pConn!=NULL)
+    .    .    .   .    .    .   .    .    .      {
+1,200  100    1 800  101    0 100    0    0          pConn->freeStatement(pStm);
+  300    0    0 100    0    0 100    0    0          pStm = NULL;
+    .    .    .   .    .    .   .    .    .      }
+  900  100    0 500    0    0 100    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  SQLRtn_t SimpleQuery::query(const string& sql)
+  700    1    1   0    0    0 500    1    0  {
+  400  100    1 200    0    0   0    0    0      if (pConn==NULL)
+    .    .    .   .    .    .   .    .    .          logException(Z_SOURCEINFO, UPP_ERRCODESTR, "db::Connection = NULL");
+    .    .    .   .    .    .   .    .    .      
+  400  100    1 200    0    0   0    0    0      if (pStm!=NULL)
+    .    .    .   .    .    .   .    .    .          logException(Z_SOURCEINFO, UPP_ERRCODESTR, "SimpleQuery object can't be reused!");
+    .    .    .   .    .    .   .    .    .      
+  200  100    1 100    0    0 100    0    0      mRetCode = eSQLRtnFail;
+    .    .    .   .    .    .   .    .    .      
+    .    .    .   .    .    .   .    .    .      try
+    .    .    .   .    .    .   .    .    .      {
+1,100  101    1 700    1    1 200    1    0          pStm = pConn->createStatement();
+1,100  100    1 700  101    1 100    0    0          pStm->executeQuery(sql);
+    .    .    .   .    .    .   .    .    .          
+  200  100    0 100    0    0 100  100    0          mRetCode = eSQLRtnOK;
+2,500  300    3 300    0    0 500    0    0          setDbError(mRetCode, "Success");
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      catch (aps::Exception& e)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          if (pConn->getDriver()->customFunction()->isSqlcodeDuplicate(e.code()))
+    .    .    .   .    .    .   .    .    .              mRetCode = eSQLRtnDuplicate;
+    .    .    .   .    .    .   .    .    .          else if (pConn->getDriver()->customFunction()->isSqlcodeNotFound(e.code()))
+    .    .    .   .    .    .   .    .    .              mRetCode = eSQLRtnNotFound;
+    .    .    .   .    .    .   .    .    .          else 
+-- line 820 ----------------------------------------
+-- line 826 ----------------------------------------
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          setDbError(UPP_ERRCODE, e.what());
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      catch (...)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          setDbError(UPP_ERRCODE, "Unknown Error(runSimpleQuery)");
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      
+  400  200    2 200    0    0   0    0    0      if (mRetCode!=eSQLRtnOK)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          pConn->freeStatement(pStm);
+    .    .    .   .    .    .   .    .    .          pStm = NULL;
+    .    .    .   .    .    .   .    .    .          return mRetCode;
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .  
+1,000  200    2 600  300    1 200  100    0      ResultSet& result = pStm->getResultSet();
+    .    .    .   .    .    .   .    .    .      try
+    .    .    .   .    .    .   .    .    .      {
+1,000  100    0 400  100    1 100    0    0          if(!result.next())
+    .    .    .   .    .    .   .    .    .          {
+    .    .    .   .    .    .   .    .    .              setDbError(-1, "No result found.");
+    .    .    .   .    .    .   .    .    .              mRetCode = eSQLRtnNotFound;
+    .    .    .   .    .    .   .    .    .              pConn->freeStatement(pStm);
+    .    .    .   .    .    .   .    .    .              pStm = NULL;
+    .    .    .   .    .    .   .    .    .          }
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      catch (Exception& e)
+-- line 852 ----------------------------------------
+-- line 855 ----------------------------------------
+    .    .    .   .    .    .   .    .    .          setDbError(e.code(), e.what());
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      catch (...)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          mRetCode = eSQLRtnFail;
+    .    .    .   .    .    .   .    .    .          setDbError(UPP_ERRCODE, "Unknown Error(runSimpleQuery/next)");
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .      
+  200  100    1 200    1    0   0    0    0      return mRetCode;
+  500    0    0 400    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  void SimpleQuery::setDbError(int sqlcode, const string&sqlmsg)
+  600  100    1   0    0    0 400    0    0  {
+  600    0    0 200    0    0 100    0    0      mDbError.setCode(sqlcode);
+  600  100    1 200    0    0 100    0    0      mDbError.setWhat(sqlmsg);
+  200    0    0 200    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  ResultSet& SimpleQuery::getResultSet()
+  600    0    0   0    0    0 400   99    0  {
+  400    0    0 200    1    0   0    0    0      if (pStm==NULL)
+    .    .    .   .    .    .   .    .    .          logException(Z_SOURCEINFO, mDbError.code(), mDbError.what());
+    .    .    .   .    .    .   .    .    .      
+  900  200    2 600    2    0 100    0    0      return pStm->getResultSet();
+  500    0    0 400    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  const Exception& SimpleQuery::dbError()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return mDbError;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  const SQLRtn_t SimpleQuery::lastRetCode()
+    .    .    .   .    .    .   .    .    .  {
+-- line 887 ----------------------------------------
+-- line 919 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  Connection* aps::db::Connection::Auto::connection()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      return pConn_;
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  aps::db::Connection::Auto::~Auto()
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      DriverManager::freeConnection(pConn_);
+   18    2    1   6    0    0   5    0    0  }
+
+--------------------------------------------------------------------------------
+-- User-annotated source: /mnt/winshared/it/cpp/tests/oracleref/uppref/upporacle.cpp
+--------------------------------------------------------------------------------
+   Ir I1mr ILmr  Dr D1mr DLmr  Dw D1mw DLmw 
+
+-- line 17 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  namespace 
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      int iLoop;
+    .    .    .   .    .    .   .    .    .      char buffer[10+1];
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  void mySelect(db::Connection *val)
+  700  100    1   0    0    0 500    0    0  {
+  400  100    1   0    0    0 100    0    0      memset(buffer, 0x00, sizeof(buffer));
+  600    0    0 100    0    0 100    0    0      sprintf(buffer, "%d", iLoop);
+  500  100    1 100    0    0 100    0    0      aps::db::SimpleQuery simpleQuery(val);
+1,200  100    1   0    0    0 300    0    0      string sql = "SELECT BIGTXTIDEX FROM T_USI_BIGTXTDATA WHERE BIGTXTIDEX = "; 
+2,100  200    2   0    0    0 500    0    0      sql += string(buffer);
+    .    .    .   .    .    .   .    .    .  
+  600  100    0   0    0    0 200  100    0      SQLRtn_t emSqlRtn = simpleQuery.query(sql);
+  300    0    0 100    0    0   0    0    0      if (emSqlRtn == eSQLRtnNotFound)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          //cout << "未找到" << endl;
+    .    .    .   .    .    .   .    .    .      }
+  300    0    0 100    0    0   0    0    0      else if (emSqlRtn != eSQLRtnOK)
+    .    .    .   .    .    .   .    .    .      {                                                                              
+    .    .    .   .    .    .   .    .    .          cout << "执行SQL失败" << endl;
+    .    .    .   .    .    .   .    .    .      }                                                                              
+    .    .    .   .    .    .   .    .    .      else
+    .    .    .   .    .    .   .    .    .      {
+  100  100    1   0    0    0 100    0    0          bool bNext = true;
+  400    0    0   0    0    0 200    0    0          aps::db::ResultSet &resultSet = simpleQuery.getResultSet();
+1,400  100    1 600    2    0 200    1    0          for (; bNext; bNext = resultSet.next())
+    .    .    .   .    .    .   .    .    .          {
+    .    .    .   .    .    .   .    .    .              //cout << "结果是[" << resultSet.getInt(0) << "]" << endl;
+    .    .    .   .    .    .   .    .    .          }
+  700  100    1   0    0    0 200    0    0      }
+  500    0    0 400    0    0   0    0    0  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  void myInsert(Connection *val)
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .      memset(buffer, 0x00, sizeof(buffer));
+    .    .    .   .    .    .   .    .    .      sprintf(buffer, "%d", iLoop);
+    .    .    .   .    .    .   .    .    .      string sql = "INSERT INTO T_USI_BIGTXTDATA(PFWRKDATE, BIGTXTIDEX, \
+    .    .    .   .    .    .   .    .    .                    BIGTXTTYPE, BIGTXTLEN, BIGTXTCNT, STATE) \
+    .    .    .   .    .    .   .    .    .                    VALUES('33330831', ";
+-- line 58 ----------------------------------------
+-- line 124 ----------------------------------------
+    .    .    .   .    .    .   .    .    .          cout << "发生了未知错误" << endl;
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      val->commit();
+    .    .    .   .    .    .   .    .    .      val->freeStatement(pStmt);
+    .    .    .   .    .    .   .    .    .  }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  int main(int argc, char *argv[])
+    8    2    2   0    0    0   6    0    0  {
+   12    1    1   0    0    0   3    0    0      const string url = ";dbDriver=oracle;dbHost=192.168.137.101;dbPort=1522;dbName=MYDBORACLE;";
+    .    .    .   .    .    .   .    .    .  
+   12    1    1   0    0    0   3    0    0      string strDriverDir = "/mnt/winshared/myyb/product/Linux64/lib/";
+    3    0    0   0    0    0   1    0    0      DriverManager::setDriverDir(strDriverDir);
+   19    3    3   0    0    0   5    0    0      DriverManager::loadDriver("oracle");
+    .    .    .   .    .    .   .    .    .  
+    3    0    0   0    0    0   1    0    0      ThreadKey<db::Connection> threadDbConn;
+    4    1    1   0    0    0   2    1    1      Connection *pConn = threadDbConn.get();
+    .    .    .   .    .    .   .    .    .      //Connection *pConn = NULL;
+    4    1    0   0    0    0   2    1    0      pConn = DriverManager::getConnection(url);
+    5    0    0   1    0    0   1    0    0      threadDbConn.set(pConn);
+   41    5    4   4    1    1   9    0    0      pConn->connect("spring_oracle", "123123");
+    .    .    .   .    .    .   .    .    .  
+    9    1    1   3    1    1   2    1    0      iLoop = argc > 1? atoi(argv[1]): 1;
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      //这个函数第一次进入肯定会去读配置，这个程序不能用啊
+    .    .    .   .    .    .   .    .    .      //Connection *pConn2 = GlobalData::dbConn();
+    .    .    .   .    .    .   .    .    .  
+  806  100    0 201  100    0 100    0    0      for (; iLoop > 0; iLoop--)
+    .    .    .   .    .    .   .    .    .      {
+  300    0    0 100   99    0 100    0    0          mySelect(pConn);
+    .    .    .   .    .    .   .    .    .          //myInsert(pConn);
+    .    .    .   .    .    .   .    .    .          //myUpdate(pConn);
+    .    .    .   .    .    .   .    .    .          //myDelete(pConn);
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .  
+   13    2    2   0    0    0   3    0    0      return 0;
+   25    3    3  10    2    1   7    0    0  }
+
+--------------------------------------------------------------------------------
+-- User-annotated source: /mnt/winshared/myyb/library/libaps/packages/db.oracle/db.oracle.module.cpp
+--------------------------------------------------------------------------------
+   Ir I1mr ILmr    Dr D1mr DLmr  Dw D1mw DLmw 
+
+-- line 30 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  #define OOO oracle::occi
+    .    .    .     .    .    .   .    .    .  static const char*const VERSION = "v1.0_2014-10-22";
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  aps::db::Driver::CustomFunction* aps::db::DriverOra::customFunction()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      return new CustomFuncOracle();
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    6    2    2     0    0    0   4    0    0  DriverOra::DriverOra():
+   17    1    1     7    1    1   5    0    0  pOraEnv(NULL)
+    .    .    .     .    .    .   .    .    .  {
+   15    1    1     0    0    0   3    0    0      ULogX(eINFO, "Driver Version: %s", VERSION);
+    .    .    .     .    .    .   .    .    .  
+    1    0    0     0    0    0   1    0    0      oracle::occi::Environment::Mode mode  = oracle::occi::Environment::THREADED_MUTEXED;
+   34    4    4     2    0    0   8    0    0      U_LOG_X(eTRACE) << "Creating DriverOra #"<<this << ", mode="<<mode;
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+   10    1    0     2    1    0   2    1    0          pOraEnv = oracle::occi::Environment::createEnvironment(mode);
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      catch (oracle::occi::SQLException& ex)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, ex.getErrorCode(), formatStr("CreateEnvironment FAIL: [%s]", ex.what() ));
+    .    .    .     .    .    .   .    .    .      }
+    5    1    1     4    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  DriverOra::~DriverOra()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      //U_LOG_X(eTRACE) << "Freeing DriverOra #"<<this;
+    .    .    .     .    .    .   .    .    .      if (pOraEnv)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .  
+-- line 62 ----------------------------------------
+-- line 71 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .          pOraEnv = NULL;
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  //--------------------------------------------------------------------
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  db::Connection* DriverOra::getConnection(const string& url )
+    8    2    2     0    0    0   6    0    0  {
+    3    0    0     0    0    0   1    0    0      string host;
+    1    0    0     0    0    0   1    0    0      int port=0;
+    3    0    0     0    0    0   1    0    0      string dbName;
+    .    .    .     .    .    .   .    .    .  
+   30    3    3     1    1    0   7    0    0      U_LOG_X(eTRACE) << "getConnection("<< url << ")";
+    .    .    .     .    .    .   .    .    .  
+   12    1    1     2    0    0   1    0    0      if (!parseURL(url, host, port, dbName))
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, -1, formatStr("Unknown db connect string: [%s]", url.c_str()));
+    .    .    .     .    .    .   .    .    .  
+   11    3    2     2    0    0   3    1    0      ConnectionOra*pConn = new ConnectionOra(this, url);
+    .    .    .     .    .    .   .    .    .  
+    6    0    0     1    0    0   1    0    0      pConn->host_ = host;
+    3    0    0     2    0    0   1    0    0      pConn->port_ = port;
+    6    1    1     1    0    0   1    0    0      pConn->dbName_ = dbName;
+    .    .    .     .    .    .   .    .    .  
+    9    1    1     1    0    0   2    0    0      return pConn;
+    6    1    1     5    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  db::Connection* DriverOra::connect(const string& url, const string& user, const string& passwd )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      string host;
+    .    .    .     .    .    .   .    .    .      int port=0;
+    .    .    .     .    .    .   .    .    .      string dbName;
+    .    .    .     .    .    .   .    .    .  
+-- line 104 ----------------------------------------
+-- line 138 ----------------------------------------
+    .    .    .     .    .    .   .    .    .          throw er;
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      return pConn;
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  bool DriverOra::parseURL( const string& url, string &host, int& port, string& dbName )
+   20    2    2     0    0    0  16    0    0  {
+    6    0    0     0    0    0   2    0    0      KVString parser;
+   10    1    1     2    0    0   2    0    0      parser.parse(url);
+    .    .    .     .    .    .   .    .    .  
+   76    7    4     0    0    0  18    0    0      string dbDriver = parser.getString("dbDriver", "");
+    .    .    .     .    .    .   .    .    .  
+   12    2    1     0    0    0   2    0    0      if (dbDriver=="oracle")
+    .    .    .     .    .    .   .    .    .      {
+   94    7    5     2    0    0  22    0    0          host = parser.getString("dbHost", "");
+   46    3    2     2    0    0  12    0    0          port = parser.getInt("dbPort", 0);
+   94    8    5     2    0    0  22    0    0          dbName = parser.getString("dbName", "");
+    4    0    0     0    0    0   0    0    0          return true;
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  
+   16    1    1     0    0    0   4    0    0      return false;
+   10    0    0     8    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    1    1    1     0    0    0   0    0    0  bool DriverOra::acceptURL(const string& url ) throw()
+    7    1    1     0    0    0   5    0    0  {
+    3    0    0     0    0    0   1    0    0      string host;
+    1    0    0     0    0    0   1    0    0      int port=0;
+    3    1    1     0    0    0   1    0    0      string dbName;
+    .    .    .     .    .    .   .    .    .  
+   18    1    1     2    0    0   3    0    0      return parseURL(url, host, port, dbName);
+    5    0    0     4    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  string DriverOra::version()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      return "oracle";
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  string DriverOra::name()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      return "oracle";
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  PluginBase* DriverOra::create()
+    6    1    1     0    0    0   4    0    0  { 
+   13    2    1     0    0    0   3    0    0      PluginBase*pObj = new DriverOra(); 
+    1    0    0     1    0    0   0    0    0      return pObj;
+    6    0    0     5    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void DriverOra::destroy(PluginBase* plugin)
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      Z_ASSERT(plugin!=0);
+    .    .    .     .    .    .   .    .    .      delete plugin; 
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  //! 导出类
+    .    .    .     .    .    .   .    .    .  Z_PLUGINS_BEGIN
+    .    .    .     .    .    .   .    .    .  Z_PLUGIN(Driver, "db.oracle.module", DriverOra)
+    5    0    0     2    0    0   2    1    0  Z_PLUGINS_END
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  //--------------------------------------------------------------------
+    .    .    .     .    .    .   .    .    .  
+    8    1    1     0    0    0   6    0    0  ConnectionOra::ConnectionOra( DriverOra*driver, const string& url):
+    .    .    .     .    .    .   .    .    .  Connection(driver),
+    .    .    .     .    .    .   .    .    .  driver_(driver),
+    .    .    .     .    .    .   .    .    .  mAutoCommit(false),
+    .    .    .     .    .    .   .    .    .  pState(NULL),
+    .    .    .     .    .    .   .    .    .  pOraEnv(NULL),
+   44    3    3    16    1    1  13    0    0  pOraConn(NULL)
+    .    .    .     .    .    .   .    .    .  {  
+    .    .    .     .    .    .   .    .    .  	//if (pState == NULL)
+    .    .    .     .    .    .   .    .    .  	//{
+    .    .    .     .    .    .   .    .    .  	//	logSQLExceptionX(Z_SOURCEINFO, -1, "new StatementOra == NULL");
+    .    .    .     .    .    .   .    .    .  	//}
+    6    0    0     2    0    0   1    0    0  	mConnString.parse(url);
+    4    1    1     1    0    0   1    0    0  	createEnv();
+    5    1    0     4    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void ConnectionOra::createEnv()
+    6    1    1     0    0    0   4    0    0  {
+    4    1    1     2    0    0   0    0    0      if (pOraEnv!=NULL)
+    .    .    .     .    .    .   .    .    .          return;
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          //select * from v$nls_parameters WHERE PARAMETER='NLS_CHARACTERSET';
+    .    .    .     .    .    .   .    .    .          //select * from v$nls_parameters WHERE PARAMETER='NLS_NCHAR_CHARACTERSET';
+   39    4    4     1    0    0   9    0    0          string NLS_CHARACTERSET = mConnString.getString("NLS_CHARACTERSET", "");
+   39    6    6     1    0    0   9    0    0          string NLS_NCHAR_CHARACTERSET = mConnString.getString("NLS_NCHAR_CHARACTERSET", "");
+    .    .    .     .    .    .   .    .    .          
+    1    0    0     0    0    0   1    0    0          oracle::occi::Environment::Mode mode  = oracle::occi::Environment::THREADED_MUTEXED;
+    9    1    1     0    0    0   1    0    0          if (NLS_CHARACTERSET!="" && NLS_NCHAR_CHARACTERSET!="")
+    .    .    .     .    .    .   .    .    .          {
+    .    .    .     .    .    .   .    .    .              U_LOG_X(eTRACE) << "NLS_CHARACTERSET="<<NLS_CHARACTERSET << ", NLS_NCHAR_CHARACTERSET="<<NLS_NCHAR_CHARACTERSET;
+    .    .    .     .    .    .   .    .    .              pOraEnv = oracle::occi::Environment::createEnvironment(NLS_CHARACTERSET, NLS_NCHAR_CHARACTERSET, mode);
+    .    .    .     .    .    .   .    .    .          }
+    .    .    .     .    .    .   .    .    .          else 
+   18    4    3     2    1    0   4    1    0              pOraEnv = oracle::occi::Environment::createEnvironment(mode);
+    .    .    .     .    .    .   .    .    .      } 
+    .    .    .     .    .    .   .    .    .      catch (oracle::occi::SQLException& ex)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, ex.getErrorCode(), formatStr("CreateEnvironment FAIL: [%s]", ex.what() ));
+    .    .    .     .    .    .   .    .    .      }
+    5    1    1     4    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  ConnectionOra::~ConnectionOra()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .  	if (pState != NULL)
+    .    .    .     .    .    .   .    .    .  	{
+    .    .    .     .    .    .   .    .    .  		delete pState;
+    .    .    .     .    .    .   .    .    .  		pState = NULL;
+-- line 255 ----------------------------------------
+-- line 353 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .              pOraConn = NULL;
+    .    .    .     .    .    .   .    .    .          }
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void ConnectionOra::connect(const string& user, const string& passwd )
+    6    2    2     0    0    0   4    0    0  {
+    6    0    0     2    0    0   1    0    0      user_ = user;
+    6    0    0     2    0    0   1    0    0      passwd_ = passwd;
+    3    1    1     1    0    0   1    0    0      connect_();
+    2    1    0     2    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  bool ConnectionOra::connect(const string& host, int port, const string& dbName, const string& user, const string& passwd )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      host_ = host;
+    .    .    .     .    .    .   .    .    .      port_ = port;
+    .    .    .     .    .    .   .    .    .      dbName_ = dbName;
+    .    .    .     .    .    .   .    .    .      user_ = user;
+    .    .    .     .    .    .   .    .    .      passwd_ = passwd;
+-- line 373 ----------------------------------------
+-- line 452 ----------------------------------------
+    .    .    .     .    .    .   .    .    .      } 
+    .    .    .     .    .    .   .    .    .      catch (oracle::occi::SQLException& ex)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, ex.getErrorCode(), ex.getMessage());
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  bool ConnectionOra::getAutoCommit()
+  303  100    0     0    0    0 202    0    0  {
+  202    0    0   202  101    0   0    0    0      return mAutoCommit;
+  202    0    0   202    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void ConnectionOra::setAutoCommit( bool bAutoCommit )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      mAutoCommit = bAutoCommit;
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  db::Statement* ConnectionOra::createStatement()
+  700  200    2     0    0    0 500    2    0  {
+  400    0    0   200    0    0   0    0    0      if (pOraConn==NULL)
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, Z_OCI_NOTCONN, "Not connected");
+    .    .    .     .    .    .   .    .    .  	
+  400  200    2   200    0    0   0    0    0  	if (pState == NULL)
+    .    .    .     .    .    .   .    .    .  	{
+   29    4    3     2    0    0   7    1    0  		pState = new StatementOra(this);
+    .    .    .     .    .    .   .    .    .  	}
+    .    .    .     .    .    .   .    .    .  
+  400   99    0   200    0    0   0    0    0  	if (pState == NULL)
+    .    .    .     .    .    .   .    .    .  	{
+    .    .    .     .    .    .   .    .    .  		logSQLExceptionX(Z_SOURCEINFO, -1, "pState is NULL");
+    .    .    .     .    .    .   .    .    .  		//return new StatementOra(this);
+    .    .    .     .    .    .   .    .    .  	}
+  200  100    1   200    0    0   0    0    0  	return pState;
+  600    0    0   500    2    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  db::Statement* ConnectionOra::prepareStatement(const string& sql )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      if (pOraConn==NULL)
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, Z_OCI_NOTCONN, "Not connected");
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  	if (pState == NULL)
+    .    .    .     .    .    .   .    .    .  	{
+-- line 493 ----------------------------------------
+-- line 501 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  		//return pSt;
+    .    .    .     .    .    .   .    .    .  	}
+    .    .    .     .    .    .   .    .    .  	pState->prepare(sql);
+    .    .    .     .    .    .   .    .    .  	return pState;
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  bool ConnectionOra::connect_()
+    6    2    2     0    0    0   4    1    0  {
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+   28    2    2     4    0    0   5    0    0          string strURL = formatStr("%s:%d/%s", host_.c_str(), port_, dbName_.c_str());
+   10    1    1     1    0    0   1    0    0          if (host_==""&& port_<=0)
+    .    .    .     .    .    .   .    .    .              strURL = dbName_;
+    .    .    .     .    .    .   .    .    .  
+   25    3    3     1    0    0   5    0    0          ULogX(eTRACE, "Connecting to server URL=[%s], user=%s", strURL.c_str(), user_.c_str());
+    .    .    .     .    .    .   .    .    .          
+   55    7    6     9    3    1  12    1    0          pOraConn = pOraEnv->createConnection(user_.c_str(), passwd_.c_str(), strURL);
+    .    .    .     .    .    .   .    .    .          
+    5    0    0     1    0    0   1    0    0  		gettimeofday(&last_conned_tv, NULL);
+   14    1    1     0    0    0   3    0    0          ULogX(eTRACE, "Connected!");
+    6    1    1     1    0    0   2    1    0          bConnected_ = true;
+    .    .    .     .    .    .   .    .    .      } 
+    .    .    .     .    .    .   .    .    .      catch (oracle::occi::SQLException& ex)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, ex.getErrorCode(), formatStr("Connect FAIL: [%s]", ex.what()));
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      
+    1    1    1     0    0    0   0    0    0      return false;
+    5    0    0     4    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  //////////////////////////////////////////////////////////////////////////
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    8    1    1     0    0    0   6    0    0  StatementOra::StatementOra( ConnectionOra*pConn, const string& sql):
+    .    .    .     .    .    .   .    .    .  Statement(), 
+    .    .    .     .    .    .   .    .    .  pConn_(pConn),
+    .    .    .     .    .    .   .    .    .  resultSet_(this),
+   22    1    1     9    1    1   6    1    0  pOraStmt(NULL)
+    .    .    .     .    .    .   .    .    .  {
+   10    1    1     2    0    0   1    0    0      Z_ASSERT(pConn_!=NULL);
+   11    1    1     3    0    0   1    0    0      Z_ASSERT(pConn_->pOraConn!=NULL);
+    .    .    .     .    .    .   .    .    .  
+   30    2    2     9    2    1   6    0    0      pOraStmt = pConn_->pOraConn->createStatement();
+    .    .    .     .    .    .   .    .    .      //U_LOG_X(eTRACE) << "createStatement#"<<pOraStmt;
+    6    1    1     1    0    0   1    0    0      setAutoCommit(true);
+    5    1    1     4    1    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  StatementOra::~StatementOra()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      //U_LOG_X(eTRACE) << "~StatementOra#"<<this << ", pOraStmt="<<pOraStmt;
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      // 必须在前面释放
+    .    .    .     .    .    .   .    .    .      resultSet_.close();
+-- line 555 ----------------------------------------
+-- line 562 ----------------------------------------
+    .    .    .     .    .    .   .    .    .              pOraStmt = NULL;
+    .    .    .     .    .    .   .    .    .          }
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      catch (...)
+    .    .    .     .    .    .   .    .    .      {}
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    7    1    1     0    0    0   5    0    0  ResultSetOra::ResultSetOra( StatementOra*pst ):
+    .    .    .     .    .    .   .    .    .  pSatement_(pst),
+   16    1    1     7    0    0   5    0    0  pOraRs(NULL)
+    .    .    .     .    .    .   .    .    .  {
+   11    1    1     2    0    0   1    0    0      Z_ASSERT(pSatement_!=NULL);
+    5    1    1     4    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  ResultSetOra::~ResultSetOra()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      close();
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  ResultSetMetaData& ResultSetOra::getMetaData()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      return rsmd_;
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  bool ResultSetOra::next()
+1,200  200    1     0    0    0 800   99    0  {
+  800    0    0   400    1    0   0    0    0      if (pOraRs==NULL)
+    .    .    .     .    .    .   .    .    .          return false;
+    .    .    .     .    .    .   .    .    .  
+  200  100    1     0    0    0 200    0    0      bool r = false;
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+2,200  100    0 1,200  102    1 400    2    0          oracle::occi::ResultSet::Status ee = pOraRs->next();
+  800    0    0   200    0    0 200    0    0          r = ee!= oracle::occi::ResultSet::END_OF_FETCH;
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      catch (oracle::occi::SQLException& e)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, e.getErrorCode(), e.what());
+    .    .    .     .    .    .   .    .    .      }
+  200  200    0   200    0    0   0    0    0      return r;
+1,000    0    0   800    2    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void ResultSetOra::close()
+  400  101    2     0    0    0 200    0    0  {
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+1,000    0    0   200  100    0 100    0    0          Z_ASSERT(pSatement_!=NULL);
+  400  100    1   200  100    0   0    0    0          if (pOraRs!=NULL)
+    .    .    .     .    .    .   .    .    .          {
+1,089    0    0   297    0    0  99    0    0              Z_ASSERT(pSatement_->pOraStmt!=NULL);
+    .    .    .     .    .    .   .    .    .  
+  396   99    1    99    0    0  99    0    0              rsmd_.mMetaDatas.clear();
+1,386    0    0   990  198    0  99    0    0              pSatement_->pOraStmt->closeResultSet(pOraRs);
+  297   99    0    99    0    0  99    0    0              pOraRs = NULL;
+    .    .    .     .    .    .   .    .    .              //U_LOG_X(eTRACE) << "ResultSetOra::close #"<<this;
+    .    .    .     .    .    .   .    .    .          }
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      catch (...)
+    .    .    .     .    .    .   .    .    .      {}
+    .    .    .     .    .    .   .    .    .  
+  200    1    0   200    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+   18    2    2     4    0    0   7    0    0  ResultSetMetaDataOra::ResultSetMetaDataOra()
+    .    .    .     .    .    .   .    .    .  {
+    5    1    1     4    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  ResultSetMetaDataOra::~ResultSetMetaDataOra()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      mMetaDatas.clear();
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void StatementOra::cancel()
+    .    .    .     .    .    .   .    .    .  {
+-- line 636 ----------------------------------------
+-- line 639 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  void StatementOra::close()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      resultSet_.close();
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  ResultSet& StatementOra::executeQuery(const string& sql )
+  700  200    2     0    0    0 500    2    0  {
+3,000  300    3   100    0    0 700    0    0      U_LOG_X(eTRACE) << "executeQuery(SQL="<< sql << ")";
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      // 禁止 DELETE/UPDATE/INSERT
+    .    .    .     .    .    .   .    .    .      //string sqlU = StrHelper::toUpper(StrHelper::trim(sql).substr(0,6));
+    .    .    .     .    .    .   .    .    .      //if (sqlU!="SELECT")
+    .    .    .     .    .    .   .    .    .      //{
+    .    .    .     .    .    .   .    .    .      //    ULog(eERROR, ("警告: 函数executeQuery(sring sql)只允许执行SELECT查询,请改用executeUpdate"));
+    .    .    .     .    .    .   .    .    .      //}
+    .    .    .     .    .    .   .    .    .      
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+  400    0    0   100    0    0 100    0    0          resultSet_.close();
+    .    .    .     .    .    .   .    .    .          
+1,000  100    1   200    0    0 100    0    0          Z_ASSERT(pOraStmt!=NULL);
+  500    0    0   100    0    0 100    0    0          setAutoCommit();
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .          //ScopedTracer t("db.oracle.query");
+    .    .    .     .    .    .   .    .    .          //t.attachInfo(sql);
+1,100  100    1   700  100    1 100    0    0  		pOraStmt->setSQL(sql);
+2,900  500    3   700    1    0 600  100    0          resultSet_.pOraRs = pOraStmt->executeQuery();
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      catch (oracle::occi::SQLException& e)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, e.getErrorCode(), e.what());
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  
+  400  100    1   100    0    0 100    0    0      resultSet_.update();
+  200  100    0   100    0    0   0    0    0      return resultSet_;
+  500  100    1   400  200    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  ResultSet& StatementOra::executeQuery()
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          resultSet_.close();
+    .    .    .     .    .    .   .    .    .          
+    .    .    .     .    .    .   .    .    .          Z_ASSERT(pOraStmt!=NULL);
+-- line 684 ----------------------------------------
+-- line 695 ----------------------------------------
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      resultSet_.update();
+    .    .    .     .    .    .   .    .    .      return resultSet_;
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  ResultSet& StatementOra::getResultSet()
+  600  200    1     0    0    0 400  100    0  {
+  400    0    0   200    0    0   0    0    0      return resultSet_;
+  400    0    0   400    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  int StatementOra::executeUpdate(const string& sql )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      ULogX(eTRACE, "executeUpdate(SQL=%s)", sql.c_str());
+    .    .    .     .    .    .   .    .    .      
+    .    .    .     .    .    .   .    .    .      int cnt = 0;
+    .    .    .     .    .    .   .    .    .      try
+-- line 713 ----------------------------------------
+-- line 1289 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void ResultSetOra::getBinary( const string&index, MemBuffer& buffer )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  static string type2string( int data_type)
+  800  100    1     0    0    0 500    0    0  {
+2,200  300    3   100    0    0 500    0    0      string typeString = int2string(data_type);
+    .    .    .     .    .    .   .    .    .  
+1,100    0    0   100    0    0   0    0    0      switch (data_type) 
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .  #ifdef SQLT_TIMESTAMP
+    .    .    .     .    .    .   .    .    .          case SQLT_TIMESTAMP:
+    .    .    .     .    .    .   .    .    .              typeString = "TIMESTAMP";
+    .    .    .     .    .    .   .    .    .              break;
+    .    .    .     .    .    .   .    .    .  #endif
+    .    .    .     .    .    .   .    .    .  #ifdef SQLT_TIMESTAMP_TZ
+    .    .    .     .    .    .   .    .    .          case SQLT_TIMESTAMP_TZ:
+-- line 1308 ----------------------------------------
+-- line 1323 ----------------------------------------
+    .    .    .     .    .    .   .    .    .          case SQLT_INTERVAL_DS:
+    .    .    .     .    .    .   .    .    .              typeString = "INTERVAL DAY TO SECOND";
+    .    .    .     .    .    .   .    .    .              break;
+    .    .    .     .    .    .   .    .    .  #endif
+    .    .    .     .    .    .   .    .    .          case SQLT_DAT:
+    .    .    .     .    .    .   .    .    .              typeString = "DATE";
+    .    .    .     .    .    .   .    .    .              break;
+    .    .    .     .    .    .   .    .    .          case SQLT_NUM:
+  400  100    1     0    0    0 100    0    0              typeString = "NUMBER";
+  100    0    0     0    0    0   0    0    0              break;
+    .    .    .     .    .    .   .    .    .          case SQLT_LNG:
+    .    .    .     .    .    .   .    .    .              typeString = "LONG";
+    .    .    .     .    .    .   .    .    .              break;
+    .    .    .     .    .    .   .    .    .          case SQLT_BIN:
+    .    .    .     .    .    .   .    .    .              typeString = "RAW";
+    .    .    .     .    .    .   .    .    .              break;
+    .    .    .     .    .    .   .    .    .          case SQLT_LBI:
+    .    .    .     .    .    .   .    .    .              typeString = "LONG RAW";
+-- line 1340 ----------------------------------------
+-- line 1359 ----------------------------------------
+    .    .    .     .    .    .   .    .    .              break;
+    .    .    .     .    .    .   .    .    .          case SQLT_RDD:
+    .    .    .     .    .    .   .    .    .              typeString = "ROWID";
+    .    .    .     .    .    .   .    .    .              break;
+    .    .    .     .    .    .   .    .    .          default:
+    .    .    .     .    .    .   .    .    .              ;
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  
+  100  100    0     0    0    0   0    0    0      return typeString;
+  800    0    0   500    0    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void ResultSetOra::update()
+  600  200    2     0    0    0 400    0    0  {
+    .    .    .     .    .    .   .    .    .      using namespace oracle::occi;
+    .    .    .     .    .    .   .    .    .  
+2,300  200    2     0    0    0 500    0    0      U_LOG_X(eTRACE) << "ResultSetOra::update()";
+    .    .    .     .    .    .   .    .    .  
+  400    0    0   100    0    0 100    0    0      rsmd_.Columns_.clear();
+  400  100    1   100    0    0 100    0    0      rsmd_.mMetaDatas.clear();
+    .    .    .     .    .    .   .    .    .      
+  400    0    0   200    0    0   0    0    0      if (pOraRs==NULL)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          U_LOG_X(eWARNING) << "pOraRs==NULL";
+    .    .    .     .    .    .   .    .    .          return;
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .  
+1,800  200    2     0    0    0 400    0    0      U_LOG_X(eTRACE);
+    .    .    .     .    .    .   .    .    .      /*
+    .    .    .     .    .    .   .    .    .      http://docs.oracle.com/cd/A58617_01/server.804/a58234/datatype.htm#432033
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      Value   Datatype   
+    .    .    .     .    .    .   .    .    .      OCI_TYPECODE_REF  
+    .    .    .     .    .    .   .    .    .      REF  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      OCI_TYPECODE_DATE  
+-- line 1394 ----------------------------------------
+-- line 1449 ----------------------------------------
+    .    .    .     .    .    .   .    .    .      named object type  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      OCI_TYPECODE_NAMEDCOLLECTION  
+    .    .    .     .    .    .   .    .    .      Domain (named primitive type)  
+    .    .    .     .    .    .   .    .    .      */
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .      try
+    .    .    .     .    .    .   .    .    .      {
+2,100  200    2   700  300    1 300    0    0          rsmd_.mMetaDatas = pOraRs->getColumnListMetaData();
+  500    0    0   100    0    0 200  100    0          int nColumns = rsmd_.mMetaDatas.size();
+    .    .    .     .    .    .   .    .    .          
+1,700  201    2   500    0    0 200    0    0          for (int i=0; i<nColumns; i++)
+    .    .    .     .    .    .   .    .    .          {
+2,300  200    2   300    0    0 400    0    0              rsmd_.SchemaName = rsmd_.mMetaDatas[i].getString(MetaData::ATTR_SCHEMA_NAME);
+    .    .    .     .    .    .   .    .    .  
+  300    0    0     0    0    0 100    0    0              ResultSetMetaData::Column_t clumn;
+    .    .    .     .    .    .   .    .    .  
+  100    0    0     0    0    0 100    0    0              clumn.AutoIncrement = false;
+2,200  200    2   200    0    0 400    0    0              clumn.ColumnName    = rsmd_.mMetaDatas[i].getString(MetaData::ATTR_NAME);
+1,100  100    1   200    0    0 300    0    0              clumn.Length        = rsmd_.mMetaDatas[i].getInt(MetaData::ATTR_DATA_SIZE);
+1,100    0    0   200    0    0 300    0    0              clumn.DisplaySize   = rsmd_.mMetaDatas[i].getInt(MetaData::ATTR_DATA_SIZE);
+1,100  100    1   200    0    0 300    0    0              clumn.Type          = rsmd_.mMetaDatas[i].getInt(MetaData::ATTR_DATA_TYPE);
+2,500  200    2   200    0    0 500    0    0              clumn.TypeName      = type2string(rsmd_.mMetaDatas[i].getInt(MetaData::ATTR_DATA_TYPE));
+1,100  100    1   200    0    0 300    0    0              clumn.Precision     = rsmd_.mMetaDatas[i].getInt(MetaData::ATTR_PRECISION);
+1,100  100    1   200    0    0 300    0    0              clumn.Scale         = rsmd_.mMetaDatas[i].getInt(MetaData::ATTR_SCALE);
+  100    0    0     0    0    0 100    0    0              clumn.CaseSensitive = 0;
+1,100    0    0   200    0    0 300    0    0              clumn.Nullable      = rsmd_.mMetaDatas[i].getBoolean(MetaData::ATTR_IS_NULL);
+  100  100    1     0    0    0 100    0    0              clumn.Primary       = 0;
+  100    0    0     0    0    0 100    0    0              clumn.Unique        = 0;
+    .    .    .     .    .    .   .    .    .  
+  700    0    0   100    0    0 100    0    0              rsmd_.Columns_.push_back(clumn);
+    .    .    .     .    .    .   .    .    .          }
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      catch (oracle::occi::SQLException& e)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          logSQLExceptionX(Z_SOURCEINFO, e.getErrorCode(), e.what());
+    .    .    .     .    .    .   .    .    .      }
+  500  100    1   400  100    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  int ResultSetOra::columnName2Index(const string&name)
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      size_t nIndex = -1;
+    .    .    .     .    .    .   .    .    .      for( size_t i=0; i<rsmd_.Columns_.size(); i++)
+    .    .    .     .    .    .   .    .    .      {   
+    .    .    .     .    .    .   .    .    .          if (rsmd_.Columns_[i].ColumnName==name)
+-- line 1494 ----------------------------------------
+-- line 1820 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  bool aps::db::ResultSetOra::isNull( const string&index )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      return this->isNull(columnName2Index(index));
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void aps::db::StatementOra::setAutoCommit(bool bForce, bool bAutoCommit)
+1,010  200    2     0    0    0 606    1    0  {
+  404    0    0   202    0    0   0    0    0      if (pOraStmt!=NULL)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          try
+    .    .    .     .    .    .   .    .    .          {
+2,606  199    1 1,301  103    0 200    1    0              if (bForce || pOraStmt->getAutoCommit()!=pConn_->getAutoCommit())
+    .    .    .     .    .    .   .    .    .              {
+   10    0    0     6    1    0   2    0    0                  bAutoCommit = pConn_->getAutoCommit();
+   30    3    3     1    0    0   7    0    0                  U_LOG_X(eTRACE) << "setAutoCommit("<<bAutoCommit<<")";
+   12    1    1     7    2    1   1    0    0                  pOraStmt->setAutoCommit(bAutoCommit);
+    .    .    .     .    .    .   .    .    .              }
+    .    .    .     .    .    .   .    .    .          }
+    .    .    .     .    .    .   .    .    .          catch (oracle::occi::SQLException& e)
+    .    .    .     .    .    .   .    .    .          {
+    .    .    .     .    .    .   .    .    .              logSQLExceptionX(Z_SOURCEINFO, e.getErrorCode(), e.what());
+    .    .    .     .    .    .   .    .    .          }
+    .    .    .     .    .    .   .    .    .      }
+  505  100    1   404    2    0   0    0    0  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void aps::db::StatementOra::setSQL(const string& sql )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      //sql_ = sql;
+    .    .    .     .    .    .   .    .    .      prepare(sql);
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+-- line 1853 ----------------------------------------
+-- line 1977 ----------------------------------------
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  bool aps::db::CustomFuncOracle::isSqlcodeDuplicate( int sqlcode_ )
+    .    .    .     .    .    .   .    .    .  {
+    .    .    .     .    .    .   .    .    .      return sqlcode_ == 1 ;
+    .    .    .     .    .    .   .    .    .  }
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  void aps::db::ConnectionOra::freeStatement( Statement*pStm )
+  500  100    1     0    0    0 300    0    0  {
+  400  100    1   300  100    0   0    0    0  	if (pState == pStm)
+    .    .    .     .    .    .   .    .    .  	{
+  100  100    1     0    0    0   0    0    0  		return;
+    .    .    .     .    .    .   .    .    .  	}
+    .    .    .     .    .    .   .    .    .  
+    .    .    .     .    .    .   .    .    .  	if (pStm)
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          StatementOra*p = (StatementOra*)pStm;
+    .    .    .     .    .    .   .    .    .          delete p;
+    .    .    .     .    .    .   .    .    .      }
+    .    .    .     .    .    .   .    .    .      else 
+    .    .    .     .    .    .   .    .    .      {
+    .    .    .     .    .    .   .    .    .          ULogX(eWARNING, "DO'NOT FREE NULL STATEMENT!");
+    .    .    .     .    .    .   .    .    .      }
+  218    2    2   206    0    0   5    0    0  }
+    .    .    .     .    .    .   .    .    .  // 
+    .    .    .     .    .    .   .    .    .  // /* This function prints the error */
+    .    .    .     .    .    .   .    .    .  // void oracle_checkerr(OCIError *errhp, sword status)
+    .    .    .     .    .    .   .    .    .  // {
+    .    .    .     .    .    .   .    .    .  //     text errbuf[512];
+    .    .    .     .    .    .   .    .    .  //     sb4 errcode = 0;
+    .    .    .     .    .    .   .    .    .  // 
+    .    .    .     .    .    .   .    .    .  //     switch (status) {
+-- line 2008 ----------------------------------------
+
+--------------------------------------------------------------------------------
+Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw 
+--------------------------------------------------------------------------------
+ 0    2    1  0    1    0  0    0    0  percentage of events annotated
+

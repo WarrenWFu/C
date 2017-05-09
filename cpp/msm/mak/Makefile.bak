@@ -1,0 +1,33 @@
+CC = g++
+INCP = $(HOME)/it/cpp/msm/src/include
+SRCP = $(HOME)/it/cpp/msm/src
+OBJECTS = main.o students.o student.o studentoperation.o
+#OBJECTS := $(wildcard *.o)
+#Makefile的特殊变量用于查找源文件,多个用:隔开
+VPATH = src
+TAGS = msm
+
+$(TAGS):$(OBJECTS)
+	g++ -Wall -o msm $(OBJECTS)
+main.o:$(SRCP)/visual/main.cpp $(INCP)/main.h \
+	$(INCP)/student.h $(INCP)/students.h
+#	g++ -Wall -c -I$(INCP) $(SRCP)/visual/main.cpp $(INCP)/main.h \
+#		$(INCP)/student.h $(INCP)/students.h
+	g++ -Wall -c -I$(INCP) $(SRCP)/visual/main.cpp 
+students.o:$(SRCP)/model/students.cpp $(INCP)/students.h \
+	$(INCP)/studentfortran.h
+#	g++ -Wall -c -I$(INCP) $(SRCP)/model/students.cpp $(INCP)/students.h \
+#		$(INCP)/studentfortran.h
+	g++ -Wall -c -I$(INCP) $(SRCP)/model/students.cpp 
+student.o:$(SRCP)/model/student.cpp $(INCP)/student.h
+#	g++ -Wall -c -I$(INCP) $(SRCP)/model/student.cpp $(INCP)/student.h
+	g++ -Wall -c -I$(INCP) $(SRCP)/model/student.cpp 
+studentoperation.o:$(SRCP)/control/studentoperation.cpp \
+	$(INCP)/studentoperation.h $(INCP)/studentfortran.h
+#	g++ -Wall -c -I$(INCP) $(SRCP)/control/studentoperation.cpp \
+#		$(INCP)/studentoperation.h $(INCP)/studentfortran.h
+	g++ -Wall -c -I$(INCP) $(SRCP)/control/studentoperation.cpp
+.PHONY:clean
+clean:
+	@rm -f $(OBJECTS) $(TAGS)
+

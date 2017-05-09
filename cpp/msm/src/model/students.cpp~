@@ -1,0 +1,49 @@
+#include "students.h"
+
+int Students::readFile()
+{
+	char *filePath = NULL;
+	filePath = getenv("STUDENTFILE");
+	if(filePath == NULL)
+	{
+		return -1;
+	}
+
+	studentFile.open(filePath, std::fstream::in|std::fstream::out);
+	if(studentFile.fail())
+	{
+		throw std::exception();	
+	}
+
+	char test[100 + 1];
+	memset(test, '\0', 100+1);
+
+	studentFile.read(test, 100);
+	std::cout << test << std::endl;
+
+
+}
+void writeFile()
+{
+}
+//void listStudent() const
+//{
+//	return;
+//
+//}
+void addStudent(const Student& student)
+{
+
+}
+void deleteStudent(int id)
+{
+
+}
+void modifyStudent(int id)
+{
+
+}
+void searchStudent(int id)
+{
+
+}

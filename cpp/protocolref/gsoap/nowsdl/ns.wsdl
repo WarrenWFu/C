@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Service"
+  targetNamespace="http://tempuri.org/ns.xsd/Service.wsdl"
+  xmlns:tns="http://tempuri.org/ns.xsd/Service.wsdl"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns="http://tempuri.org/ns.xsd"
+  xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:HTTP="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+  xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+  <schema targetNamespace="http://tempuri.org/ns.xsd"
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:ns="http://tempuri.org/ns.xsd"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified">
+    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    <!-- operation request element -->
+    <element name="add">
+      <complexType>
+          <sequence>
+            <element name="num1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__add::num1 -->
+            <element name="num2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__add::num2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="addResponse">
+      <complexType>
+          <sequence>
+            <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1"/><!-- ns__add::result -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
+    <element name="sub">
+      <complexType>
+          <sequence>
+            <element name="num1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__sub::num1 -->
+            <element name="num2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__sub::num2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="subResponse">
+      <complexType>
+          <sequence>
+            <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1"/><!-- ns__sub::result -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
+    <element name="mult">
+      <complexType>
+          <sequence>
+            <element name="num1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__mult::num1 -->
+            <element name="num2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__mult::num2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="multResponse">
+      <complexType>
+          <sequence>
+            <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1"/><!-- ns__mult::result -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
+    <element name="divid">
+      <complexType>
+          <sequence>
+            <element name="num1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__divid::num1 -->
+            <element name="num2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__divid::num2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="dividResponse">
+      <complexType>
+          <sequence>
+            <element name="result" type="xsd:int" minOccurs="0" maxOccurs="1"/><!-- ns__divid::result -->
+          </sequence>
+      </complexType>
+    </element>
+  </schema>
+
+</types>
+
+<message name="addRequest">
+  <part name="Body" element="ns:add"/><!-- ns__add::ns__add -->
+</message>
+
+<message name="addResponse">
+  <part name="Body" element="ns:addResponse"/>
+</message>
+
+<message name="subRequest">
+  <part name="Body" element="ns:sub"/><!-- ns__sub::ns__sub -->
+</message>
+
+<message name="subResponse">
+  <part name="Body" element="ns:subResponse"/>
+</message>
+
+<message name="multRequest">
+  <part name="Body" element="ns:mult"/><!-- ns__mult::ns__mult -->
+</message>
+
+<message name="multResponse">
+  <part name="Body" element="ns:multResponse"/>
+</message>
+
+<message name="dividRequest">
+  <part name="Body" element="ns:divid"/><!-- ns__divid::ns__divid -->
+</message>
+
+<message name="dividResponse">
+  <part name="Body" element="ns:dividResponse"/>
+</message>
+
+<portType name="ServicePortType">
+  <operation name="add">
+    <documentation>Service definition of function ns__add</documentation>
+    <input message="tns:addRequest"/>
+    <output message="tns:addResponse"/>
+  </operation>
+  <operation name="sub">
+    <documentation>Service definition of function ns__sub</documentation>
+    <input message="tns:subRequest"/>
+    <output message="tns:subResponse"/>
+  </operation>
+  <operation name="mult">
+    <documentation>Service definition of function ns__mult</documentation>
+    <input message="tns:multRequest"/>
+    <output message="tns:multResponse"/>
+  </operation>
+  <operation name="divid">
+    <documentation>Service definition of function ns__divid</documentation>
+    <input message="tns:dividRequest"/>
+    <output message="tns:dividResponse"/>
+  </operation>
+</portType>
+
+<binding name="Service" type="tns:ServicePortType">
+  <SOAP:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="add">
+    <SOAP:operation soapAction=""/>
+    <input>
+          <SOAP:body parts="Body" use="literal"/>
+    </input>
+    <output>
+          <SOAP:body parts="Body" use="literal"/>
+    </output>
+  </operation>
+  <operation name="sub">
+    <SOAP:operation soapAction=""/>
+    <input>
+          <SOAP:body parts="Body" use="literal"/>
+    </input>
+    <output>
+          <SOAP:body parts="Body" use="literal"/>
+    </output>
+  </operation>
+  <operation name="mult">
+    <SOAP:operation soapAction=""/>
+    <input>
+          <SOAP:body parts="Body" use="literal"/>
+    </input>
+    <output>
+          <SOAP:body parts="Body" use="literal"/>
+    </output>
+  </operation>
+  <operation name="divid">
+    <SOAP:operation soapAction=""/>
+    <input>
+          <SOAP:body parts="Body" use="literal"/>
+    </input>
+    <output>
+          <SOAP:body parts="Body" use="literal"/>
+    </output>
+  </operation>
+</binding>
+
+<service name="Service">
+  <documentation>gSOAP 2.8.43 generated service definition</documentation>
+  <port name="Service" binding="tns:Service">
+    <SOAP:address location="http://localhost:80"/>
+  </port>
+</service>
+
+</definitions>

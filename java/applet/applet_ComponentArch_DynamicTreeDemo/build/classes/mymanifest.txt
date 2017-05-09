@@ -1,0 +1,3 @@
+Permissions: sandbox
+Codebase: myserver.com
+Application-Name: Dynamic Tree Demo

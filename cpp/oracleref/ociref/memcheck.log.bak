@@ -1,0 +1,188 @@
+==11490== Memcheck, a memory error detector
+==11490== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==11490== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==11490== Command: ./oci
+==11490== Parent PID: 2676
+==11490== 
+==11490== Syscall param write(count) contains uninitialised byte(s)
+==11490==    at 0x31252DB6D0: __write_nocancel (in /lib64/libc-2.12.so)
+==11490==    by 0x6F4795F: snttwrite (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F461AD: nttfpwr (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F415FE: nsbasic_bsd (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F413C5: nsbsend (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F38907: nioqrc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F4E59C: ttcdrv (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F3D4C8: nioqwa (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F1F5CB: upirtrc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x51388D0: upirtr (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x519B353: kpurcs (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x519E6E2: kpu8lgn (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(count)
+   fun:__write_nocancel
+   fun:snttwrite
+   fun:nttfpwr
+   fun:nsbasic_bsd
+   fun:nsbsend
+   fun:nioqrc
+   fun:ttcdrv
+   fun:nioqwa
+   fun:upirtrc
+   fun:upirtr
+   fun:kpurcs
+   fun:kpu8lgn
+}
+==11490== Syscall param write(buf) points to uninitialised byte(s)
+==11490==    at 0x31252DB6D0: __write_nocancel (in /lib64/libc-2.12.so)
+==11490==    by 0x6F4795F: snttwrite (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F461AD: nttfpwr (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F415FE: nsbasic_bsd (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F413C5: nsbsend (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F38907: nioqrc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F4E59C: ttcdrv (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F3D4C8: nioqwa (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x6F1F5CB: upirtrc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x51388D0: upirtr (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x519B353: kpurcs (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x519E6E2: kpu8lgn (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==  Address 0x9230ef6 is 6 bytes inside a block of size 8,409 alloc'd
+==11490==    at 0x4A057BB: calloc (vg_replace_malloc.c:593)
+==11490==    by 0x8C7B726: ssMemCalloc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x52F0A07: nsballoc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x529445F: niotns (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x530B96A: nigcall (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x529D741: osncon (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x5154460: kpuadef (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x5138C79: upiini (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x512DB30: upiah0 (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x51532F7: kpuatch (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x513C47E: OCIServerAttach (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x400F48: main (oci.c:75)
+==11490== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Param
+   write(buf)
+   fun:__write_nocancel
+   fun:snttwrite
+   fun:nttfpwr
+   fun:nsbasic_bsd
+   fun:nsbsend
+   fun:nioqrc
+   fun:ttcdrv
+   fun:nioqwa
+   fun:upirtrc
+   fun:upirtr
+   fun:kpurcs
+   fun:kpu8lgn
+}
+==11490== 
+==11490== HEAP SUMMARY:
+==11490==     in use at exit: 1,032,020 bytes in 995 blocks
+==11490==   total heap usage: 2,686 allocs, 1,691 frees, 2,022,337 bytes allocated
+==11490== 
+==11490== 192 bytes in 1 blocks are possibly lost in loss record 556 of 652
+==11490==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==11490==    by 0x8DC14A2: ssMemMalloc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C7C86E: sltsmxi (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C99816: lmmhpinit (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C98833: lmmcis (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9F3E6: lpmpali (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9E662: lpminitm (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9E40D: lpminit (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C80760: lfvini1 (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C7FD6D: lfvinit (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x56F8561: kpummpin (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x51778EF: kpuenvcr (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:ssMemMalloc
+   fun:sltsmxi
+   fun:lmmhpinit
+   fun:lmmcis
+   fun:lpmpali
+   fun:lpminitm
+   fun:lpminit
+   fun:lfvini1
+   fun:lfvinit
+   fun:kpummpin
+   fun:kpuenvcr
+}
+==11490== 192 bytes in 1 blocks are possibly lost in loss record 557 of 652
+==11490==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==11490==    by 0x8DC14A2: ssMemMalloc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C7C86E: sltsmxi (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C99816: lmmhpinit (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C98833: lmmcis (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9F3E6: lpmpali (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9EF82: lpmloadpkg (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C807B8: lfvini1 (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C7FD6D: lfvinit (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x56F8561: kpummpin (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x51778EF: kpuenvcr (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490==    by 0x513C35E: OCIEnvCreate (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntsh.so.12.1)
+==11490== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:malloc
+   fun:ssMemMalloc
+   fun:sltsmxi
+   fun:lmmhpinit
+   fun:lmmcis
+   fun:lpmpali
+   fun:lpmloadpkg
+   fun:lfvini1
+   fun:lfvinit
+   fun:kpummpin
+   fun:kpuenvcr
+   fun:OCIEnvCreate
+}
+==11490== 139,264 bytes in 1 blocks are possibly lost in loss record 651 of 652
+==11490==    at 0x4A057BB: calloc (vg_replace_malloc.c:593)
+==11490==    by 0x8C7B726: ssMemCalloc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9CEB6: slwmmgetmem (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9CC23: lmmstvrt (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9B415: lmmstchnk (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8DC34D9: lmmstsml (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8DC331C: lmmstmalloc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8DC2AE5: lmmmalloc (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C98722: lmmcis (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9F3E6: lpmpali (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9E662: lpminitm (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490==    by 0x8C9E40D: lpminit (in /mnt/winshared/strtserver/product/Linux64/opt/oracle.oci.Linux64/lib/libclntshcore.so.12.1)
+==11490== 
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   fun:calloc
+   fun:ssMemCalloc
+   fun:slwmmgetmem
+   fun:lmmstvrt
+   fun:lmmstchnk
+   fun:lmmstsml
+   fun:lmmstmalloc
+   fun:lmmmalloc
+   fun:lmmcis
+   fun:lpmpali
+   fun:lpminitm
+   fun:lpminit
+}
+==11490== LEAK SUMMARY:
+==11490==    definitely lost: 0 bytes in 0 blocks
+==11490==    indirectly lost: 0 bytes in 0 blocks
+==11490==      possibly lost: 139,648 bytes in 3 blocks
+==11490==    still reachable: 892,372 bytes in 992 blocks
+==11490==         suppressed: 0 bytes in 0 blocks
+==11490== Reachable blocks (those to which a pointer was found) are not shown.
+==11490== To see them, rerun with: --leak-check=full --show-reachable=yes
+==11490== 
+==11490== For counts of detected and suppressed errors, rerun with: -v
+==11490== Use --track-origins=yes to see where uninitialised values come from
+==11490== ERROR SUMMARY: 7 errors from 5 contexts (suppressed: 8215 from 3250)

@@ -1,0 +1,14 @@
+-I.
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libaps/include/
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libaps/include/lua
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libMsgRoute/inc
+-I/opt/mqm/inc
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libMQAgent/inc
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libUppCommon/inc
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/application/service/service.doubleMQ_YDLW/
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libSzfsApi/
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libSzfsApi/util/include
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libSzfsApi/api/include
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libMQAgent/inc
+-I/mnt/winshared/it/tmp/something/gsoap-2.8/gsoap/
+-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libWSPublic

@@ -1,0 +1,23 @@
+CC=g++
+CPPFLAGS=-Wall
+LIBS=-lpthread -lssl -lcrypto
+DEOBJECTS=deAIO.o
+OBJECTS= $(DEOBJECTS)
+DETARGETS=deAIO
+TARGETS=$(DETARGETS)
+
+all:$(TARGETS)
+.PHONY:all
+
+$(DETARGETS):$(DEOBJECTS)
+	$(CC) $(LDFLAGS) $(LIBS) -o $@ $^
+	@rm -f $(DEOBJECTS)
+
+$(OBJECTS):%.o:%.cpp
+
+clean:
+	@rm -f $(OBJECTS) $(TARGETS)
+.PHONY:clean
+
+
+

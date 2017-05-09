@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <schema targetNamespace="http://tempuri.org/ns.xsd"
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:ns="http://tempuri.org/ns.xsd"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="unqualified"
+    attributeFormDefault="unqualified">
+    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    <!-- operation request element -->
+    <element name="add">
+      <complexType>
+          <sequence>
+            <element name="iNum1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__add::iNum1 -->
+            <element name="iNum2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__add::iNum2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="addResponse">
+      <complexType>
+          <sequence>
+            <element name="iRes" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__add::iRes -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
+    <element name="sub">
+      <complexType>
+          <sequence>
+            <element name="iNum1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__sub::iNum1 -->
+            <element name="iNum2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__sub::iNum2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="subResponse">
+      <complexType>
+          <sequence>
+            <element name="iRes" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__sub::iRes -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
+    <element name="mul">
+      <complexType>
+          <sequence>
+            <element name="iNum1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__mul::iNum1 -->
+            <element name="iNum2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__mul::iNum2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="mulResponse">
+      <complexType>
+          <sequence>
+            <element name="iRes" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__mul::iRes -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation request element -->
+    <element name="divid">
+      <complexType>
+          <sequence>
+            <element name="iNum1" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__divid::iNum1 -->
+            <element name="iNum2" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__divid::iNum2 -->
+          </sequence>
+      </complexType>
+    </element>
+    <!-- operation response element -->
+    <element name="dividResponse">
+      <complexType>
+          <sequence>
+            <element name="iRes" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ns__divid::iRes -->
+          </sequence>
+      </complexType>
+    </element>
+  </schema>
+

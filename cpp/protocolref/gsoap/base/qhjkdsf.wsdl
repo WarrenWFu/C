@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Service"
+    targetNamespace="http://www.ylink.com.cn/qhjkdsf.wsdl"
+    xmlns:tns="http://www.ylink.com.cn/qhjkdsf.wsdl"
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:ns="http://www.ylink.com.cn/qhjkdsf.wsdl"
+    xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:HTTP="http://schemas.xmlsoap.org/wsdl/http/"
+    xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+    xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+    xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+  <schema targetNamespace="http://www.ylink.com.cn/qhjkdsf.wsdl"
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    attributeFormDefault="qualified">
+    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+    <complexType name="requestBody">
+        <sequence>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="msgtype" type="Max20Text" >
+                <xsd:annotation><xsd:documentation>报文类型</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="version" type="Version" >
+                <xsd:annotation><xsd:documentation>版本号</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="subnode" type="xsd:string" >
+                <xsd:annotation><xsd:documentation>委托方</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="sendtime" type="SendTime" >
+                <xsd:annotation><xsd:documentation>报文发起时间</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="msgno" type="Max14NumericText" >
+                <xsd:annotation><xsd:documentation>报文序号</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="resptype" type="Resptype" >
+                <xsd:annotation><xsd:documentation>响应方式</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="ziptype" type="ZipType" >
+                <xsd:annotation><xsd:documentation>压缩方式</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" maxOccurs="1"  name="returnencrypt" type="ReturnEncrypt" >
+                <xsd:annotation><xsd:documentation>返回值内容是否进行加密</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="gatewayversion" type="GatewayVersion" >
+                <xsd:annotation><xsd:documentation>网关版本号</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" maxOccurs="1"  name="respurl" type="Max127Text" >
+                <xsd:annotation><xsd:documentation>结果响应地址</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="signature" type="Signature" >
+                <xsd:annotation><xsd:documentation>业务数据签名</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="msgbody" type="MsgBody" >
+                <xsd:annotation><xsd:documentation>请求体</xsd:documentation></xsd:annotation>
+            </xsd:element>
+        </sequence>
+    </complexType>
+    <complexType name="responseBody">
+        <sequence>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="bodyzip" type="BodyZip" >
+                <xsd:annotation><xsd:documentation>响应体压缩标识</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="bodyencrypt" type="BodyEncrypt" >
+                <xsd:annotation><xsd:documentation>响应体是否加密</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="signature" type="Signature" >
+                <xsd:annotation><xsd:documentation>签名串</xsd:documentation></xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="1" maxOccurs="1"  name="msgbody" type="MsgBody" >
+                <xsd:annotation><xsd:documentation>响应体</xsd:documentation></xsd:annotation>
+            </xsd:element>
+        </sequence>
+    </complexType>
+    <xsd:simpleType name="Max20Text">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="20"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="Version">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="10" />
+            <xsd:minExclusive value="1.0" />
+            <xsd:maxExclusive value="99.9" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="SendTime">
+        <xsd:restriction base="xsd:dateTime"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="Max14NumericText">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:minLength value="1" />
+        <xsd:maxLength value="14"/>
+        <xsd:pattern value="[0-9]{1,14}"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="Resptype">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:enumeration value="0"/>
+        <xsd:enumeration value="1"/>
+        <xsd:enumeration value="2"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="ZipType">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:enumeration value="0"/>
+        <xsd:enumeration value="1"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="ReturnEncrypt">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:enumeration value="0"/>
+        <xsd:enumeration value="1"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="GatewayVersion">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:enumeration value="1.0"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="Max127Text">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1" />
+            <xsd:maxLength value="127"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="BodyZip">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:enumeration value="0"/>
+        <xsd:enumeration value="1"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="BodyEncrypt">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:enumeration value="0"/>
+        <xsd:enumeration value="1"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="Signature">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:pattern value="([0-9A-F])*"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="MsgBody">
+        <xsd:restriction base="xsd:string"/>
+        <xsd:pattern value="([0-9A-F])*"/>
+    </xsd:simpleType>
+  </schema>
+
+</types>
+
+<message name="qhjkdsf_IN">
+  <part name="reqBody" type="ns:requestBody"/>
+</message>
+
+<message name="qhjkdsf_OUT">
+  <part name="rspBody" type="ns:responseBody"/>
+</message>
+
+<portType name="QhjkWSPort">
+  <operation name="dsf">
+    <documentation>代收付业务</documentation>
+    <input message="tns:qhjkdsf_IN"/>
+    <output message="tns:qhjkdsf_OUT"/>
+  </operation>
+</portType>
+
+<binding name="qhjkWSBindSOAP" type="tns:QhjkWSPort">
+  <SOAP:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <operation name="dsf">
+    <SOAP:operation soapAction="http://localhost:80/qhjkdsf"/>
+    <input>
+          <SOAP:body use="literal"/>
+    </input>
+    <output>
+          <SOAP:body use="literal"/>
+    </output>
+  </operation>
+</binding>
+
+<service name="qhjkdsfService">
+  <documentation>前海金科代收付服务</documentation>
+  <port name="qhjkdsfServicePort1" binding="tns:qhjkWSBindSOAP">
+      <SOAP:address location="http://localhost:80/qhjkdsf"/>
+  </port>
+</service>
+
+</definitions>

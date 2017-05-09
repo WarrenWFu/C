@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConfigFile>
+
+<Section name="Global">
+  <Option name="SingleLogMode" desc="单文件模式">true</Option>
+  <Option name="ProduceMode" desc="生产模式">false</Option>
+</Section>
+
+<Section name="MainLog">
+  <Option name="FileLogEnabled" desc="0: 关闭 1:开启">1</Option>  
+  <Option name="FilePath" desc="日志路径">.</Option>
+  <Option name="FileName" desc="日志名">test.log</Option>
+  <Option name="FileMaxSize" desc="单个日志大小(单位MB)">30</Option>
+  <Option name="FileLogLevel" desc="日志等级(TRACE DEBUG INFOR NOTIC WARNI ERROR CRITI EMERG), 一般配置为INFO">TRACE</Option>
+  <Option name="ScreenLogEnabled" desc="0: 关闭 1:开启">1</Option>  
+  <Option name="ScreenLogLevel" desc="屏幕打印日志等级(TRACE DEBUG INFOR NOTIC WARNI ERROR CRITI EMERG), 一般配置为INFO">TRACE</Option>
+</Section>
+
+<Section name="DebugLog">
+  <Option name="FileLogEnabled" desc="0: 关闭 1:开启">0</Option>  
+  <Option name="FilePath" desc="日志路径">.</Option>
+  <Option name="FileName" desc="日志名">test-DEBUG.log</Option>
+  <Option name="FileMaxSize" desc="单个日志大小(单位MB)">30</Option>
+  <Option name="FileLogLevel" desc="日志等级(TRACE DEBUG INFOR NOTIC WARNI ERROR CRITI EMERG), 一般配置为INFO">TRACE</Option>
+  <Option name="ScreenLogEnabled" desc="0: 关闭 1:开启">1</Option>
+  <Option name="ScreenLogLevel" desc="屏幕打印日志等级(TRACE DEBUG INFOR NOTIC WARNI ERROR CRITI EMERG), 一般配置为INFO">TRACE</Option>
+</Section>
+
+</ConfigFile>

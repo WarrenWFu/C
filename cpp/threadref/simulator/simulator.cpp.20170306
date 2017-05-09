@@ -1,0 +1,217 @@
+/*******************************************************************************
+ *
+ * author:Warren Fu
+ * date:
+ * description:通过多线程模拟多个客户端连接发送业务报文，并同步等待回应
+ *
+*******************************************************************************/
+#include <iostream>
+#include <string>
+#include <base/thread.hpp>
+#include <base/membuffer.hpp>
+#include <base/tcpSocket.hpp>
+
+using namespace std;
+using namespace aps;
+
+MemBuffer mem;
+string g_strIp;
+int    g_iPort;
+Mutex  g_mtx;
+long   g_lJYBSH;
+string g_strJYLSHHead;
+long   g_lJYLSHSeq;
+int    g_iTimeout;
+long   g_lSendTimes;
+int    g_iCount;
+
+struct Args
+{
+    long lNum1;
+    long lNum2;
+    long lNum3;
+};
+
+void putReq(void *ptr)
+{
+    Args *pArgs = (struct Args*) ptr;
+
+    char *pSz = new char[mem.size()+1];
+    memcpy(pSz, mem.getBuffer(), mem.size());
+    long lJYBSHBegin = pArgs->lNum1;
+    long lJYLSHBegin = pArgs->lNum2;
+    long lSendTimes  = pArgs->lNum3;
+
+    delete pArgs;
+
+    char szJYBSH[10+1] = {0};
+    char szJYLSH[24+1] = {0};
+    char szLength[10+1] = {0};
+    int iReadedBytes = 0;
+    int iMsgLen = 0;
+    char *pMsg = NULL;
+    int iCount = 0;
+    for (int i = 0; i < lSendTimes; i ++)
+    {
+        memset(szJYBSH, 0x00, sizeof(szJYBSH));
+        memset(szJYLSH, 0x00, sizeof(szJYLSH));
+
+        //修改交易标识号
+        sprintf(szJYBSH, "%010ld", lJYBSHBegin+i);
+        memcpy(pSz+66, szJYBSH, 10);
+
+        //修改交易流水号
+        sprintf(szJYLSH, "%s%08ld", g_strJYLSHHead.c_str(), lJYLSHBegin+i);
+        memcpy(pSz+254, szJYLSH, 24);
+
+        //printf("%d: szJYBSH[%s]szJYLSH[%s]\n", __LINE__, szJYBSH, szJYLSH);
+
+        TcpSocket tcpsocket;
+        if (!tcpsocket.connect(g_strIp, g_iPort/*, g_iTimeout*1000*/))
+        {
+            //printf("%d:连接失败，线程退出\n", __LINE__);
+            printf("%d:连接失败，继续连接...\n", __LINE__);
+            //delete [] pSz;
+            //return;
+	    tcpsocket.close();
+            continue;
+        }
+
+        if (!tcpsocket.send(pSz, mem.size()))
+        {
+            printf("%d:发送消息失败，继续...\n", __LINE__);
+            //delete [] pSz;
+            //return;
+	    tcpsocket.close();
+            continue;
+        }
+#if 1
+        //接收同步回应
+        memset(szLength, 0x00, sizeof(szLength));
+        tcpsocket.recv(szLength, 10, &iReadedBytes, g_iTimeout*1000);
+        if (iReadedBytes != 10)
+        {
+            printf("%d:读取长度失败，读到的字节数为[%d]\n", __LINE__, iReadedBytes);
+            //delete [] pSz;
+            //return;
+	    tcpsocket.close();
+            continue;
+        }
+
+        iMsgLen = atoi(szLength);
+        if (iMsgLen == 0)
+        {
+            printf("%d:读取长度失败，读到的信息为[%s]\n", __LINE__, szLength);
+            //delete [] pSz;
+            //return;
+	    tcpsocket.close();
+            continue;
+        }
+
+        pMsg = new char[iMsgLen + 1];
+        memset(pMsg, 0x00, iMsgLen + 1);
+        tcpsocket.recv(pMsg, iMsgLen, &iReadedBytes, g_iTimeout*1000);
+        if (iReadedBytes != iMsgLen)
+        {
+            printf("%d:读取到的报文长度小于报文指定的长度[%d]\n", __LINE__, iMsgLen);
+            //delete [] pSz;
+            delete [] pMsg;
+            //return;
+	    tcpsocket.close();
+            continue;
+        }
+        //printf("%d: 收到报文[%s%s]\n", __LINE__, szLength, pMsg);
+        delete [] pMsg;
+#endif
+
+        tcpsocket.close();
+        iCount++;
+    }
+
+    delete [] pSz;
+    {
+        Mutex::ScopedLock scope(g_mtx);
+        g_iCount += iCount;
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    int iThdNum = 0;
+    if (argc < 2)
+    {
+        printf("usage: simulator reqmsgfile [threadnum] [ip] \
+                [port] [timeout] [sendtimes]\n");
+        return -1;
+    }
+
+    if (argc > 6)
+    {
+        iThdNum = atoi(argv[2]);
+        g_strIp = argv[3];
+        g_iPort = atoi(argv[4]);
+        if (g_iPort == 0)
+            g_iPort = 5299;
+        g_iTimeout = atoi(argv[5]);
+        g_lSendTimes = atol(argv[6]);
+    }
+    else
+    {
+        iThdNum = 10;
+        g_strIp = "127.0.0.1";
+        g_iPort = 5299;
+        g_iTimeout = 5;
+        g_lSendTimes = 10;
+    }
+    printf("%d:线程数[%d]\n", __LINE__, iThdNum); 
+
+    // 读取文件作为写入MQ的信息
+    if (mem.loadFromFile(argv[1]) < 0)
+    {
+        printf("%d:加载文件信息失败\n", __LINE__);
+        return -1;
+    }
+
+    g_lJYBSH = atol(string(mem.getBuffer()+66, 10).c_str());
+    g_strJYLSHHead = string(mem.getBuffer()+254, 16);
+    g_lJYLSHSeq = atol(string(mem.getBuffer()+254+16, 8).c_str());
+
+    ThreadPool threadPool(iThdNum);
+    while (threadPool.capacity() > threadPool.activeCount())
+    {
+        Args *pArgs = new Args();
+        //每个线程的发送次数
+        pArgs->lNum3 = g_lSendTimes/iThdNum;
+        pArgs->lNum1 = (g_lJYBSH += pArgs->lNum3);
+        pArgs->lNum2 = (g_lJYLSHSeq += pArgs->lNum3);
+
+        threadPool.dispatch(putReq, pArgs);
+    }
+
+    //将信息保存会文件
+    char szJYBSH[10+1] = {0};
+    sprintf(szJYBSH, "%010ld", g_lJYBSH);
+    char *pSz = mem.getBuffer();
+    memcpy(pSz+66, szJYBSH, 10);
+
+    char szJYLSH[24+1] = {0};
+    sprintf(szJYLSH, "%s%08ld", g_strJYLSHHead.c_str(), g_lJYLSHSeq);
+    memcpy(pSz+254, szJYLSH, 24);
+
+    mem.saveToFile(argv[1]);
+
+    while(true)
+    {
+        Thread::sleep((g_lSendTimes/iThdNum) * g_iTimeout *1000);
+        if (threadPool.activeCount() == 0)
+            break;
+    }
+
+    threadPool.stop();
+    threadPool.wait();
+
+    printf("处理了[%d]笔\n", g_iCount);
+
+    return 0;
+}
+

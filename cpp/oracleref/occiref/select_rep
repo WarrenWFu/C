@@ -1,0 +1,211 @@
+--------------------------------------------------------------------------------
+I1 cache:         32768 B, 64 B, 8-way associative
+D1 cache:         32768 B, 64 B, 8-way associative
+LL cache:         6291456 B, 64 B, 12-way associative
+Command:          ./selectDB 100
+Data file:        cachegrind.out
+Events recorded:  Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Events shown:     Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Event sort order: Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw
+Thresholds:       0.1 100 100 100 100 100 100 100 100
+Include dirs:     
+User annotated:   /mnt/winshared/it/cpp/tests/oracleref/occiref/occi.cpp
+Auto-annotation:  off
+
+--------------------------------------------------------------------------------
+        Ir    I1mr   ILmr         Dr    D1mr    DLmr        Dw   D1mw   DLmw 
+--------------------------------------------------------------------------------
+65,329,390 364,211 16,534 13,929,077 255,488 108,630 6,153,598 86,269 52,805  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+        Ir   I1mr  ILmr        Dr   D1mr   DLmr      Dw   D1mw   DLmw  file:function
+--------------------------------------------------------------------------------
+29,235,492    521   197 3,732,365     24     11 771,082      0      0  ???:r0_sha512_block_k8_64_fast
+ 3,639,839    444    47 1,197,622 43,019  5,574 524,531    760    113  ???:do_lookup_x
+ 2,588,414    265    25   479,729  7,365  4,967 223,523    561     53  ???:_dl_lookup_symbol_x
+ 2,487,283     42    21 1,360,332      0      0  16,476      0      0  ???:r_crn_kdf_pbkdf2_derive_key
+ 2,328,703    136    66   646,807 85,023 78,095 234,989 34,150 32,377  ???:_dl_relocate_object
+ 1,919,870  1,699    23   457,506 10,352  8,995 425,233 10,202  9,019  ???:memcpy
+ 1,525,014     30    10    73,791      0      0 524,736      1      0  ???:r0_sha512_final
+ 1,199,800  9,400    94   403,300    505      0  91,100      0      0  ???:kpuscn0
+ 1,158,368     54    51   148,355    197      1 202,894     12      0  ???:ttcdty
+   696,142  8,840    37   169,189    339      2 125,364  3,101      8  ???:kghalo
+   516,537     16     6   139,383      0      0 139,383      0      0  ???:r0_digest_g128b_final_small
+   475,517    221    10   173,805  2,560  1,140  51,419    522     81  ???:check_match.12447
+   421,651  3,021    19    27,412    986      6 182,782  8,131  4,045  ???:__memset_x86_64
+   406,470     82     7   129,213  2,158    374       1      0      0  ???:strcmp
+   406,200    200     2   130,000    600      0  73,000      0      0  ???:lxwctex
+   401,400    709   131    41,193      1      0  10,026      2      0  ???:r0_sha256_block_k8_64_fast
+   385,709     18     6   114,888      0      0  82,060      0      0  ???:r0_digest_g128u_update_small
+   349,032  2,387    40    50,377  1,122      0  50,652  1,465    983  ???:_int_malloc
+   310,610  7,117    66   111,852  5,963      4  44,511  1,514      0  ???:ttcpip
+   275,775     55    16    70,990    237     64  18,765     26      0  ???:LdiMatchString
+   264,736     17     2    99,276      0      0  49,638      0      0  ???:R1_DGST_CTX_restore_snapshot
+   257,867  3,558    13    48,899  1,064      0  16,723    715      0  ???:kghfnd_in_free_lists
+   255,839  4,586    47    95,322  2,846     38  34,215    629      0  ???:ttcrbur
+   249,327  3,059    15    53,113     20      0  44,792    710      0  ???:kghalp
+   239,938  4,847    18    58,912    901      0  35,311    322      0  ???:kghfrmrg
+   228,339 38,598 1,614   215,225 31,368    462   6,076     29     15  ???:???
+   224,784     15     2    87,416      0      0  24,976      0      0  ???:R1_DGST_CTX_update
+   222,660     13     2    86,590      0      0  24,740      0      0  ???:R1_DGST_CTX_final
+   216,053      8     8    82,248    509    445  25,262      0      0  ???:ri_btree_insert
+   208,234 13,684   101    70,433  1,784      6  36,461    944      0  ???:ttcdrv
+   203,900  2,428    12    47,301    549      0  32,942    104      0  ???:kghfre
+   192,638  2,104     9    72,478     68      0  51,501    605      0  ???:kpuhhalo
+   187,579  1,814    14    50,965  2,836  1,769  14,314      2      0  ???:ttcclrn
+   180,572      6     3    16,420      2      1  73,866      0      0  ???:r0_sha512_init
+   180,120     24     8    73,944      6      0  24,648      3      0  ???:lxoCvChar
+   177,259  1,787     7    28,460      0      0  29,204  1,037     70  ???:kghbshrt
+   173,414  1,231    14    74,154    622      8  16,934      2      0  ???:ldxmfn
+   151,813     16     7    57,432      2      1  28,721      0      0  ???:ri_cr_mac_init
+   148,523     24    13    33,255  2,517  2,146      33      3      0  ???:_dl_addr
+   143,412  3,574    36    51,030    918      7  28,410    300      0  ???:ldxsnf
+   142,838    403     4    40,810      0      0  15,306      1      0  ???:lxoWriWChar
+   135,302     63     4    37,824  1,000      9  21,717     34     19  ???:_dl_name_match_p
+   134,722  7,938    79    43,416    116      1  11,051    105      0  ???:kpugattr
+   133,363     62     6    29,805      8      0  59,176    716      4  ???:__sigsetjmp
+   132,082  1,173    20    35,010    592      0  15,688     19      0  ???:_int_free
+   129,799  6,899    38    52,634  2,594      6  17,270    237      0  ???:upirtrc
+   129,337    169     7    49,100  5,752  1,880  17,448    107      7  ???:_dl_fixup
+   127,937     15     2    45,397      0      0  20,635      0      0  ???:r0_hmac_final
+   121,908     87    12    21,225     21      6  15,697      9      8  ???:nlnvgst
+   116,283  1,214     6    46,233      8      0  30,822      0      0  ???:kpuhhfre
+   115,253    172    12    16,973     58      5   9,173      6      3  ???:____strtoul_l_internal
+   114,300    880     5    35,282    735      0  10,856     58     17  ???:malloc
+   112,139  1,846    18    38,869    720      6   5,547      5      0  ???:ldxsti
+   109,578  1,420    22    27,124      0      0  28,827    802      0  ???:ttcclr
+   108,338    202     2    39,914      3      0  22,808      0      0  ???:lxwalpx
+   108,300    200     2    39,900      0      0  22,800      0      0  ???:lxwlowx
+   105,938  1,357     9    42,826      4      0  27,048    501      0  ???:kpuhhalp
+    99,816     68     9    16,592      0      0   8,232      1      0  ???:_nss_files_parse_pwent
+    97,560  3,345    23    27,917      2      0  18,838    118      0  ???:ttcc2u
+    96,600 10,400   103    31,000  1,124      0  19,700    613      0  ???:kpuexec
+    94,940     69    31    31,300     19     17  20,939     64      0  ???:Ldisnf
+    89,100  5,610    55    27,100    106      0  13,700    303      0  ???:kpufch0
+    86,564    424     4    36,448      1      0   9,112      1      0  ???:lxmfwdx
+    80,652  1,506    12    20,397      2      0  15,567      2      0  ???:ttci2n
+    78,795     13     2    24,885      0      0   4,149      0      0  ???:r0_hmac_init
+    78,352      2     2     9,220      0      0       0      0      0  ???:numa_bitmask_weight
+    73,890      2     1    41,050      2      1  24,630      0      0  ???:r0_digest_g128_init_small
+    72,470  4,563    24    17,359    149      0  12,029    447      1  ???:kghfnd
+    70,866  2,804    28    21,140    201      0  12,897    302      0  ???:ttcoac
+    70,581     52     2     6,521    359     36       0      0      0  ???:memchr
+    70,424  2,025    13    19,683      1      0  10,968      0      0  ???:ttcfoer
+    69,717      2     1    16,404      0      0       0      0      0  ???:R_CR_mac_update
+    69,683      2     1    32,792      0      0  16,396      0      0  ???:r_ck_hmac_final
+    69,683      2     1    16,396      0      0       0      0      0  ???:R_CR_mac_final
+    69,360      5     5    23,120      1      0  12,716      0      0  ???:ttcnuv
+
+--------------------------------------------------------------------------------
+-- User-annotated source: /mnt/winshared/it/cpp/tests/oracleref/occiref/occi.cpp
+--------------------------------------------------------------------------------
+   Ir I1mr ILmr  Dr D1mr DLmr  Dw D1mw DLmw 
+
+-- line 7 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  class  occidml
+    .    .    .   .    .    .   .    .    .  {
+    .    .    .   .    .    .   .    .    .  private:
+    .    .    .   .    .    .   .    .    .      Environment *env;
+    .    .    .   .    .    .   .    .    .      Connection *conn;
+    .    .    .   .    .    .   .    .    .      Statement *stmt;
+    .    .    .   .    .    .   .    .    .  public:
+    9    0    0   0    0    0   7    0    0      occidml (string user, string passwd, string db)
+    .    .    .   .    .    .   .    .    .      {
+    8    2    1   1    1    0   2    1    0          env = Environment::createEnvironment (Environment::DEFAULT);
+   15    1    0  10    3    1   2    1    0          conn = env->createConnection (user, passwd, db);
+    4    1    1   3    0    0   0    0    0      }
+    .    .    .   .    .    .   .    .    .  
+    5    1    0   0    0    0   3    0    0      ~occidml ()
+    .    .    .   .    .    .   .    .    .      {
+   12    0    0   8    0    0   1    0    0          env->terminateConnection (conn);
+    4    1    0   2    1    0   1    0    0          Environment::terminateEnvironment (env);
+    2    0    0   2    0    0   0    0    0      }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      void insertBind (string c1, int c2, string c3, int c4, string c5, string c6)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          string sqlStmt = "INSERT INTO T_USI_BIGTXTDATA\
+    .    .    .   .    .    .   .    .    .                            (PFWRKDATE, BIGTXTIDEX, BIGTXTTYPE, BIGTXTLEN, BIGTXTCNT, STATE) \
+    .    .    .   .    .    .   .    .    .                            VALUES(:PFWRKDATE, :BIGTXTIDEX, :BIGTXTTYPE, :BIGTXTLEN, :BIGTXTCNT, :STATE)";
+    .    .    .   .    .    .   .    .    .          stmt=conn->createStatement (sqlStmt);
+    .    .    .   .    .    .   .    .    .          try{
+-- line 33 ----------------------------------------
+-- line 117 ----------------------------------------
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .          conn->commit();
+    .    .    .   .    .    .   .    .    .          conn->terminateStatement (stmt);
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      /**
+    .    .    .   .    .    .   .    .    .       * displaying all the rows in the table
+    .    .    .   .    .    .   .    .    .       */
+  800  100    1   0    0    0 600    0    0      void displayAllRows (int val)
+    .    .    .   .    .    .   .    .    .      {
+1,200  100    1   0    0    0 300    0    0          string sqlStmt = "SELECT BIGTXTIDEX FROM T_USI_BIGTXTDATA WHERE BIGTXTIDEX = :1";
+1,300  200    1 700    3    1 200  100    0          stmt = conn->createStatement (sqlStmt);
+1,100  100    1 700  100    1 100    0    0          stmt->setInt (1, val);
+2,700  300    2 600  100    1 600  100    0          ResultSet *rset = stmt->executeQuery ();
+    .    .    .   .    .    .   .    .    .          try{
+2,500  301    1 800  102    1 200    0    0              while (rset->next ())
+    .    .    .   .    .    .   .    .    .              {
+    .    .    .   .    .    .   .    .    .                  cout << "结果是[" << rset->getInt (1) << "]" << endl;
+    .    .    .   .    .    .   .    .    .              }
+    .    .    .   .    .    .   .    .    .          }catch(SQLException ex)
+    .    .    .   .    .    .   .    .    .          {
+    .    .    .   .    .    .   .    .    .              cout<<"Exception thrown for displayAllRows"<<endl;
+    .    .    .   .    .    .   .    .    .              cout<<"Error number: "<<  ex.getErrorCode() << endl;
+    .    .    .   .    .    .   .    .    .              cout<<ex.getMessage() << endl;
+    .    .    .   .    .    .   .    .    .          }
+    .    .    .   .    .    .   .    .    .  
+1,100  100    1 700  203    1 100    0    0          stmt->closeResultSet (rset);
+1,600  100    1 800  100    0 200    0    0          conn->terminateStatement (stmt);
+  500  100    0 400    0    0   0    0    0      }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .      /**
+    .    .    .   .    .    .   .    .    .       * Inserting a row into elements table.
+    .    .    .   .    .    .   .    .    .       * Demonstrating the usage of BFloat and BDouble datatypes
+    .    .    .   .    .    .   .    .    .       */
+    .    .    .   .    .    .   .    .    .      void insertElement (string elm_name, float mvol=0.0, double awt=0.0)
+    .    .    .   .    .    .   .    .    .      {
+    .    .    .   .    .    .   .    .    .          BFloat mol_vol;
+-- line 153 ----------------------------------------
+-- line 221 ----------------------------------------
+    .    .    .   .    .    .   .    .    .          stmt->closeResultSet (rset);
+    .    .    .   .    .    .   .    .    .          conn->terminateStatement (stmt);
+    .    .    .   .    .    .   .    .    .      }
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  }; // end of class  occidml
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  
+    .    .    .   .    .    .   .    .    .  int main (int argc, char *argv[])
+   10    1    1   0    0    0   8    0    0  {
+   12    1    1   0    0    0   3    0    0    string user = "spring_oracle";
+   12    1    1   0    0    0   3    0    0    string passwd = "123123";
+   12    1    1   0    0    0   3    0    0    string db = "MYDBORACLE";
+    .    .    .   .    .    .   .    .    .    try{
+    9    1    1   3    1    0   2    0    0        int iLoop = argc > 1? atoi(argv[1]): 1;
+    .    .    .   .    .    .   .    .    .  
+   40    5    4   0    0    0   9    1    0        occidml *demo = new occidml (user, passwd, db);
+  505  100    0 201  100    0   0    0    0        for (;iLoop > 0; iLoop--)
+    .    .    .   .    .    .   .    .    .        {
+  500    0    0 200    0    0 100    0    0            demo->displayAllRows (iLoop);
+    .    .    .   .    .    .   .    .    .  #if 0
+    .    .    .   .    .    .   .    .    .            demo->insertBind ("22220831", iLoop, "testtype", 10, "testtxt", "TEST");
+    .    .    .   .    .    .   .    .    .            demo->updateRow (iLoop);
+    .    .    .   .    .    .   .    .    .            demo->deleteRow (iLoop);
+    .    .    .   .    .    .   .    .    .  #endif
+    .    .    .   .    .    .   .    .    .  #if 0
+    .    .    .   .    .    .   .    .    .  #endif
+    .    .    .   .    .    .   .    .    .        }
+    8    2    1   1    0    0   2    0    0        delete (demo);
+    .    .    .   .    .    .   .    .    .    }
+    .    .    .   .    .    .   .    .    .    catch (SQLException ex){
+    .    .    .   .    .    .   .    .    .      cout << ex.getMessage() << endl;
+   12    3    2   0    0    0   3    0    0    }
+   27    3    3  12    2    0   7    0    0  }
+
+--------------------------------------------------------------------------------
+Ir I1mr ILmr Dr D1mr DLmr Dw D1mw DLmw 
+--------------------------------------------------------------------------------
+ 0    0    0  0    0    0  0    0    0  percentage of events annotated
+

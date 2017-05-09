@@ -1,3 +1,47 @@
+#build with vim
+.*.un~
+.swp
+
+*.d
+*.o
+
+# Precompiled Headers
+*.gch
+*.pch
+
+*.so
+*.so.*
+*.dll
+
+*.a
+
+*.exe
+*.out
+
+#build with "go test -c"
+*.test
+
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+.glide/
+
+*.class
+
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+####################################################################################################
+tags
+cscope.out
 c/glibc/*
 c/tinyhttpd-0.1.0/*
-.*.un~
+cpp/g++/*

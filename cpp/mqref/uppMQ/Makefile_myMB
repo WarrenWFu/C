@@ -1,0 +1,23 @@
+CC=g++
+CPPFLAGS=-pg -g -Wall
+CPPFLAGS+=-I/mnt/winshared/myyb/library/libaps/include/
+CPPFLAGS+=-I/mnt/winshared/myyb/library/libMQAgent/inc
+LDFLAGS=-L/mnt/winshared/myyb/product/Linux64/lib
+LIBS=-laps.base -laps.iconv -lMQAgent
+OBJECTS=myMB.o
+TARGETS=myMB
+
+all:$(TARGETS)
+.PHONY:all
+
+$(TARGETS):$(OBJECTS)
+	$(CC) $(LDFLAGS) $(LIBS) -o $@ $^
+
+$(OBJECTS):%.o:%.cpp
+
+clean:
+	@rm -f $(OBJECTS) $(TARGETS)
+.PHONY:clean
+
+
+

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:pes="http://www.cmbc.com.cn/pes/SPEPayClearOnlyByCond/" targetNamespace="http://www.cmbc.com.cn/pes/SPEPayClearOnlyByCond/"  >
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://www.cmbc.com.cn/pes/SPEPayClearOnlyByCond/" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<xsd:complexType name="RequestBody">
+			<xsd:sequence>
+				<xsd:element minOccurs="0"  name="originatePartyId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>发起机构号</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="originateTellerId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>发起柜员号</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="channelDate" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>渠道日期</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="channelSerialNo" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>渠道流水号</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="domain" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>系统编码</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="channel" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>渠道</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="operationType" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>交易行为</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="productId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>产品编码</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="clearType" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>核销方式</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="clearCondition" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>核销条件</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="startDate" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>开始日期</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="endDate" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>核销结束日期</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="currencyCategory" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>币种</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="cashOrRemitFlag" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>钞汇标识</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="transSumAmount" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>交易总金额</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="transSumCount" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>交易总笔数</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="clearDir" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>轧差方向</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="payeePaymentPath" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>收款方资金通道</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="voucherType" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>凭证类型</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="voucherNo" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>凭证号码</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="payeeAccType" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>收款账户类型</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="payeePartyId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>收款账户开户行</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="payeeAccNo" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>收款人账号</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="payeeAccName" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>收款人名称</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="payeeNation" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>收款人国别</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feeType" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>手续费收费方式</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feePartyId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>手续费挂账机构</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feeAddCount" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>是否累加手续费发生额</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feeOrderId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>手续费试算orderId</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feeAgreeId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>手续费协议编码</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feeAmount" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>手续费金额</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feeAccNo" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>手续费扣款账号</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="feeItem" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>收费项目</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="postscript" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>摘要</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="summary" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>备注</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="extendData" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>扩展数据</xsd:documentation></xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+		<xsd:complexType name="ResponseBody">
+			<xsd:sequence>
+				<xsd:element minOccurs="0"  name="domain" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>系统编码</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="type" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>返回码类型</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="code" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>业务编码</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="message" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>业务信息</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="clearAmount" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>清算轧差金额</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="clearDir" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>轧差方向</xsd:documentation></xsd:annotation>
+				</xsd:element>
+				<xsd:element minOccurs="0"  name="orderId" type="xsd:string" >
+					<xsd:annotation><xsd:documentation>支付平台流水号</xsd:documentation></xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="FMT_SOAP_SVR_PAY_355_IN">
+		<wsdl:part name="RequestBody" type="pes:RequestBody"/>
+	</wsdl:message>
+	<wsdl:message name="FMT_SOAP_SVR_PAY_355_OUT">
+		<wsdl:part name="ResponseBody" type="pes:ResponseBody"/>
+	</wsdl:message>
+	<wsdl:portType name="SOAP_SVRType">
+		<wsdl:operation name="SPEPayClearOnlyByCond">
+			<wsdl:input message="pes:FMT_SOAP_SVR_PAY_355_IN"/>
+			<wsdl:output message="pes:FMT_SOAP_SVR_PAY_355_OUT"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="SPEPayClearOnlyByCond" nillable="true" type="pes:SOAP_SVRType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="SPEPayClearOnlyByCond">
+			<soap:operation soapAction="http://197.3.133.35:14020/SPEPayClearOnlyByCond"/>
+			<wsdl:input>
+				<soap:body use="literal" namespace="http://www.cmbc.com.cn/pes/SPEPayClearOnlyByCond/"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" namespace="http://www.cmbc.com.cn/pes/SPEPayClearOnlyByCond/"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="SOAP_SVRService">
+		<wsdl:port name="SOAP_SVRPort" binding="SPEPayClearOnlyByCond">
+			<soap:address location="http://197.3.133.35:14020/SPEPayClearOnlyByCond"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

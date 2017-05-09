@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:ns1="http://www.ylink.com.cn/qhjkdsf.wsdl">
+<SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<ns1:qhjkdsf>
+<Body>
+<msgtype>SINGLEPAY</msgtype>
+<version>1</version>
+<subnode>A09700000001</subnode>
+<sendtime>20170309131800</sendtime>
+<msgno>1004</msgno>
+<resptype>1</resptype>
+<returnencrypt>1</returnencrypt>
+<ziptype>0</ziptype>
+<gatewayversion>1</gatewayversion>
+<signature>123456789</signature>
+<msgbody><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SinglePay xmlns="szfs.tws.pay.singlepay" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <subdate>20170309</subdate>
+ <outid>2017021310000000112</outid>
+ <corpno>A09700000001</corpno>
+ <transcode>30102</transcode>
+ <feeitem>00100</feeitem>
+ <paybankno>710584000001</paybankno>
+ <payaccno>20170213</payaccno>
+ <payaccname>前海金科测试二号</payaccname>
+ <acpbankno>710584000001</acpbankno>
+ <acpaccno>20170213</acpaccno>
+ <acpaccname>前海金科测试二号</acpaccname>
+ <currency>CNY</currency>
+ <paymoney>30.10</paymoney>
+ <alternameflag>0</alternameflag>
+</SinglePay></msgbody>
+</Body>
+</ns1:qhjkdsf>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope> 
