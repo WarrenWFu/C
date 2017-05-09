@@ -1,2 +1,3 @@
-glibc/*
-tinyhttpd-0.1.0/*
+c/glibc/*
+c/tinyhttpd-0.1.0/*
+.*.un~
