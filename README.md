@@ -1,2 +1,1 @@
-# C
-C testing programs
+Nothing but Testing programs.
