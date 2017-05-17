@@ -43,7 +43,12 @@ hs_err_pid*
 .vscode/
 
 # ignore the other github project except mine
-go/
+go/src/github.com/
+go/src/golang.org/
+go/src/sourcegraph.com/
+
+# go debug
+debug
 
 ####################################################################################################
 tags
