@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/WarrenWFu/stringutil"
+	"mygithub/WarrenWFu/stringutil"
 )
 
 var _ = os.Chdir
