@@ -42,6 +42,9 @@ hs_err_pid*
 #Visual Studio Code workspace file folder
 .vscode/
 
+# ignore the other github project except mine
+go/
+
 ####################################################################################################
 tags
 cscope.out
