@@ -6,20 +6,34 @@
  *
 *******************************************************************************/
 #include<iostream>
-#include<string>
-#include <cstdio>
 using namespace std;
+
+#define DEFINE_FOR_DYN_CALL(baseclass, subclass, uppersubclass) \
+    extern "C" baseclass *create##uppersubclass() \
+{ return new subclass(); } \
+extern "C" void destroy##uppersubclass(baseclass *ptr) \
+{ delete ptr; }
+
+class Foo
+{
+
+};
+
+class Bar: public Foo
+{
+
+};
+
+DEFINE_FOR_DYN_CALL(Foo, Bar, BAR)
 
 int main(int argc, char *argv[])
 {
-    int iArray[] = {1, 2, 3, 4};
-    int* pA = iArray;
-    int* pB = &iArray[2];
+    Foo *foo = createBAR();
 
-    printf("%p\n", pA);
-    printf("%p\n", pB);
-
-    cout << pB - pA << endl;
+    if (!foo)
+        cout << "NULL" << endl;
+    else
+        cout << "Not NULL" << endl;
 
     return 0;
 }
