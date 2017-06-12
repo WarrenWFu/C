@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	var sFilePath = "D:/VMshared/Fedora23share/it/tmp/test.txt"
+	var sFilePath = "./test.txt"
 
 	//判断文件是否存在
 	if _, err := os.Stat(sFilePath); os.IsNotExist(err) {
@@ -43,11 +43,11 @@ func main() {
 	if n, err := f.WriteString(sTmpA); err != nil {
 		log.Println(err)
 	} else {
-		log.Printf("写入了%d个字节", n)
+		log.Printf("写入了%d个字节 ", n)
 	}
 
 	//使用ioutil.WriteFile来写文件, 注意这是重新写入
-	var sFilePathB = "D:/VMshared/Fedora23share/it/tmp/test1.txt"
+	var sFilePathB = "./test1.txt"
 	if err = ioutil.WriteFile(sFilePathB, bsTmpA, 0666); err != nil {
 		log.Println(err)
 	}
@@ -58,7 +58,7 @@ func main() {
 		log.Println(err)
 	} else {
 		w.Flush() //注意一定要Flush，否则并没有真的写进去
-		log.Printf("写入了%d个字节", n)
+		log.Printf("写入了%d个字节 ", n)
 	}
 
 }

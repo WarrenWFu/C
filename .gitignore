@@ -46,7 +46,7 @@ hs_err_pid*
 go/src/github.com/
 go/src/golang.org/
 go/src/sourcegraph.com/
-
+go/bin/
 # go debug
 debug
 

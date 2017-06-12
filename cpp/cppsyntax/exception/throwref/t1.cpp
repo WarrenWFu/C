@@ -10,7 +10,8 @@
 
 using namespace std;
 
-void func() throw()
+//void func() throw()
+void func() 
 {
     throw 1;
     //throw nullptr;注意这种方式可以跑出NULL指针，如果抛出NULL则会被当做int 0

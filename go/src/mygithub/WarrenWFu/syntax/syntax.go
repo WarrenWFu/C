@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 /*
 //使用os.Args就可以获取到命令行参数，Args[0]为args.exe。
 func main() {
@@ -49,6 +45,35 @@ func main() {
 	}
 }
 */
-func main() {
-	fmt.Println("begin")
+
+/*
+//接口可以内嵌到struct中
+
+//Fooer test
+type Fooer interface {
+	Foo()
 }
+
+//Bar test
+type Bar struct {
+	x int
+	Fooer
+}
+
+func main() {
+	bar := Bar{x: 10}
+	var barB Fooer
+
+	barB = bar
+
+	log.Println(barB)
+}
+*/
+
+/*
+//超过slice范围的取值抛出panic
+func main() {
+	s := []string{"1"}
+	fmt.Println("len(nil) = ", len(s[1]))
+}
+*/
