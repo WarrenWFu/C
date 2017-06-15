@@ -5,28 +5,10 @@
     <title>SaySomething</title>
 </head>
 <body>
-<form method="post"
-      enctype="application/x-www-form-urlencoded"
-      action="https://pizza.example.com/order.cgi">
-    <div><label>Customer name: <input name="custname" required autocomplete="shipping name" inputmode="latin-name"></label></div>
-    <div><label>Telephone: <input type=tel name="custtel" autocomplete="shipping tel"></label></div>
-    <div><label>E-mail address: <input type=email name="custemail" autocomplete="shipping email"></label></div>
-    <fieldset>
-        <legend> Pizza Size </legend>
-        <div><label> <input type=radio name=size required value="small"> Small </label></div>
-        <div><label> <input type=radio name=size required value="medium"> Medium </label></div>
-        <div><label> <input type=radio name=size required value="large"> Large </label></div>
-    </fieldset>
-    <fieldset>
-        <legend> Pizza Toppings </legend>
-        <div><label> <input type=checkbox name="topping" value="bacon"> Bacon </label></div>
-        <div><label> <input type=checkbox name="topping" value="cheese"> Extra Cheese </label></div>
-        <div><label> <input type=checkbox name="topping" value="onion"> Onion </label></div>
-        <div><label> <input type=checkbox name="topping" value="mushroom"> Mushroom </label></divp>
-    </fieldset>
-    <div><label>Preferred delivery time: <input type=time min="11:00" max="21:00" step="900" name="delivery" required></label></divp>
-        <div><label>Delivery instructions: <textarea name="comments" maxlength=1000 inputmode="latin-prose"></textarea></label></div>
-        <div><button>Submit order</button></div>
+<p name="p1">{{printf "%s" .Body}}</p>
+<form action="/said" method="post">
+    <div><label>说点什么吧<input name="text1"></label></div>
+    <div><button>提交</button></div>
 </form>
 </body>
 </html>
