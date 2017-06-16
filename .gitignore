@@ -1,6 +1,6 @@
 #build with vim
 .*.un~
-.swp
+.*.swp
 
 *.d
 *.o
