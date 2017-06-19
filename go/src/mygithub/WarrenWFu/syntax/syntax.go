@@ -77,3 +77,40 @@ func main() {
 	fmt.Println("len(nil) = ", len(s[1]))
 }
 */
+
+/*
+//使用strconv库的函数来进行字符串转换操作，执行时直接go run syntax.go 100
+func main() {
+	if v, err := strconv.Atoi(os.Args[1]); err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(v)
+	}
+}
+*/
+
+/*
+//编译错误，字符串初始化后不能修改
+func main() {
+	s := "hello"
+	s[1] = 'X'
+
+	fmt.Println(s)
+}
+*/
+
+/*
+//因为本源码编码是utf-8存储的时候是按照utf-8存储的，每个汉子三个字节
+//使用range遍历的话，是转换成rune，代表的是unicode不是utf-8
+func main() {
+	s := "hello,世界"
+
+	//	for i := 0; i < len(s); i++ {
+	//		fmt.Println(i, s[i])
+	//	}
+
+	for i, ch := range s {
+		fmt.Println(i, ch)
+	}
+}
+*/
