@@ -114,3 +114,88 @@ func main() {
 	}
 }
 */
+
+/*
+type Foo interface {
+	function1()
+	function2() int
+}
+
+type Bar interface {
+	function1()
+	function2() int
+}
+
+type Struct struct {
+	Foo
+}
+
+func (s Struct) function1() {
+}
+
+func (s Struct) function2() int {
+	return 1
+}
+
+func (s Struct) String() string {
+	return fmt.Sprint("from String")
+}
+
+func main() {
+	var s Foo = Struct{}
+
+	if s2, ok := s.(Bar); ok {
+		fmt.Println("实现了Bar", s2)
+		s2.function1()
+	} else {
+		fmt.Println("没实现Bar", s)
+	}
+}
+*/
+
+/*
+//使用锁lock.Lock()的简单例子
+var counter int = 0
+
+func Count(lock *sync.Mutex) {
+	lock.Lock()
+	counter++
+	fmt.Println(counter)
+	lock.Unlock()
+}
+func main() {
+	lock := &sync.Mutex{}
+	for i := 0; i < 10; i++ {
+		go Count(lock)
+	}
+	for {
+		lock.Lock()
+		c := counter
+		lock.Unlock()
+		runtime.Gosched()
+		if c >= 10 {
+			break
+		}
+	}
+}
+*/
+
+/*
+//select中的case执行不是按照从上到下的顺序执行的，而是随机的。
+func main() {
+	counter := 0
+	ch := make(chan int, 1)
+	for {
+		select {
+		case ch <- 0:
+		case ch <- 1:
+		}
+		i := <-ch
+		fmt.Println("Value received:", i)
+		counter++
+		if counter > 10 {
+			break
+		}
+	}
+}
+*/
