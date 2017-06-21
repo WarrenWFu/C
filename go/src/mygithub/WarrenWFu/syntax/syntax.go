@@ -1,5 +1,12 @@
 package main
 
+import (
+	"encoding/xml"
+	"fmt"
+	"io/ioutil"
+	"os"
+)
+
 /*
 //使用os.Args就可以获取到命令行参数，Args[0]为args.exe。
 func main() {
@@ -199,3 +206,39 @@ func main() {
 	}
 }
 */
+type Recurlyservers struct {
+	XMLName     xml.Name `xml:"servers"`
+	Version     string   `xml:"version,attr"`
+	Svs         []server `xml:"server"`
+	Description string   `xml:",innerxml"`
+}
+
+type server struct {
+	XMLName    xml.Name `xml:"server"`
+	ServerName string   `xml:"serverName"`
+	ServerIP   string   `xml:"serverIP"`
+}
+
+func main() {
+	file, err := os.Open("servers.xml") // For read access.
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		return
+	}
+	defer file.Close()
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		return
+	}
+	v := Recurlyservers{}
+	err = xml.Unmarshal(data, &v)
+	if err != nil {
+		fmt.Printf("error: %v", err)
+		return
+	}
+
+	//fmt.Println(v)
+	fmt.Println(v.Description)
+	fmt.Println(v.Version)
+}
