@@ -1,12 +1,5 @@
 package main
 
-import (
-	"encoding/xml"
-	"fmt"
-	"io/ioutil"
-	"os"
-)
-
 /*
 //使用os.Args就可以获取到命令行参数，Args[0]为args.exe。
 func main() {
@@ -18,7 +11,7 @@ func main() {
 */
 
 /*
-//使用func foo() (error){...} 来匹配type hook func() error函数类型
+//description 使用func foo() (error){...} 来匹配type hook func() error函数类型
 type hook func() error
 
 func foo() error {
@@ -34,7 +27,7 @@ func main() {
 */
 
 /*
-//如果map找不到则ok为false
+//description 如果map找不到则ok为false
 func main() {
 	m := make(map[string]int, 10)
 
@@ -54,7 +47,7 @@ func main() {
 */
 
 /*
-//接口可以内嵌到struct中
+//description 接口可以内嵌到struct中
 
 //Fooer test
 type Fooer interface {
@@ -78,7 +71,7 @@ func main() {
 */
 
 /*
-//超过slice范围的取值抛出panic
+//description 超过slice范围的取值抛出panic
 func main() {
 	s := []string{"1"}
 	fmt.Println("len(nil) = ", len(s[1]))
@@ -97,7 +90,7 @@ func main() {
 */
 
 /*
-//编译错误，字符串初始化后不能修改
+//description 编译错误，字符串初始化后不能修改
 func main() {
 	s := "hello"
 	s[1] = 'X'
@@ -107,7 +100,7 @@ func main() {
 */
 
 /*
-//因为本源码编码是utf-8存储的时候是按照utf-8存储的，每个汉子三个字节
+//description 因为本源码编码是utf-8存储的时候是按照utf-8存储的，每个汉子三个字节
 //使用range遍历的话，是转换成rune，代表的是unicode不是utf-8
 func main() {
 	s := "hello,世界"
@@ -123,6 +116,7 @@ func main() {
 */
 
 /*
+//description 两个函数列表相同的接口是可以相互转换的
 type Foo interface {
 	function1()
 	function2() int
@@ -161,7 +155,7 @@ func main() {
 */
 
 /*
-//使用锁lock.Lock()的简单例子
+//description 使用锁lock.Lock()的简单例子
 var counter int = 0
 
 func Count(lock *sync.Mutex) {
@@ -188,7 +182,7 @@ func main() {
 */
 
 /*
-//select中的case执行不是按照从上到下的顺序执行的，而是随机的。
+//description select中的case执行不是按照从上到下的顺序执行的，而是随机的。
 func main() {
 	counter := 0
 	ch := make(chan int, 1)
@@ -206,39 +200,49 @@ func main() {
 	}
 }
 */
-type Recurlyservers struct {
-	XMLName     xml.Name `xml:"servers"`
-	Version     string   `xml:"version,attr"`
-	Svs         []server `xml:"server"`
-	Description string   `xml:",innerxml"`
-}
-
-type server struct {
-	XMLName    xml.Name `xml:"server"`
-	ServerName string   `xml:"serverName"`
-	ServerIP   string   `xml:"serverIP"`
+/*
+//description 一个简单的渲染
+type Person struct {
+	userName string
 }
 
 func main() {
-	file, err := os.Open("servers.xml") // For read access.
-	if err != nil {
-		fmt.Printf("error: %v", err)
-		return
-	}
-	defer file.Close()
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Printf("error: %v", err)
-		return
-	}
-	v := Recurlyservers{}
-	err = xml.Unmarshal(data, &v)
-	if err != nil {
-		fmt.Printf("error: %v", err)
-		return
-	}
-
-	//fmt.Println(v)
-	fmt.Println(v.Description)
-	fmt.Println(v.Version)
+	t := template.New("fieldname example")
+	t, _ = t.Parse("hello {{.userName}}!")
+	p := Person{UserName: "Astaxie"}
+	t.Execute(os.Stdout, p)
 }
+*/
+/*
+//description 一个嵌套渲染
+type Friend struct {
+	Fname string
+}
+
+type Person struct {
+	UserName string
+	Emails   []string
+	Friends  []*Friend
+}
+
+func main() {
+	f1 := Friend{Fname: "minux.ma"}
+	f2 := Friend{Fname: "xushiwei"}
+	t := template.New("fieldname example")
+	t, _ = t.Parse(`hello {{.UserName}}!
+			{{range .Emails}}
+				an email {{.| html}}
+			{{end}}
+			{{with .Friends}}
+			{{range .}}
+				my friend name is {{.Fname}}
+			{{end}}
+			{{end}}
+			`)
+	p := Person{UserName: "Astaxie",
+		Emails:  []string{"astaxie@beego.me", "astaxie@gmail.com"},
+		Friends: []*Friend{&f1, &f2}}
+	t.Execute(os.Stdout, p)
+}
+
+*/
