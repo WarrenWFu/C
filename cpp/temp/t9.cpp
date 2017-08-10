@@ -26,14 +26,14 @@ class Bar: public Foo
 
 DEFINE_FOR_DYN_CALL(Foo, Bar, BAR)
 
-int main(int argc, char *argv[])
-{
-    Foo *foo = createBAR();
-
-    if (!foo)
-        cout << "NULL" << endl;
-    else
-        cout << "Not NULL" << endl;
-
-    return 0;
-}
+//int main(int argc, char *argv[])
+//{
+//    Foo *foo = createBAR();
+//
+//    if (!foo)
+//        cout << "NULL" << endl;
+//    else
+//        cout << "Not NULL" << endl;
+//
+//    return 0;
+//}

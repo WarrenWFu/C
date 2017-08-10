@@ -1,13 +1,14 @@
 package main
 
 /*
-//使用os.Args就可以获取到命令行参数，Args[0]为args.exe。
+//使用os.Args就可以获取到命令行参数，Args[0]为执行程序本身带全路径。
 func main() {
-		if len(os.Args) > 0 {
-			v := os.Args[0]
-			fmt.Printf(v)
-		}
+	if len(os.Args) > 0 {
+		v := os.Args[0]
+		fmt.Printf(v)
+	}
 }
+
 */
 
 /*
@@ -243,6 +244,32 @@ func main() {
 		Emails:  []string{"astaxie@beego.me", "astaxie@gmail.com"},
 		Friends: []*Friend{&f1, &f2}}
 	t.Execute(os.Stdout, p)
+}
+*/
+
+/*
+//每次const出现导致iota重置为0，每次iota出现递增1，所以注意const要用()包围，不要每行写一个
+const a = iota
+const b = iota //b也是0
+
+func main() {
+	fmt.Println(a, b)
+}
+*/
+
+/*
+//删除slice中一项, 比如下面是删除第二项
+func main() {
+	s := []int{1, 2, 3, 4}
+	var s1 []int
+
+	for i, v := range s {
+		if v != 2 {
+			s1 = append(s1, s[i])
+		}
+	}
+	fmt.Println(s, " ", len(s), " ", cap(s))    //len为4，cap为4
+	fmt.Println(s1, " ", len(s1), " ", cap(s1)) //len为3，cap为4
 }
 
 */
