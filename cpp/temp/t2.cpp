@@ -7,6 +7,7 @@
 *******************************************************************************/
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
 using namespace std;
 
@@ -14,10 +15,9 @@ int main(int argc, char *argv[])
 {
 
     int iNum1 = 10;
-    int &iNum2 = iNum1;
+    sleep(5);
 
-    cout << iNum1 << endl;
-    cout << iNum2 << endl;
+    cout << "111" << endl;
 
     return 0;
 }

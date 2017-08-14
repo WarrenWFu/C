@@ -273,3 +273,14 @@ func main() {
 }
 
 */
+
+/*
+//字符串也可以使用range来遍历
+func main() {
+	s := "abc"
+
+	for i, v := range s {
+		fmt.Println(i, " ", v)
+	}
+}
+*/
