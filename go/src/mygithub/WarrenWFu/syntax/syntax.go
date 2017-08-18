@@ -284,3 +284,47 @@ func main() {
 	}
 }
 */
+/*
+//判断文件是否存在
+func main() {
+	_, err := os.Stat(filename)
+	if err == nil || os.IsExist(err) {
+		fmt.Println("文件存在")
+	}
+}
+*/
+
+/*
+//[]byte转string, string转[]byte
+func main() {
+	//bs := []byte{'a', 0, 'b'}
+	bs := []byte{'a', '1', 0, 'c', 'b'}
+	n := bytes.IndexByte(bs, 0)
+	s := string(bs[:n])
+	fmt.Println(s)
+
+	bs2 := []byte(s)
+	fmt.Println(bs2)
+
+}
+*/
+
+/*
+//简单的调用shell命令
+func main() {
+	cmd := exec.Command("mkdir", "-p", "abc")
+	cmd.Run()
+}
+
+*/
+
+/*
+//range数组得到的是数组下标和数组里面的值
+func main() {
+	bs := []byte{6, 5, 4}
+
+	for i, v := range bs { //如果没有v也是可以的只轮询下标
+		fmt.Println(i, " ", v)
+	}
+}
+*/

@@ -24,6 +24,7 @@ int main()
     {
         func();
     }
+    //catch(exception &e) //如果用这句来捕捉则会coredown，所以...不能少
     catch(...)
     {
         cout << "get" << endl;

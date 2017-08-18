@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -60,5 +61,13 @@ func main() {
 		w.Flush() //注意一定要Flush，否则并没有真的写进去
 		log.Printf("写入了%d个字节 ", n)
 	}
+
+	//试用File.read来读取文件
+	fp, _ := os.Open("./test.txt")
+	defer f.Close()
+
+	var b []byte = make([]byte, 5000)
+	fp.Read(b)
+	fmt.Println(string(b))
 
 }
