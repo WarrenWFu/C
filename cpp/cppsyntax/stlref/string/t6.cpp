@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:使用string的c_str函数
+ * @brief:使用string的c_str函数
  *
 *******************************************************************************/
 #include <iostream>

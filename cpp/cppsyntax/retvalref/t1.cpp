@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:const修饰函数返回值为const型引用的情况，不能直接修改
+ * @brief:const修饰函数返回值为const型引用的情况，不能直接修改
  *
 *******************************************************************************/
 #include <iostream>

@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:string的find函数只有找到给定的完整string才会不等于string::npos
+ * @brief:string的find函数只有找到给定的完整string才会不等于string::npos
  *
 *******************************************************************************/
 #include <iostream>

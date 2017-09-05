@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:将integer转成string, 也可以使用char数组过度，如果需要的话
+ * @brief:将integer转成string, 也可以使用char数组过度，如果需要的话
  *
 *******************************************************************************/
 #include <iostream>

@@ -1,5 +1,15 @@
 package main
 
+import (
+	"fmt"
+	"strings"
+)
+
+//用这种方式保留import的包？
+func useless() {
+	fmt.Println()
+}
+
 /*
 //使用os.Args就可以获取到命令行参数，Args[0]为执行程序本身带全路径。
 func main() {
@@ -328,3 +338,46 @@ func main() {
 	}
 }
 */
+
+/*
+//strconv.ParseInt不能parse任何非数值的字符串
+func main() {
+	i, err := (strconv.ParseInt("2_1", 0, 0))
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println(i)
+	}
+
+}
+*/
+
+/*
+//二维数组(slice)的遍历
+func main() {
+	var matrix [5][4]*int
+	//	matrix := make([][]*int, 5)
+	//	for i := range matrix {
+	//		matrix[i] = make([]*int, 4)
+	//	}
+
+	fmt.Println(len(matrix)) //打印的是行数而不是总数
+
+	for _, v := range matrix {
+		for iB, vB := range v {
+			if vB == nil {
+				fmt.Println(iB)
+			}
+		}
+	}
+}
+
+*/
+
+func main() {
+	s := "1233"
+
+	fmt.Println(s)
+	s = strings.Replace(s, "3", "A", 0)
+	fmt.Println(s)
+}

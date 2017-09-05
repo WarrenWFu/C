@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:
+ * @brief:
  *
 *******************************************************************************/
 #include <iostream>

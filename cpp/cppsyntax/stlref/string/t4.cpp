@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:检查string的erase函数,注意如果其中rfind没有找到的话用erase会报错
+ * @brief:检查string的erase函数,注意如果其中rfind没有找到的话用erase会报错
  *
 *******************************************************************************/
 #include <iostream>
