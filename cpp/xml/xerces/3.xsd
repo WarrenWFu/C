@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.ylink.com" xmlns:ns1="http://www.ylink.com">
+  <xs:element name="A">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ns1:E"/>
+        <xs:element ref="ns1:D"/>
+        <xs:element maxOccurs="unbounded" ref="ns1:B"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="E">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="ns1:C"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="C">
+    <xs:complexType mixed="true">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="ns1:B"/>
+        <xs:element ref="ns1:D"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="D">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element ref="ns1:B"/>
+        <xs:element ref="ns1:C"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="B">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="ns1:C"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,338 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * $Id: DOMPrint.cpp 1801549 2017-07-11 00:18:21Z scantor $
+ */
+
+// ---------------------------------------------------------------------------
+//  This sample program invokes the XercesDOMParser to build a DOM tree for
+//  the specified input file. It then invokes DOMLSSerializer::write() to
+//  serialize the resultant DOM tree back to XML stream.
+//
+//  Note:
+//  Application needs to provide its own implementation of
+//		   DOMErrorHandler (in this sample, the DOMPrintErrorHandler),
+//		   if it would like to receive notification from the serializer
+//		   in the case any error occurs during the serialization.
+//
+//  Application needs to provide its own implementation of
+//		   DOMLSSerializerFilter (in this sample, the DOMPrintFilter),
+//		   if it would like to filter out certain part of the DOM
+//		   representation, but must be aware that thus may render the
+//		   resultant XML stream invalid.
+//
+//  Application may choose any combination of characters as the
+//		   end of line sequence to be used in the resultant XML stream,
+//		   but must be aware that thus may render the resultant XML
+//		   stream ill formed.
+//
+//  Application may choose a particular encoding name in which
+//		   the output XML stream would be, but must be aware that if
+//		   characters, unrepresentable in the encoding specified, appearing
+//		   in markups, may force the serializer to terminate serialization
+//		   prematurely, and thus no complete serialization would be done.
+//
+//  Application shall query the serializer first, before set any
+//           feature/mode(true, false), or be ready to catch exception if this
+//           feature/mode is not supported by the serializer.
+//
+//  Application needs to clean up the filter, error handler and
+//		   format target objects created for the serialization.
+//
+//   Limitations:
+//      1.  The encoding="xxx" clause in the XML header should reflect
+//          the system local code page, but does not.
+//      2.  Cases where the XML data contains characters that can not
+//          be represented in the system local code page are not handled.
+//
+// ---------------------------------------------------------------------------
+
+
+// ---------------------------------------------------------------------------
+//  Includes
+// ---------------------------------------------------------------------------
+#include <xercesc/util/PlatformUtils.hpp>
+
+#include <xercesc/dom/DOM.hpp>
+
+#include <xercesc/framework/StdOutFormatTarget.hpp>
+#include <xercesc/framework/LocalFileFormatTarget.hpp>
+#include <xercesc/parsers/XercesDOMParser.hpp>
+#include <xercesc/util/XMLUni.hpp>
+
+#include "DOMTreeErrorReporter.hpp"
+#include "DOMPrintFilter.hpp"
+#include "DOMPrintErrorHandler.hpp"
+#include <xercesc/util/OutOfMemoryException.hpp>
+
+#include <string.h>
+#include <stdlib.h>
+
+using std::cout;
+using std::endl;
+
+// ---------------------------------------------------------------------------
+//  Local data
+//
+//  gXmlFile
+//      The path to the file to parser. Set via command line.
+//
+//  gDoNamespaces
+//      Indicates whether namespace processing should be done.
+//
+//  gDoSchema
+//      Indicates whether schema processing should be done.
+//
+//  gSchemaFullChecking
+//      Indicates whether full schema constraint checking should be done.
+//
+//  gDoCreate
+//      Indicates whether entity reference nodes needs to be created or not
+//      Defaults to false
+//
+//  gOutputEncoding
+//      The encoding we are to output in. If not set on the command line,
+//      then it is defaults to the encoding of the input XML file.
+//
+//  gSplitCdataSections
+//      Indicates whether split-cdata-sections is to be enabled or not.
+//
+//  gDiscardDefaultContent
+//      Indicates whether default content is discarded or not.
+//
+//  gUseFilter
+//      Indicates if user wants to plug in the DOMPrintFilter.
+//
+//  gValScheme
+//      Indicates what validation scheme to use. It defaults to 'auto', but
+//      can be set via the -v= command.
+//
+// ---------------------------------------------------------------------------
+static char*                    gXmlFile               = 0;
+static bool                     gDoNamespaces          = false;
+static bool                     gDoSchema              = false;
+static bool                     gSchemaFullChecking    = false;
+static bool                     gDoCreate              = false;
+
+static char*                    goutputfile            = 0;
+static char*                    gXPathExpression       = 0;
+
+// options for DOMLSSerializer's features
+static XMLCh*                   gOutputEncoding        = 0;
+
+static bool                     gSplitCdataSections    = true;
+static bool                     gDiscardDefaultContent = true;
+static bool                     gUseFilter             = false;
+static bool                     gFormatPrettyPrint     = false;
+static bool                     gXMLDeclaration        = true;
+static bool                     gWriteBOM              = false;
+
+static XercesDOMParser::ValSchemes    gValScheme       = XercesDOMParser::Val_Auto;
+
+//	Prototypes for internally used functions
+void usage();
+
+
+// ---------------------------------------------------------------------------
+//
+//  Usage()
+//
+// ---------------------------------------------------------------------------
+void usage()
+{
+    XERCES_STD_QUALIFIER cout << "\nUsage:\n"
+            "    DOMPrint [options] <XML file>\n\n"
+            "This program invokes the DOM parser, and builds the DOM tree.\n"
+            "It then asks the DOMLSSerializer to serialize the DOM tree.\n"
+            "Options:\n"
+            "    -e          create entity reference nodes. Default is no expansion.\n"
+            "    -v=xxx      Validation scheme [always | never | auto*].\n"
+            "    -n          Enable namespace processing. Default is off.\n"
+            "    -s          Enable schema processing. Default is off.\n"
+            "    -f          Enable full schema constraint checking. Defaults is off.\n"
+            "    -wenc=XXX   Use a particular encoding for output. Default is\n"
+            "                the same encoding as the input XML file. UTF-8 if\n"
+            "                input XML file has not XML declaration.\n"
+            "    -wfile=xxx  Write to a file instead of stdout.\n"
+            "    -wscs=xxx   Enable/Disable split-cdata-sections.      Default on\n"
+            "    -wddc=xxx   Enable/Disable discard-default-content.   Default on\n"
+            "    -wflt=xxx   Enable/Disable filtering.                 Default off\n"
+            "    -wfpp=xxx   Enable/Disable format-pretty-print.       Default off\n"
+            "    -wfdecl=xxx Enable/Disable xml-declaration.           Default on\n"
+            "    -wbom=xxx   Enable/Disable write Byte-Order-Mark      Default off\n"
+            "    -xpath=xxx  Prints only the nodes matching the given XPath.\n"
+            "    -?          Show this help.\n\n"
+            "  * = Default if not provided explicitly.\n\n"
+            "The parser has intrinsic support for the following encodings:\n"
+            "    UTF-8, US-ASCII, ISO8859-1, UTF-16[BL]E, UCS-4[BL]E,\n"
+            "    WINDOWS-1252, IBM1140, IBM037, IBM1047.\n"
+          <<  XERCES_STD_QUALIFIER endl;
+}
+
+// ---------------------------------------------------------------------------
+//
+//  main
+//
+// ---------------------------------------------------------------------------
+int main(int argC, char* argV[])
+{
+    // Initialize the XML4C2 system
+    try
+    {
+        XMLPlatformUtils::Initialize();
+    }
+
+    catch(const XMLException &toCatch)
+    {
+        XERCES_STD_QUALIFIER cerr << "Error during Xerces-c Initialization.\n"
+             << "  Exception message:"
+             << StrX(toCatch.getMessage()) << XERCES_STD_QUALIFIER endl;
+        return 1;
+    }
+
+    gXmlFile = argV[2];
+
+    //
+    //  Create our parser, then attach an error handler to the parser.
+    //  The parser will call back to methods of the ErrorHandler if it
+    //  discovers errors during the course of parsing the XML document.
+    //
+    XercesDOMParser *parser = new XercesDOMParser;
+
+    parser->setValidationScheme(XercesDOMParser::Val_Always);       //一直使用schema
+    parser->setDoNamespaces(true);                                  //需要使用名称空间
+    parser->setDoSchema(true);                                      //设置是否使用schema
+    //parser->setHandleMultipleImports (true);                        //设置import多个schema
+    parser->setValidationSchemaFullChecking(true);                 //TODO 先放false吧
+    //parser->setCreateEntityReferenceNodes(false);                   //TODO 先放false吧
+    parser->setValidationConstraintFatal(true);                     //遇到错误停止
+
+    //parser->setExternalNoNamespaceSchemaLocation(argV[1]);      //如果xml不带ns则用这个
+    Grammar *pGrammer = parser->loadGrammar(argV[1], Grammar::SchemaGrammarType, true);
+    if (NULL == pGrammer) //载入xsd
+    {
+        std::cout << "导入" << argV[1] << "失败" << std::endl;
+        return -1;
+    }
+    std::string sSchemaLoc(StrX(pGrammer->getTargetNamespace()).localForm());
+    sSchemaLoc += " ";
+    sSchemaLoc += argV[1];
+    parser->setExternalSchemaLocation(sSchemaLoc.c_str());
+
+    DOMTreeErrorReporter *errReporter = new DOMTreeErrorReporter();
+    parser->setErrorHandler(errReporter);
+
+    bool errorsOccured = false;
+    try
+    {
+        parser->parse(gXmlFile);
+    }
+    catch (const OutOfMemoryException&)
+    {
+        XERCES_STD_QUALIFIER cerr << "OutOfMemoryException" << XERCES_STD_QUALIFIER endl;
+        errorsOccured = true;
+    }
+    catch (const XMLException& e)
+    {
+        XERCES_STD_QUALIFIER cerr << "An error occurred during parsing\n   Message: "
+             << StrX(e.getMessage()) << XERCES_STD_QUALIFIER endl;
+        errorsOccured = true;
+    }
+    catch (const DOMException& e)
+    {
+        const unsigned int maxChars = 2047;
+        XMLCh errText[maxChars + 1];
+
+        XERCES_STD_QUALIFIER cerr << "\nDOM Error during parsing: '" << gXmlFile << "'\n"
+             << "DOMException code is:  " << e.code << XERCES_STD_QUALIFIER endl;
+
+        if (DOMImplementation::loadDOMExceptionMsg(e.code, errText, maxChars))
+             XERCES_STD_QUALIFIER cerr << "Message is: " << StrX(errText) << XERCES_STD_QUALIFIER endl;
+
+        errorsOccured = true;
+    }
+    catch (...)
+    {
+        XERCES_STD_QUALIFIER cerr << "An error occurred during parsing\n " << XERCES_STD_QUALIFIER endl;
+        errorsOccured = true;
+    }
+
+
+    DOMNodeList * pDNodeList = parser->getDocument()->
+        getElementsByTagName(XMLString::transcode("B"));
+
+#if 1
+    for (int i=0; i < pDNodeList->getLength(); i++)
+    {
+        if (pDNodeList->item(i)->getChildNodes()->getLength() == 1 && 
+                strcmp(StrX(pDNodeList->item(i)->getFirstChild()->
+                        getNodeName()).localForm(), "#text") == 0) 
+        {
+            cout << StrX(pDNodeList->item(i)->getTextContent()) << endl;
+        }
+    }
+#endif
+
+#if 0
+    //根据xsd创建报文
+	DOMImplementation* impl =  DOMImplementationRegistry::
+        getDOMImplementation(XMLString::transcode("Core"));
+
+	pGrammer->getGrammarDescription
+	DOMDocument* doc = impl->createDocument(
+			0,                    // root element namespace URI.
+			X("company"),         // root element name
+			0);                   // document type object (DTD).
+
+	DOMElement* rootElem = doc->getDocumentElement();
+
+	DOMElement*  prodElem = doc->createElement(X("product"));
+	rootElem->appendChild(prodElem);
+
+	DOMText*    prodDataVal = doc->createTextNode(X("Xerces-C"));
+	prodElem->appendChild(prodDataVal);
+
+	DOMElement*  catElem = doc->createElement(X("category"));
+	rootElem->appendChild(catElem);
+
+	catElem->setAttribute(X("idea"), X("great"));
+#endif
+
+
+
+
+
+    //
+    //  Clean up the error handler. The parser does not adopt handlers
+    //  since they could be many objects or one object installed for multiple
+    //  handlers.
+    //
+    delete errReporter;
+
+    //
+    //  Delete the parser itself.  Must be done prior to calling Terminate, below.
+    //
+    delete parser;
+
+    XMLString::release(&gOutputEncoding);
+
+    // And call the termination method
+    XMLPlatformUtils::Terminate();
+
+    return 0;
+}

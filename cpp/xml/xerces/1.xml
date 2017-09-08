@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<A xmlns="http://www.ylink.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ylink.com ./2.xsd">
+    <B>123</B>
+    <B><C>abc</C></B>
+</A>
+

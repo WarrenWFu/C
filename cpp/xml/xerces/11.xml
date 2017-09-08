@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<A xmlns="http://www.ylink.com">
+    <E>
+        <C>
+            <D>
+                <B>1</B>
+            </D>
+        </C>
+    </E>
+    <D>
+        <C><B>2</B></C>
+    </D>
+    <B>3</B>
+    <B><C>4</C></B>
+</A>
+
