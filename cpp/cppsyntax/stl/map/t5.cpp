@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:map中的value可以使用指针实现多态，可以用dynamic_cast转换，但是
+ * brief:map中的value可以使用指针实现多态，可以用dynamic_cast转换，但是
  * 记住基类至少要有一个virtual函数，否则报错！！！
  *
 *******************************************************************************/

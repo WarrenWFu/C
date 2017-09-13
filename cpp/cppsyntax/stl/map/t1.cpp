@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:使用指针作为map的value，检查是可以实现多态的
+ * brief:使用指针作为map的value，检查是可以实现多态的
  *
 *******************************************************************************/
 #include <iostream>

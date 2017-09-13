@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:map插入时进行由小到大排序，时间复杂度为NlogN,负数同样被排序
+ * brief:map插入时进行由小到大排序，时间复杂度为NlogN,负数同样被排序
  * 定义时使用类似map <int, string, greater<int> > m_MyMap;可以由大到小排序
  *
 *******************************************************************************/

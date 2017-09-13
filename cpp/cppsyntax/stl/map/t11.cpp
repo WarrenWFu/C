@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:检查map的iterator是不能相减的！！！
+ * brief:检查map的iterator是不能相减的！！！
  *
 *******************************************************************************/
 #include <iostream>

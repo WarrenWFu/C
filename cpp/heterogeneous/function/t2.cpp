@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:测试snprintf函数
+ * brief:测试snprintf函数
  *
 *******************************************************************************/
 #include <iostream>

@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:注意这种map的初始化方式
+ * brief:注意这种map的初始化方式
  *
 *******************************************************************************/
 #include <iostream>

@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:map中使用vector作为value的情况,使用很方便
+ * brief:map中使用vector作为value的情况,使用很方便
  *
 *******************************************************************************/
 #include <iostream>

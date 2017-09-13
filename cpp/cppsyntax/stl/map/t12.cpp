@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:注意map的clear，是不会执行所指向的对象的析构函数的，要自行释放
+ * brief:注意创建pair本身就会调用构造函数，insert的时候还是相当于进行了拷贝
  *
 *******************************************************************************/
 #include <iostream>
@@ -26,14 +26,12 @@ public:
 
 int main()
 {
-    map<string, Foo*> map1;
-    map1.insert(pair<string, Foo*>("123", new Foo()));
+    pair<string, Foo> pairTemp;
+    map<string, Foo> map1;
+    map1.insert(pairTemp);
 
     string strTemp;
     std::getline(cin, strTemp);
-
-    delete map1["123"];//这句不能少
-    map1.clear();
 
 
     return 0;
