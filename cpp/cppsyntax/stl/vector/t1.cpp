@@ -25,18 +25,16 @@ private:
 
 int main()
 {
-    vector<Foo> v1;
+    vector<Foo*> v1;
 
-    v1.push_back(Foo(2));
-    v1.push_back(Foo(3));
-    v1.push_back(Foo(1));
-    v1.push_back(Foo(2));
+    Foo f = Foo(2);
+    v1.push_back(&f);
 
     //sort(v1);
 
-    for (vector<Foo>::iterator iter = v1.begin(); iter < v1.end(); iter++)
+    for (vector<Foo*>::iterator iter = v1.begin(); iter != v1.end(); iter++)
     {
-        cout << iter->getNum1() << endl;
+        cout << (*iter)->getNum1() << endl;
     }
 
     return 0;

@@ -11,7 +11,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <map>
-#include <queue>
+#include <vector>
 #include "pugixml.hpp"
 
 #define DEFAULT_SCHEMA_NAMESPACE "http://www.w3.org/2001/XMLSchema"
@@ -64,10 +64,12 @@ public:
             delete m_pSmp;
     }
 
+    std::string m_sName;     //定义的元素标签名
     XsdSmpTypeNode  *m_pSmp; //通过type属性关联到另一个simpleType
     XsdAttrTypeNode *m_pRef; //通过ref属性关联到另一个attribute
 };
 
+class XsdElementNode;
 //complexType TODO 属性只支持name，子标签只支持all、choice、sequence、attribute、element
 class XsdCmxTypeNode: public XsdNodeBase
 {
@@ -76,8 +78,8 @@ public:
         XsdNodeBase(node)
         {}
 
-    std::queue<XsdAttrTypeNode*> m_qAttrs;
-    std::queue<XsdNodeBase*> m_qElts;
+    std::vector<XsdAttrTypeNode*> m_vAttrs;
+    std::vector<XsdElementNode*> m_vElts;
 };
 
 //element TODO 属性只支持name、ref、type，子标签只支持simpleType、complexType
@@ -89,9 +91,7 @@ public:
         m_isSmp(true),
         m_pRef(NULL),
         m_pType(NULL),
-        m_iLevel(0),
-        m_pFirstChild(NULL),
-        m_pNextSibling(NULL)
+        m_iLevel(0)
         {}
 
     ~XsdElementNode()
@@ -102,13 +102,13 @@ public:
         }
     }
 
+    std::string m_sName;  //定义的元素标签名
     bool m_isSmp;         //简单复杂类型标志
     XsdElementNode* m_pRef;
     XsdNodeBase* m_pType;
     int m_iLevel;
 
-    XsdElementNode *m_pFirstChild;
-    XsdElementNode *m_pNextSibling;
+    std::vector<XsdElementNode*> m_vChildren;
 };
 
 //TODO group
@@ -283,12 +283,12 @@ bool enumerationVali(const std::string& val, const std::string& rst)
         j = rst.find('&', i);
         if (j != string::npos)
         {
-            if (0 == memcmp(argv[1], rst.c_str()+i, j-i))
+            if (0 == memcmp(val.c_str(), rst.c_str()+i, j-i))
                 return true;
         }
         else
         {
-            if (0 == memcmp(argv[1], rst.c_str()+i, rst.length()-i))
+            if (0 == memcmp(val.c_str(), rst.c_str()+i, rst.length()-i))
                 return true;
             else
                 return false;
@@ -352,7 +352,7 @@ void initValidatorMap()
     g_typeValis["int"]                =  intVali;
     g_typeValis["date"]               =  dateVali;
     g_typeValis["time"]               =  timeVali;
-    g_typeValis["datetime"]           =  datetimeVali;
+    g_typeValis["dateTime"]           =  datetimeVali;
     g_typeValis["decimal"]            =  decimalVali;
     g_typeValis["byte"]               =  byteVali;
     g_typeValis["unsignedByte"]       =  unsignedByteVali;
@@ -397,7 +397,9 @@ bool validateNS(const char* src, const char* des, int iLen)
 bool smpTypeParse(XmlBinTree& xbt, XsdSmpTypeNode& node)
 {
     //TODO 添加list和union
-    pugi::xml_node pugiNode = node.m_node.child("restriction");
+    string sTmp(xbt.m_sNsPrefix);
+    sTmp += ":restriction";
+    pugi::xml_node pugiNode = node.m_node.child(sTmp.c_str());
     if (!pugiNode.empty())
     {
         pugi::xml_attribute pugiAttr = pugiNode.attribute("base");
@@ -431,9 +433,17 @@ bool smpTypeParse(XmlBinTree& xbt, XsdSmpTypeNode& node)
                     {
                         string sTmp(node.m_mRsts[
                                 g_rstValis[itor->name()+xbt.m_iXSLen+1]]);
-                        sTmp.append(itor->value());
-                        sTmp.append(1, '&');
 
+                        pugi::xml_attribute pugiAttrTmp = itor->attribute("value");
+                        if (!pugiAttrTmp.empty())
+                            sTmp.append(pugiAttrTmp.value());
+                        else
+                        {
+                            cout << "约束没有value属性" << endl;
+                            return false;
+                        }
+
+                        sTmp.append(1, '|');
                         node.m_mRsts[g_rstValis[itor->name()+xbt.m_iXSLen+1]] = sTmp;
                     }
                     else
@@ -494,6 +504,26 @@ bool smpTypeParse(XmlBinTree& xbt, XsdSmpTypeNode& node)
 
 bool attrTypeParse(XmlBinTree& xbt, XsdAttrTypeNode& node)
 {
+    pugi::xml_attribute pugiAttrTmp = node.m_node.attribute("name");
+    if (pugiAttrTmp.empty())
+    {
+        if (node.m_node.attribute("ref").empty())
+        {
+            cout << "attribute既没有name属性又没有ref属性" << endl;
+            return false;
+        }
+    }
+    else
+    {
+        if (!node.m_node.attribute("ref").empty())
+        {
+            cout << "attribute的name属性和ref属性不可同时出现" << endl;
+            return false;
+        }
+
+        node.m_sName = pugiAttrTmp.value();
+    }
+
     pugi::xml_object_range<pugi::xml_attribute_iterator> range = 
         node.m_node.attributes();
 
@@ -576,7 +606,9 @@ bool attrTypeParse(XmlBinTree& xbt, XsdAttrTypeNode& node)
             continue;
     }
 
-    pugi::xml_node pugiNodeTmp = node.m_node.child("simpleType");
+    string sTmp(xbt.m_sNsPrefix);
+    sTmp += ":simpleType";
+    pugi::xml_node pugiNodeTmp = node.m_node.child(sTmp.c_str());
     if (!pugiNodeTmp.empty())
     {
         if (node.m_pSmp || node.m_pRef)
@@ -606,68 +638,98 @@ bool attrTypeParse(XmlBinTree& xbt, XsdAttrTypeNode& node)
     return true;
 }
 
+pugi::xml_node filtACS(const string& sNsPre, pugi::xml_node pugiNode)
+{
+    int iLen = sNsPre.length() + 9;
+    char* pSz = (char *)malloc(iLen);
+    memset(pSz, 0x00, iLen);
+    memcpy(pSz, sNsPre.c_str(), sNsPre.length());
+    memcpy(pSz+sNsPre.length(), ":all", 4);
+
+    pugi::xml_node pugiNodeLoop = pugiNode.child(pSz);
+    if (!pugiNodeLoop.empty())
+    {
+        free(pSz);
+        return pugiNodeLoop;
+    }
+    else
+    {
+        memcpy(pSz+sNsPre.length(), ":sequence", 9);
+        pugiNodeLoop = pugiNode.child(pSz);
+        if (!pugiNodeLoop.empty())
+        {
+            free(pSz);
+            return filtACS(sNsPre, pugiNodeLoop);
+        }
+        else
+        {
+            memset(pSz+sNsPre.length(), 0x00, 1+9);
+            memcpy(pSz+sNsPre.length(), ":choice", 7);
+            pugiNodeLoop = pugiNode.child(pSz);
+            if (!pugiNode.empty())
+            {
+                free(pSz);
+                return filtACS(sNsPre, pugiNodeLoop);
+            }
+        }
+    }
+    free(pSz);
+
+    return pugiNode;
+}
+
 bool eltTypeParse(XmlBinTree& xbt, XsdElementNode& node);
 
 bool cmxTypeParse(XmlBinTree& xbt, XsdCmxTypeNode& node)
 {
-    pugi::xml_object_range<pugi::xml_node_iterator> range = node.m_node.children();
+    //过滤掉sequence、choice和all，最多允许嵌套两层，只能出现一次，应该够了
+    pugi::xml_node pugiNodeTmp = filtACS(xbt.m_sNsPrefix, node.m_node);
 
+    pugi::xml_object_range<pugi::xml_node_iterator> range = pugiNodeTmp.children();
     for (pugi::xml_node_iterator itor = range.begin(); itor != range.end(); itor ++)
     {
-        if (validateNS(itor->value(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen))
+        if (validateNS(itor->name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) 
+                && 0==strcmp(itor->name()+xbt.m_iXSLen+1, "element"))
         {
-            const char *pSz = itor->value()+xbt.m_iXSLen+1;
-
-            if (0==strcmp(pSz, "sequence") || 0==strcmp(pSz, "all") ||
-                    0==strcmp(pSz, "option")) //三个可以相同对待
+            XsdElementNode *pNodeTmp = new XsdElementNode(*itor);
+            xbt.m_handledNode[itor->hash_value()] = pNodeTmp;
+            //层级下降
+            pNodeTmp->m_iLevel++;
+            if (!eltTypeParse(xbt, *pNodeTmp))
             {
-                pugi::xml_object_range<pugi::xml_node_iterator> range2 = itor->children();
-                for (pugi::xml_node_iterator itor2 = range2.begin(); itor2 != range2.end();
-                        itor2 ++)
-                {
-                    if (validateNS(itor2->value(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) 
-                            && 0==strcmp(itor2->name()+xbt.m_iXSLen+1, "element"))
-                    {
-                        XsdElementNode *pNodeTmp = new XsdElementNode(*itor2);
-                        xbt.m_handledNode[itor2->hash_value()] = pNodeTmp;
-                        //层级下降
-                        pNodeTmp->m_iLevel++;
-                        if (!eltTypeParse(xbt, *pNodeTmp))
-                        {
-                            cout << "element解析失败" << endl;
-                            return false;
-                        }
-                        node.m_qElts.push(pNodeTmp);
-                    }
-                    else
-                    {
-                        cout << "complexType的此类型子元素不支持" << endl;
-                        continue;
-                    }
-                }
+                cout << "element解析失败" << endl;
+                return false;
             }
-            else if (0==strcmp(pSz, "attribute"))
-            {
-                XsdAttrTypeNode *pNodeTmp = new XsdAttrTypeNode(*itor);
-                xbt.m_handledNode[itor->hash_value()] = pNodeTmp;
-                if (!attrTypeParse(xbt, *pNodeTmp))
-                {
-                    cout << "attribute解析失败" << endl;
-                    return false;
-                }
-                node.m_qAttrs.push(pNodeTmp);
-            }
-            else
-            {
-                cout << "complexType的此类型子元素不支持" << endl;
-                continue;
-            }
+            node.m_vElts.push_back(pNodeTmp);
         }
         else
         {
-            cout << "complexType的子元素标签错误" << endl;
-            return false;
+            cout << "略过complexType的此类型子元素" << endl;
+            continue;
         }
+    }
+
+    string sTmp(xbt.m_sNsPrefix);
+    sTmp += ":attribute";
+    pugiNodeTmp = node.m_node.child(sTmp.c_str());
+
+    //TODO
+
+    while (true)
+    {
+        if (!pugiNodeTmp.empty())
+        {
+            XsdAttrTypeNode *pNodeTmp = new XsdAttrTypeNode(pugiNodeTmp);
+            xbt.m_handledNode[pugiNodeTmp.hash_value()] = pNodeTmp;
+            if (!attrTypeParse(xbt, *pNodeTmp))
+            {
+                cout << "attribute解析失败" << endl;
+                return false;
+            }
+            node.m_vAttrs.push_back(pNodeTmp);
+        }
+
+        pugiNodeTmp = node.m_node.next_sibling(sTmp.c_str());
     }
 
     return true;
@@ -675,6 +737,26 @@ bool cmxTypeParse(XmlBinTree& xbt, XsdCmxTypeNode& node)
 
 bool eltTypeParse(XmlBinTree& xbt, XsdElementNode& node)
 {
+    pugi::xml_attribute pugiAttrTmp = node.m_node.attribute("name");
+    if (pugiAttrTmp.empty())
+    {
+        if (node.m_node.attribute("ref").empty())
+        {
+            cout << "element既没有name属性又没有ref属性" << endl;
+            return false;
+        }
+    }
+    else
+    {
+        if (!node.m_node.attribute("ref").empty())
+        {
+            cout << "element的name属性和ref属性不可同时出现" << endl;
+            return false;
+        }
+
+        node.m_sName = pugiAttrTmp.value();
+    }
+
     pugi::xml_object_range<pugi::xml_attribute_iterator> range = 
         node.m_node.attributes();
 
@@ -682,7 +764,7 @@ bool eltTypeParse(XmlBinTree& xbt, XsdElementNode& node)
             itor ++)
     {
         if (0 == strcmp(itor->name(), "type"))
-        {   
+        {
             //内部数据类型
             if (validateNS(itor->value(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen))
             {
@@ -706,7 +788,7 @@ bool eltTypeParse(XmlBinTree& xbt, XsdElementNode& node)
                 if (pugiNodeTmp.empty())
                 {
                     sTmp = xbt.m_sNsPrefix;
-                    sTmp += "complexType";
+                    sTmp += ":complexType";
                     pugiNodeTmp = xbt.m_rootNode.find_child_by_attribute(
                             sTmp.c_str(), "name", itor->value());
 
@@ -798,6 +880,10 @@ bool eltTypeParse(XmlBinTree& xbt, XsdElementNode& node)
     }
 
     //查看子元素
+    string sTmpA(xbt.m_sNsPrefix);
+    sTmpA += ":simpleType";
+    string sTmpB(xbt.m_sNsPrefix);
+    sTmpB += ":complexType";
     if (node.m_pType && node.m_pRef)
     {
         cout << "element的属性type和ref不能同时存在" << endl;
@@ -805,51 +891,123 @@ bool eltTypeParse(XmlBinTree& xbt, XsdElementNode& node)
     }
     else if (node.m_pType || node.m_pRef)
     {
-        if (!node.m_node.child("simpleType").empty() || 
-                !node.m_node.child("complexType").empty())
+        if (!node.m_node.child(sTmpA.c_str()).empty() || 
+                !node.m_node.child(sTmpB.c_str()).empty())
         {
             cout << "element的属性值ref或type与子元素simpleType或complexType不能同时存在" << endl;
             return false;
         }
     }
-
-    pugi::xml_node pugiNodeTmp = node.m_node.child("simpleType");
-    if (!pugiNodeTmp.empty()) //自定义的简单类型
-    {
-        XsdSmpTypeNode* pNodeTmp = new XsdSmpTypeNode(pugiNodeTmp);
-        xbt.m_handledNode[pugiNodeTmp.hash_value()] = pNodeTmp;
-        node.m_pType = pNodeTmp;
-        //递归调用
-        return smpTypeParse(xbt, *pNodeTmp);
-    }
     else
     {
-        pugiNodeTmp = node.m_node.child("complexType");
-        if (!pugiNodeTmp.empty()) //自定义的复杂类型
+        pugi::xml_node pugiNodeTmp = node.m_node.child(sTmpA.c_str());
+        if (!pugiNodeTmp.empty()) //自定义的简单类型
         {
-            XsdCmxTypeNode* pNodeTmp = new XsdCmxTypeNode(pugiNodeTmp);
+            XsdSmpTypeNode* pNodeTmp = new XsdSmpTypeNode(pugiNodeTmp);
             xbt.m_handledNode[pugiNodeTmp.hash_value()] = pNodeTmp;
             node.m_pType = pNodeTmp;
             //递归调用
-            return cmxTypeParse(xbt, *pNodeTmp);
+            return smpTypeParse(xbt, *pNodeTmp);
         }
         else
         {
-            cout << "element的属性值ref、type与子元素simpleType或complexType至少要有一个" << endl;
-            return false;
+            pugiNodeTmp = node.m_node.child(sTmpB.c_str());
+            if (!pugiNodeTmp.empty()) //自定义的复杂类型
+            {
+                XsdCmxTypeNode* pNodeTmp = new XsdCmxTypeNode(pugiNodeTmp);
+                xbt.m_handledNode[pugiNodeTmp.hash_value()] = pNodeTmp;
+                node.m_pType = pNodeTmp;
+                node.m_isSmp = false;
+                //递归调用
+                return cmxTypeParse(xbt, *pNodeTmp);
+            }
+            else
+            {
+                cout << "element的属性值ref、type与子元素simpleType或complexType至少要有一个" << endl;
+                return false;
+            }
         }
     }
 
     return true;
 }
 
-XsdElementNode* delEltRef(XsdElementNode* pNode)
+bool buildTree(XsdElementNode& node)
+{
+    if (!node.m_isSmp)
+    {
+        XsdCmxTypeNode* pTypeNode = (XsdCmxTypeNode*)node.m_pType;
+
+        for (std::vector<XsdElementNode*>::iterator itor = pTypeNode->m_vElts.begin();
+                itor != pTypeNode->m_vElts.end(); itor ++)
+        {
+            node.m_vChildren.push_back(*itor);
+            if (!(*itor)->m_isSmp)
+            {
+                if (!buildTree(**itor))
+                {
+                    cout << "创建内存树失败" << endl;
+                    return false;
+                }
+            }
+        }
+    }
+    else //只有一个简单结点
+        return true;
+
+    return true;
+}
+
+bool buildXml(pugi::xml_node& pugiNode, XsdElementNode& node, bool isRoot = false)
+{
+    pugi::xml_node pugiNodeTmp;
+    if (isRoot)
+        pugiNodeTmp = pugiNode;
+    else
+        pugiNodeTmp = pugiNode.append_child(node.m_sName.c_str());
+    //TODO 加上指定检验信息的属性
+
+    if (!node.m_isSmp)
+    {
+        XsdCmxTypeNode* pNodeTmp = (XsdCmxTypeNode*)node.m_pType;
+        for (std::vector<XsdAttrTypeNode*>::iterator itor = pNodeTmp->m_vAttrs.begin();
+                itor != pNodeTmp->m_vAttrs.end(); itor ++)
+        {
+            //TODO 默认值放校验信息
+            pugiNodeTmp.append_attribute((*itor)->m_sName.c_str()) = "";
+        }
+
+        for (std::vector<XsdElementNode*>::iterator itor = pNodeTmp->m_vElts.begin();
+                itor != pNodeTmp->m_vElts.end(); itor ++)
+        {
+            if (!buildXml(pugiNodeTmp, **itor))
+            {
+                cout << "创建XML失败" << endl;
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+/* 不存在嵌套ref
+XsdAttrTypeNode* getAttrRef(XsdAttrTypeNode* pNode)
 {
     if (pNode->m_pRef)
-        return delEltRef(pNode->m_pRef);
+        return getAttrRef(pNode->m_pRef);
     else
         return pNode;
 }
+
+XsdElementNode* getEltRef(XsdElementNode* pNode)
+{
+    if (pNode->m_pRef)
+        return getEltRef(pNode->m_pRef);
+    else
+        return pNode;
+}
+*/
 
 int readFile(const std::string &sPath, std::string &sBuf) 
 {
@@ -872,6 +1030,7 @@ int readFile(const std::string &sPath, std::string &sBuf)
 
 int main(int argc, char **argv)
 {
+#if 0
     initValidatorMap();
     //读取文件
     string sFile;
@@ -933,7 +1092,6 @@ int main(int argc, char **argv)
     pugi::xml_node nodeTmp;
     pugi::xml_node loopNode = xbt.m_rootNode.first_child();
 
-
     while(!loopNode.empty())
     {
         //防止重复处理
@@ -943,51 +1101,59 @@ int main(int argc, char **argv)
             continue;
         }
 
-        if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":element")) //元素
+        if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "element")) //元素
         {
             XsdElementNode *pNodeTmp = new XsdElementNode(loopNode);
             xbt.m_handledNode[loopNode.hash_value()] = pNodeTmp;
 
-            if (eltTypeParse(xbt, *pNodeTmp))
+            if (!eltTypeParse(xbt, *pNodeTmp))
                 return -1;
         }
-        else if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":simpleType")) //简单类型
+        else if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "simpleType")) //简单类型
         {
             XsdSmpTypeNode* pNodeTmp = new XsdSmpTypeNode(loopNode);
             xbt.m_handledNode[loopNode.hash_value()] = pNodeTmp;
 
-            if (smpTypeParse(xbt, *pNodeTmp))
+            if (!smpTypeParse(xbt, *pNodeTmp))
                 return -1;
         }
-        else if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":attribute")) //属性
+        else if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "attribute")) //属性
         {
             XsdAttrTypeNode* pNodeTmp = new XsdAttrTypeNode(loopNode);
             xbt.m_handledNode[loopNode.hash_value()] = pNodeTmp;
 
-            if (attrTypeParse(xbt, *pNodeTmp))
+            if (!attrTypeParse(xbt, *pNodeTmp))
                 return -1;
         }
-        else if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":complexType")) //复杂类型
+        else if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "complexType")) //复杂类型
         {
             XsdCmxTypeNode* pNodeTmp = new XsdCmxTypeNode(loopNode);
             xbt.m_handledNode[loopNode.hash_value()] = pNodeTmp;
 
-            if (cmxTypeParse(xbt, *pNodeTmp))
+            if (!cmxTypeParse(xbt, *pNodeTmp))
                 return -1;
         }
-        else if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":group")) //元素数组
+        else if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "group")) //元素数组
         {
             //TODO
         }
-        else if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":attributeGroup")) //属性组
+        else if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "attributeGroup")) //属性组
         {
             //TODO
         }
-        else if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":annotation")) //注释
+        else if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "annotation")) //注释
         {
             //TODO
         }
-        else if (!strcmp(loopNode.name()+xbt.m_iXSLen, ":notation")) //非XML数据
+        else if (validateNS(loopNode.name(), xbt.m_sNsPrefix.c_str(), xbt.m_iXSLen) && 
+                0==strcmp(loopNode.name()+xbt.m_iXSLen+1, "notation")) //非XML数据
         {
             //TODO
         }
@@ -1000,42 +1166,99 @@ int main(int argc, char **argv)
         loopNode = loopNode.next_sibling();
     }
 
-    //根据处理结果构造XML文件，先找到根结点
+    if (xbt.m_handledNode.empty())
+    {
+        cout << "XSD文件不包含任何定义" << endl;
+        return -1;
+    }
+
+    //处理ref
+    XsdElementNode* pSingElt = NULL;
     for (std::map<size_t, XsdNodeBase*>::iterator itor = xbt.m_handledNode.begin();
             itor != xbt.m_handledNode.end(); itor ++)
     {
         XsdElementNode* nodeTmp = dynamic_cast<XsdElementNode*>(itor->second);
-        if (nodeTmp && !nodeTmp->m_isSmp && nodeTmp->m_iLevel == 0)
+        if (nodeTmp)
         {
-            if (xbt.m_pRoot)
+            if (!nodeTmp->m_isSmp && nodeTmp->m_iLevel == 0)
             {
-                cout << "错误的XML格式" << endl;
-                return -1;
+                if (xbt.m_pRoot)
+                {
+                    cout << "错误的XML格式" << endl;
+                    return -1;
+                }
+                else
+                    xbt.m_pRoot = nodeTmp;
             }
-            else
-                xbt.m_pRoot = nodeTmp;
+            else if (nodeTmp->m_isSmp && nodeTmp->m_iLevel == 0) //只有一个简单结点情况
+            {
+                if (!pSingElt)
+                    pSingElt = nodeTmp;
+            }
 
-            break;
+            if (nodeTmp->m_pRef)
+            {
+                nodeTmp->m_sName = nodeTmp->m_pRef->m_sName;
+                nodeTmp->m_pType = nodeTmp->m_pRef->m_pType;
+            }
+        }
+        else
+        {
+            XsdAttrTypeNode* nodeTmp2 = dynamic_cast<XsdAttrTypeNode*>(itor->second);
+            if (nodeTmp2)
+            {
+                if (nodeTmp2->m_pRef)
+                {
+                    nodeTmp2->m_sName = nodeTmp2->m_pRef->m_sName;
+                    nodeTmp2->m_pSmp = nodeTmp2->m_pRef->m_pSmp;
+                }
+            }
         }
     }
 
-    //创建关联
-    XsdElementNode* pEltNodeTmp = delEltRef(xbt.m_pRoot);
-    XsdCmxTypeNode* pCmxNodeTmp = (XsdCmxTypeNode *)(xbt.m_pRoot->m_pType);
-
-    //转化为XML文件
-    pugi::xml_document docOut;
-    docOut.append_child();
-
-    doc.print(std::cout);
-
-    if (!isValid) 
+    //只有一个简单元素
+    if (!xbt.m_pRoot && pSingElt)
+        xbt.m_pRoot = pSingElt;
+    else if (!xbt.m_pRoot && !pSingElt)
     {
-        cout << "xml文件格式错误" << endl;
+        cout << "错误的XML格式" << endl;
         return -1;
     }
 
+    if (!buildTree(*(xbt.m_pRoot)))
+    {
+        cout << "创建树失败" << endl;
+        return -1;
+    }
+
+    //转化为XML文件
+    pugi::xml_document docOut;
+    pugi::xml_node pugiRootNode = docOut.append_child(xbt.m_pRoot->m_sName.c_str());
+    if (!buildXml(pugiRootNode, *(xbt.m_pRoot), true))
+    {
+        cout << "创建XML失败" << endl;
+        return -1;
+    }
+
+    docOut.print(std::cout);
 
     return 0;
+#endif
+
+#if 1
+    pugi::xml_document docOut;
+    pugi::xml_node pugiRootNode = docOut.append_child("A");
+    pugi::xml_node pugiRootNodeC = pugiRootNode.append_child("B");
+    pugiRootNodeC.append_child("C");
+    pugiRootNodeC.append_child("C");
+    pugiRootNodeC.append_child("C");
+
+//    for (pugi::xml_node tool = pugiRootNode.child("C"); tool; tool = tool.next_sibling("C"))
+//    {
+//        std::cout << "found again" << "\n";
+//    }
+
+    docOut.print(std::cout);
+#endif 
 }
 
