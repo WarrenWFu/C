@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:检查vector中存放指针的使用，注意delete的时候要用取址符
+ * brief:检查vector中存放指针的使用，注意delete的时候要用取址符
  *
 *******************************************************************************/
 #include <iostream>

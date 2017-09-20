@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:当vector中放指针的时，push_back的时候相当于将指针进行拷贝，原指针
+ * brief:当vector中放指针的时，push_back的时候相当于将指针进行拷贝，原指针
  * 如果delete，vector中的对象同样也被delete，所以如果必要可以将原来的指针指向NULL
  *
 *******************************************************************************/

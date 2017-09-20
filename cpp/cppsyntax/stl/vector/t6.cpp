@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:使用匿名实例push_back，完全是可以的
+ * brief:使用匿名实例push_back，完全是可以的
  *
 *******************************************************************************/
 #include <iostream>

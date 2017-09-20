@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:vector为空时，begin()和end()是相等的
+ * brief:vector为空时，begin()和end()是相等的
  *
 *******************************************************************************/
 #include <iostream>

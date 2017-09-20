@@ -1,18 +1,24 @@
-decimalVali
-byteVali
-unsignedByteVali
-shortVali
-unsignedShortVali
-integerVali
-longVali
-floatVali
-positiveIntegerVali
-nonPositiveIntegerVali
-negativeIntegerVali
-nonNegativeIntegerVali
-unsignedLongVali
-doubleVali
-booleanVali
-hexBinaryVali
-base64BinaryVali
-anyURIVali
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="urn:cnaps:std:beps:2010:tech:xsd:beps.122.001.01" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:cnaps:std:beps:2010:tech:xsd:beps.122.001.01" elementFormDefault="qualified">
+	<xs:element name="Document" type="PKGGroupHeader1"/>
+	<xs:complexType name="PKGGroupHeader1">
+		<xs:sequence>
+			<xs:element name="MsgId" type="OriginalTransaction1"/>
+			<xs:element name="CreDtTm" type="ISODateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OriginalTransaction1">
+		<xs:sequence>
+			<xs:element name="InstgIndrctPty" type="Max14Text"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ISODateTime">
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="Max14Text">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="14"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
