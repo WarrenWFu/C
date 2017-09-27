@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"reflect"
 )
 
 //用这种方式保留import的包？
@@ -374,10 +374,65 @@ func main() {
 
 */
 
+/*
+//string与[]byte可以直接进行转换
 func main() {
-	s := "1233"
+	s := "人"
 
-	fmt.Println(s)
-	s = strings.Replace(s, "3", "A", 0)
-	fmt.Println(s)
+	fmt.Println(len(s))
+	fmt.Println(len([]byte(s)))
+
+	n := []byte(s)
+
+	for _, v := range n {
+		fmt.Println(v)
+	}
 }
+*/
+
+/*
+//就算strings.Split的第一个参数为空string，也至少返回长度为1的数组
+func main() {
+	var s string = ""
+
+	ss := strings.Split(s, " ")
+	for _ = range ss {
+		fmt.Println("get one")
+	}
+}
+
+*/
+
+/*
+//参数可变函数，也可以不传参数调用
+func foo(s ...string) {
+	for _, v := range s {
+		fmt.Println(v)
+	}
+}
+
+func main() {
+	//foo("123")
+	foo()
+}
+*/
+
+///*
+//通过反射获取结构体中的字段名称
+type foo struct {
+	name string
+	desc string
+}
+
+func main() {
+	//var f interface{}
+	f := foo{"fym", "good"}
+
+	t := reflect.TypeOf(&f) //注意参数最好使用引用语义，否则Elem会报错
+
+	fmt.Println(t.Elem().NumField()) //获取成员个数
+	fmt.Println(t.Elem().Field(0).Name)
+	fmt.Println(t.Elem().Field(1).Name)
+}
+
+//*/
