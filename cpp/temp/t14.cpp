@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-#include <cstdlib>
+#include <cstdio>
 #include <map>
 #include <typeinfo>
 
@@ -27,21 +27,9 @@ class bar: public foo
 
 int main(int argc, char* argv[])
 {
-    map<int, foo*> m;
-    m[0] = new foo();
-    m[1] = new bar();
-    m[2] = new bar();
+    long long *l;
 
-    for (map<int, foo*>::iterator itor = m.begin(); itor != m.end(); itor ++)
-    {
-        if (dynamic_cast<bar*>(itor->second))
-            cout << "found" << endl;
-    }
-
-//    if (dynamic_cast<bar*>(pfA))
-//        cout << "pfA" << endl;
-//    if (dynamic_cast<bar*>(pfB))
-//        cout << "pfB" << endl;
+    printf("大小是%d\n", sizeof(l));
 
     return 0;
 }

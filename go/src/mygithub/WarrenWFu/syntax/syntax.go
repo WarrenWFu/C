@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"reflect"
 )
 
 //用这种方式保留import的包？
@@ -417,7 +416,7 @@ func main() {
 }
 */
 
-///*
+/*
 //通过反射获取结构体中的字段名称
 type foo struct {
 	name string
@@ -425,7 +424,6 @@ type foo struct {
 }
 
 func main() {
-	//var f interface{}
 	f := foo{"fym", "good"}
 
 	t := reflect.TypeOf(&f) //注意参数最好使用引用语义，否则Elem会报错
@@ -434,5 +432,127 @@ func main() {
 	fmt.Println(t.Elem().Field(0).Name)
 	fmt.Println(t.Elem().Field(1).Name)
 }
+*/
 
-//*/
+/*
+//通过类型switch来检查类型，可惜type switch不能fallthrough，还是有很多重复代码
+type foo struct {
+	name string
+	desc string
+}
+
+type bar struct {
+	name string
+}
+
+func main() {
+	var s interface{}
+
+	s = &foo{"fym", "good"}
+
+	switch v := s.(type) {
+	case *foo:
+		t := reflect.TypeOf(v)
+		fmt.Println(t.Elem().Name())     //获取结构体名，如果是s是结构体，可以直接t.Name()
+		fmt.Println(t.Elem().NumField()) //获取成员个数
+		fmt.Println(t.Elem().Field(0).Name)
+		fmt.Println(t.Elem().Field(1).Name)
+	case *bar:
+		t := reflect.TypeOf(v)
+		fmt.Println(t.Elem().Name())
+		fmt.Println(t.Elem().NumField()) //获取成员个数
+		fmt.Println(t.Elem().Field(0).Name)
+		fmt.Println(t.Elem().Field(1).Name)
+	default:
+		fmt.Println("unknown")
+	}
+
+}
+*/
+
+/*
+//byte、rune、string之间的关系
+func replaceAtIndex(in string, r rune, i int) string {
+	out := []rune(in)
+	out[i] = r
+	fmt.Println(len(out)) //这里是3，表示为3个rune
+	return string(out)    //这里自动转成了byte数组
+}
+
+func main() {
+	rs, l := utf8.DecodeRuneInString("人") //注意因为本文件是utf-8的，所以这个“人”三个字节
+	fmt.Println(l)                        //因为“人”是三个字节，所以l是3
+
+	s2 := string(rs) //此时将rune转成了byte数组即string，即unicode转成了utf-8类型
+	pc := []byte(s2)
+	fmt.Printf("%x\n", pc[0])
+	fmt.Printf("%x\n", pc[1])
+	fmt.Printf("%x\n", pc[2])
+
+	s := "123"
+	fmt.Println(len(s))                  //此时是3
+	s = replaceAtIndex(s, '人', len(s)-1) //最神奇的是这里utf-8的‘人‘自动转成了rune传入，这就导致这个函数会改变原来字符串的长度
+	fmt.Println(len(s))                  //此时是5
+	fmt.Println(s)
+}
+*/
+
+/*
+//nil指针同样可以调用method，method中不能对receiver进行操作
+type DbOpr interface {
+	query()
+}
+
+type Foo struct {
+	name string
+
+	DbOpr //此句可包含可不包含，建议不要包含，这样就可以松耦合
+}
+
+func (*Foo) query() {
+	//f.name = "abc"
+
+	fmt.Println("from query")
+}
+
+func main() {
+	var foo *Foo
+
+	if foo == nil {
+		fmt.Println("isNil")
+	}
+
+	foo.query()       //可以直接调用虽然此时foo是nil
+	(*Foo).query(nil) //也可以通过这种方式调用
+}
+*/
+
+/*
+//和C一样，不能假设int为4字节或8字节，只能保证至少为4字节，所以建议使用int64代替
+func main() {
+	var i int
+	fmt.Println(unsafe.Sizeof(i))
+}
+*/
+
+/*
+//可以直接使用errors包来生成error实例
+func main() {
+	var e error
+	e = errors.New("这是错误")
+
+	fmt.Println(e)
+}
+*/
+
+/*
+//defer是只有在函数退出时才执行，而不是离开作用域的时候执行，下面的222还是最后打印
+func main() {
+	if len(os.Args) == 1 {
+		fmt.Println("111")
+
+		defer fmt.Println("222")
+	}
+	fmt.Println("333")
+}
+*/
