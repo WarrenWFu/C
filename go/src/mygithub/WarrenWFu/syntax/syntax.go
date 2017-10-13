@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -556,3 +557,83 @@ func main() {
 	fmt.Println("333")
 }
 */
+
+/*
+//使用:=声明变量时，如果左侧的变量在本作用域中声明则不新建，否则新建一个覆盖外部同名变量
+func main() {
+	var err error
+
+	j, err := func(i int) (int, error) { //这里尽管j为新建变量，err没有被从重建
+		return i + 1, errors.New("error")
+	}(0)
+	_ = j
+
+	if err == nil {
+		fmt.Println("nil")
+	} else {
+		fmt.Println("not nil")
+	}
+
+	err = nil
+
+	if len(os.Args) == 1 {
+		i, err := func(i int) (int, error) { //这里因为i为新建变量，导致err也被新建
+			return i + 1, errors.New("error")
+		}(0)
+		_ = i
+		_ = err
+	}
+
+	if err == nil {
+		fmt.Println("nil")
+	} else {
+		fmt.Println("not nil")
+	}
+}
+*/
+
+/*
+//defer按照出现的相反顺序执行
+func main() {
+	defer fmt.Println("1")
+	defer fmt.Println("2")
+	defer fmt.Println("3")
+	defer fmt.Println("4")
+	defer fmt.Println("5")
+	defer fmt.Println("6")
+	defer fmt.Println("7")
+	defer fmt.Println("8")
+	defer fmt.Println("9")
+	defer fmt.Println("10")
+}
+*/
+
+/*
+//使用这种方式实现defer对值语义变量的抓取
+func foo(err *error) {
+	if *err != nil {
+		fmt.Println(*err)
+	} else {
+		fmt.Println("nil")
+	}
+}
+
+func main() {
+	var err error
+	defer foo(&err)
+
+	err = errors.New("为了测试")
+}
+*/
+
+type Foo struct {
+	Id   int
+	Name string
+}
+
+func main() {
+	res := []Foo{{1, "Tom"}, {2, "Jerry"}}
+
+	s, _ := json.Marshal(res)
+	fmt.Println(string(s))
+}
