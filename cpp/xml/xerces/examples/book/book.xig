@@ -1,0 +1,13 @@
+<xig:generate xmlns:xig="http://www.sourceforge.net/XML-XIG" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="XML-XIG.xsd" >
+
+  <!-- Generate instance documents from template document above -->
+  <loop count="10" root="book">
+    <parameter name="string" value="This is a string"/>
+    <parameter name="//title" value="This is title ${/$instance}"/>
+    <!-- Generate multiple authors -->
+    <parameter name="author/$instances" value="3"/>
+    <parameter name="//author" value="Author Name ${author/$instance}"/>
+  </loop>
+</xig:generate>

@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:类的const成员变量，只能通过初始化列表来初始化
  *
 *******************************************************************************/
 #include <iostream>
@@ -10,15 +10,24 @@
 
 using namespace std;
 
-void foo(const string& abc="123")
+class Foo
 {
-    cout << abc << endl;
-}
+public:
+    Foo();
+
+    const string str1;
+};
+
+Foo::Foo():
+    str1("abc")
+{}
 
 int main()
 {
-    string abc = "123";
-    foo();
+    Foo foo;
+
+    cout << foo.str1 << endl;
+
     return 0;
 }
 

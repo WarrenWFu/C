@@ -2,23 +2,30 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:注意嵌套namespace的使用
  *
 *******************************************************************************/
 #include <iostream>
 #include <string>
 
-using namespace std;
-
-void foo(const string& abc="123")
+namespace Foo0
 {
-    cout << abc << endl;
+namespace Foo1
+{
+    class Foo0
+    {};
 }
+}
+
+using namespace std;
 
 int main()
 {
-    string abc = "123";
-    foo();
+    Foo0::Foo1::Foo0 *pFoo01 = new Foo0::Foo1::Foo0();
+
+    delete pFoo01;
+
+
     return 0;
 }
 

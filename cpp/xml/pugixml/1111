@@ -1,0 +1,27 @@
+==26022== Memcheck, a memory error detector
+==26022== Copyright (C) 2002-2013, and GNU GPL'd, by Julian Seward et al.
+==26022== Using Valgrind-3.10.0 and LibVEX; rerun with -h for copyright info
+==26022== Command: ./xsdtoxml beps.122.001.01.xsd
+==26022== Parent PID: 3045
+==26022== 
+==26022== Invalid read of size 8
+==26022==    at 0x41B1B4: pugi::xml_node::empty() const (pugixml.cpp:5436)
+==26022==    by 0x40A468: XsdCmxTypeNode::~XsdCmxTypeNode() (xsdtoxml.cpp:85)
+==26022==    by 0x40A54F: XsdCmxTypeNode::~XsdCmxTypeNode() (xsdtoxml.cpp:87)
+==26022==    by 0x40A8B2: XmlBinTree::~XmlBinTree() (xsdtoxml.cpp:146)
+==26022==    by 0x409DC6: main (xsdtoxml.cpp:1301)
+==26022==  Address 0x5a36238 is 8 bytes inside a block of size 80 free'd
+==26022==    at 0x4C2B131: operator delete(void*) (in /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so)
+==26022==    by 0x413005: XsdSmpTypeNode::~XsdSmpTypeNode() (xsdtoxml.cpp:33)
+==26022==    by 0x40A8B2: XmlBinTree::~XmlBinTree() (xsdtoxml.cpp:146)
+==26022==    by 0x409DC6: main (xsdtoxml.cpp:1301)
+==26022== 
+==26022== 
+==26022== HEAP SUMMARY:
+==26022==     in use at exit: 0 bytes in 0 blocks
+==26022==   total heap usage: 1,616 allocs, 1,616 frees, 218,907 bytes allocated
+==26022== 
+==26022== All heap blocks were freed -- no leaks are possible
+==26022== 
+==26022== For counts of detected and suppressed errors, rerun with: -v
+==26022== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 1 from 1)

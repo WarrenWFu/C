@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * @brief:
  *
 *******************************************************************************/
 #include <iostream>
@@ -10,15 +10,18 @@
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    string str1;
+
+    std::getline(cin, str1);
+
+    cout << str1 << endl;
+
+    str1 = str1.substr(20);
+
+    cout << str1 << endl;
+
     return 0;
 }
 

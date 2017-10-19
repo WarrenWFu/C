@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:使用类的static变量
  *
 *******************************************************************************/
 #include <iostream>
@@ -10,15 +10,28 @@
 
 using namespace std;
 
-void foo(const string& abc="123")
+class Foo
 {
-    cout << abc << endl;
-}
+public:
+    Foo();
+
+    string str1;
+    //static int LENGTH = 10;这句会报错，c++不能在类声明时初始化
+    static int LENGTH;
+};
+
+int Foo::LENGTH = 10;
+
+Foo::Foo()
+{}
 
 int main()
 {
-    string abc = "123";
-    foo();
+    Foo foo;
+    
+    cout << Foo::LENGTH << endl;
+
+
     return 0;
 }
 

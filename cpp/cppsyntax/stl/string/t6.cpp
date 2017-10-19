@@ -2,23 +2,24 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * @brief:使用string的c_str函数
  *
 *******************************************************************************/
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    string str1("1");
+    
+    //if (1 == ((int)str1.c_str()[0] - 48))
+    if (1 == atoi(str1.c_str()))
+        cout << "equal" << endl;
+
+
     return 0;
 }
 

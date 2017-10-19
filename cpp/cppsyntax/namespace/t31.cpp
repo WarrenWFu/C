@@ -2,23 +2,13 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:using 可以通过include来传递
  *
 *******************************************************************************/
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
+#include "t31.hpp"
 
 int main()
 {
-    string abc = "123";
-    foo();
+    cout << "测试" << endl;
     return 0;
 }
-

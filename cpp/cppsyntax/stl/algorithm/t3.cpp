@@ -2,23 +2,28 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:检查string的运算符重载
  *
 *******************************************************************************/
 #include <iostream>
+#include <set>
 #include <string>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    string str1 = "abc";
+    string str2 = "abd";
+
+    set<string> set1;
+
+    set1.insert(str1);
+    set1.insert(str2);
+
+    cout << set1.size() << endl;
+
     return 0;
 }
+
 

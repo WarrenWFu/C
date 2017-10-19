@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="urn:cnaps:std:beps:2010:tech:xsd:beps.122.001.01" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:cnaps:std:beps:2010:tech:xsd:beps.122.001.01" elementFormDefault="qualified">
+	<xs:element name="Document" type="PKGGroupHeader1"/>
+	<xs:complexType name="PKGGroupHeader1">
+		<xs:sequence>
+			<xs:element name="CreDtTm" type="ISODateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ISODateTime">
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+</xs:schema>

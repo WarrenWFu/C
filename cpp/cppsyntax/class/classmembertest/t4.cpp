@@ -2,23 +2,37 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:检查抽象类的继承
  *
 *******************************************************************************/
 #include <iostream>
-#include <string>
+#include <algorithm>
 
 using namespace std;
 
-void foo(const string& abc="123")
+class Foo
 {
-    cout << abc << endl;
-}
+public:
+    virtual void func() = 0;
+};
+
+class Foo1:public Foo
+{
+public:
+    virtual void func() = 0;
+};
+
+class Foo2:public Foo
+{
+public:
+    void func() {}
+};
+
 
 int main()
 {
-    string abc = "123";
-    foo();
+    Foo2 *pFoo2 = new Foo2();
+
     return 0;
 }
 

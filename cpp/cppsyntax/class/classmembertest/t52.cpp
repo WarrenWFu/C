@@ -2,23 +2,24 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:如果只用到类的数据成员而没有用到函数，是否可以不用.cpp文件
  *
 *******************************************************************************/
 #include <iostream>
-#include <string>
+#include "t52.hpp"
 
 using namespace std;
 
-void foo(const string& abc="123")
+Foo::~Foo()
+{}
+
+int Foo::func2()
 {
-    cout << abc << endl;
+    int iNum = 10;
+    return iNum;
 }
 
-int main()
+Foo *Foo::getInstance()
 {
-    string abc = "123";
-    foo();
-    return 0;
+    return new Foo();
 }
-

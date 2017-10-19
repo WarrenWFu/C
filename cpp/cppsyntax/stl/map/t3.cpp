@@ -2,23 +2,30 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * brief:注意这种map的初始化方式
  *
 *******************************************************************************/
 #include <iostream>
-#include <string>
+#include <algorithm>
+#include <map>
 
 using namespace std;
 
-void foo(const string& abc="123")
+class Foo
 {
-    cout << abc << endl;
-}
+public:
+    Foo():map1(){}
+
+    map<string, string> map1;
+    
+};
 
 int main()
 {
-    string abc = "123";
-    foo();
+    Foo foo;
+
+    foo.map1["1"] = "a";
+
     return 0;
 }
 

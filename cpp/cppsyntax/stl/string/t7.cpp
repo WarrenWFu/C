@@ -2,23 +2,24 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * @brief:调用默认赋值重载函数，可以实现私有成员的赋值
  *
 *******************************************************************************/
 #include <iostream>
+#include <algorithm>
 #include <string>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+
+    string str1("1bc");
+    int iNum = 1;
+
+    if (iNum+48 == str1[0])
+        cout << str1[1] << endl;
+
     return 0;
 }
 

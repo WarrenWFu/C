@@ -5,20 +5,22 @@
  * brief:
  *
 *******************************************************************************/
-#include <iostream>
+#include <cstdio>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    vector<string> vStr;
+    vStr.push_back("a");
+    vStr.push_back("a");
+    vStr.push_back("a");
+    vStr.push_back("a");
+
+    printf("[%s]\n", vStr.at(4).c_str());
+
     return 0;
 }
 

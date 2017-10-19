@@ -2,23 +2,26 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:
  *
 *******************************************************************************/
 #include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    //int iA = 10;
+    std::auto_ptr<char> pAuto(new char[10]);
+
+    cout << pAuto.get() << endl;
+
+
+
+
+
     return 0;
 }
 

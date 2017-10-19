@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * @brief:
  *
 *******************************************************************************/
 #include <iostream>
@@ -10,15 +10,23 @@
 
 using namespace std;
 
-void foo(const string& abc="123")
+class Foo
+{};
+
+Foo *func(bool val)
 {
-    cout << abc << endl;
+    if(val)
+        return new Foo;
+    else
+        return NULL;
+
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    string abc = "123";
-    foo();
+    bool bTest = argc > 1? true: false;
+    func(bTest);
+
     return 0;
 }
 

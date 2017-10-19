@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" xmlns:xs="www.ylink.com"?>
+<xs:Profile FormatVersion="1">
+    <xs:Tools>
+        <xs:Tool Filename="jam" AllowIntercept="true">
+            <xs:Description>Jamplus build system</xs:Description>
+        </xs:Tool>
+        <xs:Tool Filename="mayabatch.exe" AllowRemote="true" OutputFileMasks="*.dae" DeriveCaptionFrom="lastparam" Timeout="40" />
+        <xs:Tool Filename="meshbuilder_*.exe" AllowRemote="false" OutputFileMasks="*.mesh" DeriveCaptionFrom="lastparam" Timeout="10" />
+        <xs:Tool Filename="texbuilder_*.exe" AllowRemote="true" OutputFileMasks="*.tex" DeriveCaptionFrom="lastparam" />
+        <xs:Tool Filename="shaderbuilder_*.exe" AllowRemote="true" DeriveCaptionFrom="lastparam" />
+    </xs:Tools>
+</xs:Profile>

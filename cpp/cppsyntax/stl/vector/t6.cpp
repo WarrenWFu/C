@@ -2,23 +2,25 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * brief:使用匿名实例push_back，完全是可以的
  *
 *******************************************************************************/
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    vector<string> v1;
+    string str1 = "abc";
+    string str2 = "123";
+
+    v1.push_back(string(str1 + str2));
+
+    cout << v1[0] << endl;
+
     return 0;
 }
 

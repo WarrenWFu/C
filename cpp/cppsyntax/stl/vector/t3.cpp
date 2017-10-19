@@ -2,23 +2,25 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * brief:vector为空时，begin()和end()是相等的
  *
 *******************************************************************************/
 #include <iostream>
-#include <string>
+#include <algorithm>
+#include <vector>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    vector<int> v1;
+
+    for (vector<int>::iterator iter = v1.begin();
+            iter != v1.end(); iter++)
+    {
+        cout << *iter << endl; 
+    }
+
     return 0;
 }
 

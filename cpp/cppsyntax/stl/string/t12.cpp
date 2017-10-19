@@ -2,23 +2,20 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * @brief:检查string函数，返回位置的话总是以0开头
  *
 *******************************************************************************/
 #include <iostream>
+#include <cstring>
 #include <string>
 
 using namespace std;
-
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    string str1 = "123456789";
+
+    cout << string(str1, 3)<< endl;
+
     return 0;
 }
 

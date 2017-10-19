@@ -1,0 +1,5 @@
+编译方法 g++ -I/home/spring/project/xerces/include/ *.cpp -L/home/spring/project/xerces/lib -lxerces-c
+
+使用前注意将libxerces-c.so路径加LD_LIBRARY_PATH
+
+使用方法 ./a.out xsd文件 xml文件

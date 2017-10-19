@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Unittest>
+
+<Author>W.Fu</Author>
+<Update>2016年 09月 08日 星期四 11:23:42 CST</Update>
+
+<Config>
+	<QMName>QMU_STRT_SVR</QMName>
+	<MQConnStr>127.0.0.1(9997)</MQConnStr>
+	<MQConnCHL>U.STRT.SVRCHL</MQConnCHL>
+
+	<DbConnStr>;dbDriver=oracle;dbHost=test-2;dbPort=1521;dbName=orcl;</DbConnStr>
+	<DbUser>strt</DbUser>
+	<DbPassword>strt</DbPassword>
+</Config>
+
+<Unit>
+<Title>测试[122222]自由格式往账</Title>
+<Remark>测试正常情况</Remark>
+
+<Step>
+    <Id>DeleteDB</Id>
+    <Title>删除交易流水表原有数据</Title>
+    <WriteDB>
+        <Assert>IGNORE</Assert>
+             <!-- 交易流水表 -->
+             <SQL></SQL>
+             <!-- 自由格式信息表 -->
+             <SQL></SQL>
+        <CheckFunction></CheckFunction>
+    </WriteDB>
+</Step>
+
+<!-- TRADID>20151228162020113101tradid02</TRADID -->
+<Step>
+    <Id>WriteMQ1</Id>
+    <Title>模拟往账报文</Title>
+    <Remark>无</Remark>
+    <WriteMQ>
+        <Queue>U.UPPS.RCVMB.REQ.COM</Queue>
+        <Assert>SUCCESS</Assert>
+        <Message>
+<![CDATA[
+<?xml version="1.0" encoding="UTF-8" ?> 
+<REQUEST xmlns="urn:ylink.cnaps2.mb.req.118106" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<HEAD>
+  <BSSCCHLID>UPPC</BSSCCHLID>
+  <BSDESTCHLID>STRT</BSDESTCHLID>
+  <PCHLCODE>SZFS</PCHLCODE>
+  <TRADCODE>118106</TRADCODE>
+  <TRADID>00002016061470000481</TRADID>
+  <SENDTIME>20160614135404</SENDTIME>
+  <EPDDATA></EPDDATA>
+</HEAD>
+<BODY>
+ <PAYWAYINFO>
+    <ROUTEMODE>RA00</ROUTEMODE>
+    <BSID>000000002016061430010481</BSID>
+    <BSTYPE>UC0043</BSTYPE>
+    <BSCLASS>U0000436</BSCLASS>
+    <TRADCCY>HKD</TRADCCY>
+    <TRADAMT>45.00</TRADAMT>
+    <REMITCRY>RI01</REMITCRY>
+    <SENDBANK>313424076706</SENDBANK>
+    <RECVBANK>313345001219</RECVBANK>
+    <PAYERACCT>6214831222222222</PAYERACCT>
+    <PAYERNAME>通</PAYERNAME>
+    <PAYEROPRBANK>313424076706</PAYEROPRBANK>
+    <PAYERBANK>313424076706</PAYERBANK>
+    <PAYEEACCT>3333333333333333</PAYEEACCT>
+    <PAYEENAME>用</PAYEENAME>
+    <PAYEEOPRBANK>313424076706</PAYEEOPRBANK>
+    <PAYEEBANK>313345001219</PAYEEBANK>
+  </PAYWAYINFO>
+</BODY>
+</REQUEST>
+]]>
+</Message>
+<CheckFunction></CheckFunction>
+</WriteMQ>
+</Step>
+
+<Step>
+<Id>ReadDB1</Id>
+<Title>检查处理是否成功</Title>
+<Remark>无</Remark>
+<ReadDB>
+<TryTimes>3</TryTimes>
+<Sleep>1</Sleep>
+<Assert>SUCCESS</Assert>
+<SQL>SELECT 1 FROM T_USI_BSTRAD WHERE TRADID = '20151228162020113101'</SQL> 
+<!--SQL>SELECT 1 FROM T_USI_BSTRAD WHERE TRADID = '20151228162020113101bsid01'</SQL--> 
+<CheckFunction></CheckFunction>
+</ReadDB>
+</Step>
+</Unit>
+
+</Unittest>
+
+

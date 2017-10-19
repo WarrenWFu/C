@@ -2,23 +2,27 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:
  *
 *******************************************************************************/
 #include <iostream>
 #include <string>
+#include <unistd.h>
 
 using namespace std;
 
-void foo(const string& abc="123")
+class Foo
 {
-    cout << abc << endl;
-}
+public:
+    Foo(){cout << "from constructor" << endl;}
+    ~Foo(){cout << "from destructor" << endl;}
+};
+
+Foo foo;
 
 int main()
 {
-    string abc = "123";
-    foo();
-    return 0;
+    sleep(1);
+    _exit(0);
 }
 

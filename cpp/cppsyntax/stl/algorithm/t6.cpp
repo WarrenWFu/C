@@ -2,23 +2,25 @@
  *
  * author:Warren Fu
  * date:
- * brief:
+ * description:
  *
 *******************************************************************************/
 #include <iostream>
 #include <string>
+#include <cstdio>
+#include <queue>
 
 using namespace std;
 
-void foo(const string& abc="123")
-{
-    cout << abc << endl;
-}
-
 int main()
 {
-    string abc = "123";
-    foo();
+    queue<string> q1;
+
+    string str1 = q1.front();
+
+    cout << "NULL" << endl;
+
+
     return 0;
 }
 
