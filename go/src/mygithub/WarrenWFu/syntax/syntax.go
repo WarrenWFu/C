@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -626,6 +625,8 @@ func main() {
 }
 */
 
+/*
+//json处理数组
 type Foo struct {
 	Id   int
 	Name string
@@ -636,4 +637,79 @@ func main() {
 
 	s, _ := json.Marshal(res)
 	fmt.Println(string(s))
+}
+*/
+
+/*
+type Foo struct {
+	i int
+}
+
+//Go的数组可以很方便的储存多种类型的数据，对象和对象指针不能弄混
+func main() {
+	var params []interface{}
+
+	params = append(params, 1)
+	params = append(params, '人')
+	params = append(params, "abc")
+	params = append(params, Foo{1})
+
+	for _, v := range params {
+		switch v.(type) {
+		case int:
+			fmt.Println("int")
+		case rune:
+			fmt.Println("rune")
+		case string:
+			fmt.Println("string")
+		case Foo: //*Foo和Foo不同
+			fmt.Println("Foo")
+		default:
+			fmt.Println("unknown")
+		}
+	}
+}
+*/
+
+/*
+//初始化的时候可以什么都不填
+type Foo struct {
+	i int
+	s string
+}
+
+func main() {
+	var p interface{}
+	p = &Foo{}
+
+	fmt.Printf("%T\n", p)
+	fmt.Printf("%d\n", p.(*Foo).i)
+	fmt.Printf("%s\n", p.(*Foo).s)
+}
+*/
+
+type Foo struct {
+	i int
+	s string
+}
+type Bar struct {
+	s string
+}
+
+func f() (res []interface{}) {
+	res = append(res, &Foo{1, "1"})
+	res = append(res, &Foo{2, "2"})
+
+	return
+}
+
+func main() {
+	for _, v := range f() {
+		f, ok := v.(*Foo)
+		if !ok {
+			fmt.Println("Failed")
+		} else {
+			fmt.Println(f)
+		}
+	}
 }

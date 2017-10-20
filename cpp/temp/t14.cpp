@@ -25,11 +25,22 @@ public:
 class bar: public foo
 {};
 
+typedef int (*functype) (int);
+
+functype bar() {
+    int foo(int i)
+    {
+        return i*2;
+    }
+
+    return foo;
+}
+
 int main(int argc, char* argv[])
 {
-    long long *l;
+    functype ft = bar();
 
-    printf("大小是%d\n", sizeof(l));
+    cout << ft(1) << endl;
 
     return 0;
 }
