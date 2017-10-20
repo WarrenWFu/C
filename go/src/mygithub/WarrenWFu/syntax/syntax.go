@@ -1,13 +1,80 @@
 package main
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
+	"log"
+	"os"
+	"reflect"
+	"strings"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 //用这种方式保留import的包？
 func useless() {
 	fmt.Println()
 }
+
+/*
+//类型switch
+	switch f := arg.(type) {
+	case bool:
+		p.fmtBool(f, verb)
+	case float32:
+		p.fmtFloat(float64(f), 32, verb)
+	case float64:
+		p.fmtFloat(f, 64, verb)
+	case complex64:
+		p.fmtComplex(complex128(f), 64, verb)
+	case complex128:
+		p.fmtComplex(f, 128, verb)
+	case int:
+		p.fmtInteger(uint64(f), signed, verb)
+	case int8:
+		p.fmtInteger(uint64(f), signed, verb)
+	case int16:
+		p.fmtInteger(uint64(f), signed, verb)
+	case int32:
+		p.fmtInteger(uint64(f), signed, verb)
+	case int64:
+		p.fmtInteger(uint64(f), signed, verb)
+	case uint:
+		p.fmtInteger(uint64(f), unsigned, verb)
+	case uint8:
+		p.fmtInteger(uint64(f), unsigned, verb)
+	case uint16:
+		p.fmtInteger(uint64(f), unsigned, verb)
+	case uint32:
+		p.fmtInteger(uint64(f), unsigned, verb)
+	case uint64:
+		p.fmtInteger(f, unsigned, verb)
+	case uintptr:
+		p.fmtInteger(uint64(f), unsigned, verb)
+	case string:
+		p.fmtString(f, verb)
+	case []byte:
+		p.fmtBytes(f, verb, "[]byte")
+	case reflect.Value:
+		// Handle extractable values with special methods
+		// since printValue does not handle them at depth 0.
+		if f.IsValid() && f.CanInterface() {
+			p.arg = f.Interface()
+			if p.handleMethods(verb) {
+				return
+			}
+		}
+		p.printValue(f, verb, 0)
+	default:
+		// If the type is not simple, it might have methods.
+		if !p.handleMethods(verb) {
+			// Need to use reflection, since the type had no
+			// interface methods that could be used for formatting.
+			p.printValue(reflect.ValueOf(f), verb, 0)
+		}
+	}
+*/
 
 /*
 //使用os.Args就可以获取到命令行参数，Args[0]为执行程序本身带全路径。
@@ -417,25 +484,7 @@ func main() {
 */
 
 /*
-//通过反射获取结构体中的字段名称
-type foo struct {
-	name string
-	desc string
-}
-
-func main() {
-	f := foo{"fym", "good"}
-
-	t := reflect.TypeOf(&f) //注意参数最好使用引用语义，否则Elem会报错
-
-	fmt.Println(t.Elem().NumField()) //获取成员个数
-	fmt.Println(t.Elem().Field(0).Name)
-	fmt.Println(t.Elem().Field(1).Name)
-}
-*/
-
-/*
-//通过类型switch来检查类型，可惜type switch不能fallthrough，还是有很多重复代码
+//通过类型switch来检查类型，还是有很多重复代码
 type foo struct {
 	name string
 	desc string
@@ -688,28 +737,313 @@ func main() {
 }
 */
 
+///*
+//数据库操作参考
+//MyError 结构表示自定义error
+type MyError struct {
+	desc string
+}
+
+func (m MyError) Error() string {
+	return m.desc
+}
+
+func initDb(db *sql.DB) error {
+	//建表
+	sqlStmt := `
+		CREATE TABLE FOO (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME CHAR(60) NOT NULL,
+	ID2 INTEGER, NAME2 CHAR(60) NOT NULL);
+		`
+	var err error
+	if _, err = db.Exec(sqlStmt); err != nil {
+		return err
+	}
+
+	//默认用户
+	sqlStmt = `INSERT INTO FOO(NAME, ID2, NAME2) VALUES('fym', 0, 'fym2')`
+	if _, err = db.Exec(sqlStmt); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type Foo struct {
-	i int
-	s string
-}
-type Bar struct {
-	s string
+	Id    int64
+	Name  string
+	Id2   int64
+	Name2 string
 }
 
-func f() (res []interface{}) {
-	res = append(res, &Foo{1, "1"})
-	res = append(res, &Foo{2, "2"})
+func openTransaction(db *sql.DB) (*sql.Tx, error) {
+	tx, err := db.Begin()
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return tx, nil
+}
+
+func insertSql(tx *sql.Tx, i interface{}) (int64, error) {
+	if i == nil {
+		return -1, errors.New("i不能为nil")
+	}
+
+	s := "INSERT INTO "
+	s2 := " VALUES("
+	val := reflect.ValueOf(i)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem() //如果是指针则获取其指向的值
+	}
+
+	var params []interface{}
+	ts := val.Type()
+	s += ts.Name() + "("
+	for i := 0; i < val.NumField(); i++ {
+		//		fmt.Println(ts.Field(i).Name) //获取val表示的结构体中字段的名称
+		//		f := val.Field(i)
+		//		fmt.Println(f.Type())      //获取字段的类型
+		//		fmt.Println(f.Interface()) //获取字段的值
+		if ts.Field(i).Name == "Id" {
+			continue
+		}
+		s += ts.Field(i).Name + ","
+		s2 += "?,"
+		f := val.Field(i)
+		params = append(params, f.Interface())
+	}
+	s = strings.Trim(s, ",")
+	s += ")"
+	s2 = strings.Trim(s2, ",")
+	s2 += ")"
+
+	s += s2
+	log.Println(s)
+
+	stmt, err := tx.Prepare(s)
+	if err != nil {
+		return -1, err
+	}
+	defer stmt.Close()
+
+	res, err := stmt.Exec(params...)
+	if err != nil {
+		return -1, err
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		return -1, err
+	}
+
+	return id, nil
+}
+
+func deleteSql(tx *sql.Tx, i interface{}, cond string) error {
+	s := "DELETE FROM "
+	val := reflect.ValueOf(i)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	s += val.Type().Name() + " "
+	s += cond
+	log.Println(s)
+
+	_, err := tx.Exec(s)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func updateSql(tx *sql.Tx, i interface{}, cond string) error {
+	if i == nil {
+		return MyError{"o不能为nil"}
+	}
+
+	s := "UPDATE "
+	val := reflect.ValueOf(i)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem() //如果是指针则获取其指向的值
+	}
+
+	var params []interface{}
+	ts := val.Type()
+	s += ts.Name() + " SET "
+	for i := 0; i < val.NumField(); i++ {
+		if ts.Field(i).Name == "Id" {
+			continue
+		}
+
+		f := val.Field(i)
+		//略过不想要设置的字段
+		switch v := f.Interface().(type) {
+		case float32:
+			if v < 0 {
+				continue
+			}
+		case float64:
+			if v < 0 {
+				continue
+			}
+		case int:
+			if v < 0 {
+				continue
+			}
+		case int8:
+			if v < 0 {
+				continue
+			}
+		case int16:
+			if v < 0 {
+				continue
+			}
+		case int32:
+			if v < 0 {
+				continue
+			}
+		case int64:
+			if v < 0 {
+				continue
+			}
+		case string:
+		default:
+			if reflect.TypeOf(v).Kind() == reflect.Ptr {
+				log.Println("指针略过")
+			}
+			return MyError{"结构体字段不合格"}
+		}
+
+		s += ts.Field(i).Name + "=?,"
+		params = append(params, f.Interface())
+	}
+	s = strings.Trim(s, ",")
+	s += " " + cond
+
+	log.Println(s)
+
+	stmt, err := tx.Prepare(s)
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(params...)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func selectSql(db *sql.Tx, i []interface{}, cond string) (rows *sql.Rows, err error) {
+	s := "SELECT * FROM "
+	val := reflect.ValueOf(i)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	s += val.Type().Name() + " "
+	s += cond
+	log.Println(s)
+
+	rows, err = db.Query(s)
+	if err != nil {
+		return nil, err
+	}
+
+	return rows, nil
 }
 
 func main() {
-	for _, v := range f() {
-		f, ok := v.(*Foo)
-		if !ok {
-			fmt.Println("Failed")
-		} else {
-			fmt.Println(f)
-		}
+	//设置log打印信息
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	dbLocation := "public.db"
+
+	var err error
+	db, err := sql.Open("sqlite3", dbLocation)
+	if err != nil {
+		log.Printf("连接数据库错误，原因[%s]\n", err)
+		return
 	}
+	defer db.Close()
+
+	//不存在则创始化创建表
+	if _, err = os.Stat(dbLocation); os.IsNotExist(err) {
+		log.Println("创建public库")
+		if err = initDb(db); err != nil {
+			log.Printf("初始化数据库错误，原因[%s]\n", err)
+			return
+		}
+	} else if err != nil {
+		log.Printf("查看数据库文件失败，原因[%s]\n", err)
+		return
+	}
+
+	tx, err := openTransaction(db)
+	if err != nil {
+		log.Printf("查看数据库文件失败，原因[%s]\n", err)
+		return
+	}
+	defer func() {
+		if p := recover(); p != nil {
+			tx.Rollback()
+			panic(p)
+		} else if err != nil {
+			tx.Rollback()
+		} else {
+			_ = tx.Commit()
+		}
+	}()
+
+	//	for i := 0; i < 10; i++ {
+	//		id, err := insertSql(tx, Foo{0, "rich", 1, "rich"})
+	//		if err != nil {
+	//			log.Println(err)
+	//			break
+	//		} else {
+	//			log.Println(id)
+	//		}
+	//	}
+
+	//	var foo Foo
+	//	err = deleteSql(tx, &foo, "WHERE ID2 = 1")
+	//	if err != nil {
+	//		log.Println(err)
+	//		return
+	//	}
+
+	//	foo := Foo{0, "poor", -1, "poor"}
+	//	err = updateSql(tx, foo, "WHERE ID2 = 1")
+	//	if err != nil {
+	//		log.Println(err)
+	//		return
+	//	}
+
+	var foo Foo
+	var res []*Foo
+	rows, err := selectSql(tx, &foo, "WHERE ID2 = 1")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var tmp Foo
+		if err = rows.Scan(&(tmp.Id), &(tmp.Name), &(tmp.Id2), &(tmp.Name2)); err != nil {
+			log.Println(err)
+			return
+		}
+		res = append(res, &tmp)
+	}
+
+	for _, v := range res {
+		log.Println(*v)
+	}
+
 }
+
+//*/
