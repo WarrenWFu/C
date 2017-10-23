@@ -1,13 +1,8 @@
 package main
 
 import (
-	"database/sql"
-	"errors"
+	"encoding/json"
 	"fmt"
-	"log"
-	"os"
-	"reflect"
-	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -737,7 +732,7 @@ func main() {
 }
 */
 
-///*
+/*
 //数据库操作参考
 //MyError 结构表示自定义error
 type MyError struct {
@@ -938,23 +933,29 @@ func updateSql(tx *sql.Tx, i interface{}, cond string) error {
 	return nil
 }
 
-func selectSql(db *sql.Tx, i []interface{}, cond string) (rows *sql.Rows, err error) {
-	s := "SELECT * FROM "
-	val := reflect.ValueOf(i)
-	if val.Kind() == reflect.Ptr {
-		val = val.Elem()
-	}
-
-	s += val.Type().Name() + " "
+func (v *Foo) selectSql(tx *sql.DB, cond string, isExist bool) (res []*Foo, err error) {
+	s := "SELECT * FROM FOO "
 	s += cond
-	log.Println(s)
 
-	rows, err = db.Query(s)
+	rows, err := tx.Query(s)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
-	return rows, nil
+	for rows.Next() {
+		var tmp Foo
+		if err = rows.Scan(&(tmp.Id), &(tmp.Name), &(tmp.Id2), &(tmp.Name2)); err != nil {
+			return nil, err
+		}
+		res = append(res, &tmp)
+	}
+
+	if isExist && len(res) == 0 {
+		return nil, MyError{"记录未找到"}
+	}
+
+	return res, nil
 }
 
 func main() {
@@ -1024,26 +1025,96 @@ func main() {
 	//	}
 
 	var foo Foo
-	var res []*Foo
-	rows, err := selectSql(tx, &foo, "WHERE ID2 = 1")
+	res, err := foo.selectSql(db, "WHERE ID2 = 1", true)
 	if err != nil {
 		log.Println(err)
 		return
-	}
-	defer rows.Close()
-	for rows.Next() {
-		var tmp Foo
-		if err = rows.Scan(&(tmp.Id), &(tmp.Name), &(tmp.Id2), &(tmp.Name2)); err != nil {
-			log.Println(err)
-			return
-		}
-		res = append(res, &tmp)
 	}
 
 	for _, v := range res {
 		log.Println(*v)
 	}
+}
 
+*/
+
+///*
+//JSON也可以保存二维数组
+func main() {
+	ss := [][]string{{"00", "01", "02"}, {"10", "11", "12"}}
+
+	s, _ := json.Marshal(ss)
+	fmt.Println(string(s))
+	//fmt.Println(ss)
 }
 
 //*/
+
+//func quickSort(s []int) []int {
+//	if len(s) == 0 || len(s) == 1 {
+//		return s
+//	}
+//
+//	base := s[0]
+//	i := 1
+//	j := len(s)-1
+//
+//	for {
+//		if i == j {
+//			quickSort(s[0:i])
+//			if i >= len(s)
+//			quickSort(s[i+1:])
+//		}
+//
+//		if s[j] > base {
+//			j--
+//		} else if s[i] < base {
+//			i++
+//		}
+//
+//		else {
+//			tmp := s[j]
+//			s[j] = s[i]
+//			s[i] = tmp
+//		}
+//	}
+//
+//	return s
+//}
+
+/*
+//快排算法
+func swap(a int, b int) (int, int) {
+	return b, a
+}
+
+func partition(aris []int, begin int, end int) int {
+	pvalue := aris[begin]
+	i := begin
+	j := begin + 1
+	for j < end {
+		if aris[j] < pvalue {
+			i++
+			aris[i], aris[j] = swap(aris[i], aris[j])
+		}
+		j++
+	}
+	aris[i], aris[begin] = swap(aris[i], aris[begin])
+	return i
+}
+
+func quickSort(aris []int, begin int, end int) {
+	if begin+1 < end {
+		mid := partition(aris, begin, end)
+		quickSort(aris, begin, mid)
+		quickSort(aris, mid+1, end)
+	}
+}
+
+func main() {
+	is := []int{5, 2, 1, 9, 8, 6, 4, 3, 7, 0, 10}
+	quickSort(is, 0, len(is))
+
+	fmt.Println(is)
+}
+*/
