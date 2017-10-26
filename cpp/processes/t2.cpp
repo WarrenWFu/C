@@ -2,7 +2,7 @@
  *
  * author:Warren Fu
  * date:
- * description:简单的通过异步信号signal来回收结束的子进程，而不用waitpid来阻塞。
+ * brief:简单的通过异步信号signal来回收结束的子进程，而不用waitpid来阻塞。
  *
 *******************************************************************************/
 #include <string>
