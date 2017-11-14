@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -933,8 +932,18 @@ func updateSql(tx *sql.Tx, i interface{}, cond string) error {
 	return nil
 }
 
-func (v *Foo) selectSql(tx *sql.DB, cond string, isExist bool) (res []*Foo, err error) {
-	s := "SELECT * FROM FOO "
+func selectSql(tx *sql.DB, cond string, i interface{}, isExist bool) (res []interface{}, err error) {
+	v := reflect.ValueOf(i)
+	if v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return nil, MyError{"参数i是数据库结构体指针且不能为nil"}
+		} else {
+			v = v.Elem()
+		}
+	}
+	t := v.Type()
+
+	s := "SELECT * FROM " + t.Name() + " "
 	s += cond
 
 	rows, err := tx.Query(s)
@@ -944,11 +953,16 @@ func (v *Foo) selectSql(tx *sql.DB, cond string, isExist bool) (res []*Foo, err 
 	defer rows.Close()
 
 	for rows.Next() {
-		var tmp Foo
-		if err = rows.Scan(&(tmp.Id), &(tmp.Name), &(tmp.Id2), &(tmp.Name2)); err != nil {
+		tmp := reflect.New(t).Elem() //New返回的是指针
+
+		var param []interface{}
+		for i := 0; i < t.NumField(); i++ {
+			param = append(param, tmp.Field(i).Addr().Interface())
+		}
+		if err = rows.Scan(param...); err != nil {
 			return nil, err
 		}
-		res = append(res, &tmp)
+		res = append(res, tmp.Addr().Interface())
 	}
 
 	if isExist && len(res) == 0 {
@@ -1025,20 +1039,32 @@ func main() {
 	//	}
 
 	var foo Foo
-	res, err := foo.selectSql(db, "WHERE ID2 = 1", true)
+	res, err := selectSql(db, "WHERE ID2 = 0", &foo, true)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
 	for _, v := range res {
-		log.Println(*v)
+		log.Println(v.(*Foo).Name)
 	}
+
+	//	foo := Foo{1, "name1", 2, "name2"}
+	//	var i interface{}
+	//
+	//	i = &foo
+	//
+	//	//t := reflect.TypeOf(i)
+	//	v := reflect.ValueOf(i)
+	//
+	//	fmt.Printf("%T\n", &(foo.Id))
+	//	fmt.Printf("%T\n", v.Elem().Field(0).Addr().Interface())
+
 }
 
 */
 
-///*
+/*
 //JSON也可以保存二维数组
 func main() {
 	ss := [][]string{{"00", "01", "02"}, {"10", "11", "12"}}
@@ -1048,7 +1074,7 @@ func main() {
 	//fmt.Println(ss)
 }
 
-//*/
+*/
 
 //func quickSort(s []int) []int {
 //	if len(s) == 0 || len(s) == 1 {
@@ -1118,3 +1144,16 @@ func main() {
 	fmt.Println(is)
 }
 */
+
+type Foo struct {
+	data     int
+	children *Foo
+}
+
+func main() {
+	foo := Foo{0, nil}
+	foo.children = &Foo{1, nil}
+
+	fmt.Println(foo.children.data)
+
+}
