@@ -5,8 +5,8 @@ using std::string;
 class Foo
 {
 public:
-    Foo();
-    virtual ~Foo();
+    Foo(){};
+    virtual ~Foo(){};
     
     virtual void func() = 0;
 

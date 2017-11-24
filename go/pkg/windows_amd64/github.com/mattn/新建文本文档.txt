@@ -1,3 +1,0 @@
-DVMsharedFedora23shareitTesting-Programsgopkgwindows_amd64github.commattn
-
-D:\VMshared\Fedora23share\it\Testing-Programs\go\src\github.com\mattn

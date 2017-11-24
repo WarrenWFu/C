@@ -1145,15 +1145,6 @@ func main() {
 }
 */
 
-type Foo struct {
-	data     int
-	children *Foo
-}
-
 func main() {
-	foo := Foo{0, nil}
-	foo.children = &Foo{1, nil}
-
-	fmt.Println(foo.children.data)
-
+	testA()
 }

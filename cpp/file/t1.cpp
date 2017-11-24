@@ -1,6 +1,6 @@
 /**
  * @file        
- * @brief       最高性能的读写文件
+ * @brief       最高性能的读写文件，使用./a.out 源文件 目标文件
  *
  * @author      Warren.Fu
  * @date        
