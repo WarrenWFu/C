@@ -7,9 +7,4 @@ using std::endl;
 int main()
 {
 	Beverage *beverage = new Espresso();
-	cout << 
-
-	
-
-
 }
