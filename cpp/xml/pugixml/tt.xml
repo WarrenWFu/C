@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<School>
+	<Grade>
+		<Name>A</Name>
+		<Class>
+			<Name>1</Name>
+		</Class>
+		<Class>
+			<Name>2</Name>
+		</Class>
+	</Grade>
+	<Grade>
+		<Name>B</Name>
+		<Class>
+			<Name>1</Name>
+		</Class>
+		<Class>
+			<Name>2</Name>
+		</Class>
+		<Class>
+			<Name>3</Name>
+		</Class>
+	</Grade>
+</School>

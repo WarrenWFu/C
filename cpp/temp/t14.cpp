@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
     functype ft = bar();
 
     cout << ft(1) << endl;
+    qsort
 
     return 0;
 }

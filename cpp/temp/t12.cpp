@@ -76,6 +76,11 @@ int main()
     objs[0] = &i;
     cout << *(int *)(objs[0].m_p) << endl;
 
+    string s = "123";
+    objs[1] = &s;
+    cout << *(string *)(objs[1].m_p) << endl;
+
+
     return 0;
 }
 
