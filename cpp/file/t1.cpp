@@ -13,21 +13,30 @@
 
 using namespace std;
 
-int main(int argc, char* argv[])
+string qRead(const string &sFilePath)
 {
     std::string sBuf;
 
-    std::ifstream f(argv[1]);
+    std::ifstream f(sFilePath.c_str());
     f.seekg(0, std::ios::end);
     sBuf.resize(f.tellg());
     f.seekg(0);
     f.read((char *)sBuf.data(), sBuf.size());
     f.close();
+    
+    return sBuf;
+}
 
-
-    std::ofstream fOut(argv[2]);
+void qWrite(const string &sFilePath, const string &sBuf)
+{
+    std::ofstream fOut(sFilePath.c_str());
     fOut.write(sBuf.data(), sBuf.size());
     fOut.close();
+}
+
+int main(int argc, char* argv[])
+{
+    qWrite(argv[2], qRead(argv[1]));
 
     return 0;
 }

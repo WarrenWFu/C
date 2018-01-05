@@ -1,0 +1,17 @@
+[20171211 09:53:56.085046][00019766:00019766][      src/serviceMgrFork.cpp:0176][INFOR] 文件加载/home/strt/strt_server/product/Linux64/bin/service/service.mpss_noupp.so成功!
+[20171211 09:53:56.085355][00019766:00019766][MultiPorcessSocketServer.cpp:0457][INFOR] --XMLConfigFile: /home/strt/strt_server/product/Linux64/etc/current/services/main/service.main.mpss_noupp.com.xml
+[20171211 09:53:56.086240][00019766:00019766][MultiPorcessSocketServer.cpp:0466][INFOR] 日志模块: [apslog]
+[20171211 09:53:56.086320][00019766:00019766][MultiPorcessSocketServer.cpp:0472][INFOR] --mainPort : 12351
+[20171211 09:53:56.086345][00019766:00019766][MultiPorcessSocketServer.cpp:0478][INFOR] --workerCnt: 10
+[20171211 09:53:56.086363][00019766:00019766][                    mpss.cpp:0210][INFOR] workerCnt: 10
+[20171211 09:53:56.086380][00019766:00019766][                    mpss.cpp:0211][INFOR] mainPort : 12351
+[20171211 09:53:56.086613][00019766:00019766][                    mpss.cpp:0238][INFOR] forking the 1ed process
+[20171211 09:53:56.087302][00019766:00019766][                    mpss.cpp:0238][INFOR] forking the 2ed process
+[20171211 09:53:56.087417][00019766:00019768][MultiPorcessSocketServer.cpp:0269][INFOR] 获取数据库连接
+[20171211 09:53:56.087499][00019766:00019768][          src/globalData.cpp:0070][INFOR] 进程00019768线程00019768第一次取数据库连接
+[20171211 09:53:56.088269][00019766:00019766][                    mpss.cpp:0238][INFOR] forking the 3ed process
+[20171211 09:53:56.089374][00019766:00019766][                    mpss.cpp:0238][INFOR] forking the 4ed process
+[20171211 09:53:56.090514][00019766:00019766][                    mpss.cpp:0238][INFOR] forking the 5ed process
+[20171211 09:53:56.091623][00019766:00019766][                    mpss.cpp:0238][INFOR] forking the 6ed process
+[20171211 09:53:56.092759][00019766:00019766][                    mpss.cpp:0238][INFOR] forking the 7ed process
+[20171211 09:53:56.093892][00019766:00019766]     

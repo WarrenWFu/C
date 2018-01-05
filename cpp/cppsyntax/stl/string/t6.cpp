@@ -7,18 +7,23 @@
 *******************************************************************************/
 #include <iostream>
 #include <string>
+#include <cstdio>
 #include <stdlib.h>
 
 using namespace std;
 
+const string foo(int i)
+{
+    char szBuf[11] = {0};
+
+    snprintf(szBuf, 10, "%d", i);
+
+    return string(szBuf);
+}
+
 int main()
 {
-    string str1("1");
-    
-    //if (1 == ((int)str1.c_str()[0] - 48))
-    if (1 == atoi(str1.c_str()))
-        cout << "equal" << endl;
-
+    cout << foo(12345) << endl;
 
     return 0;
 }

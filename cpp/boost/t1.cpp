@@ -1,6 +1,6 @@
 /**
  * @file        
- * @brief       queue是不能遍历的，如果要遍历就只能摧毁再创建，删除时需要遍历
+ * @brief       
  *
  * @author      Warren.Fu
  * @date        
@@ -9,11 +9,16 @@
 
 #include <iostream>
 #include <string>
+#include <boost/type.hpp>
 
 using namespace std;
+using namespace boost;
 
 int main()
 {
+    struct type<int> t;
+
+    cout << sizeof t << endl;
 
     return 0;
 }
