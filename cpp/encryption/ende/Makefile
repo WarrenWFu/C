@@ -1,15 +1,17 @@
 CC=g++
 CPPFLAGS=-pg -g -Wall
 CPPFLAGS+=-I/mnt/winshared/ylink_optimize/library/libaps/include/
-CPPFLAGS+=-I/mnt/winshared/qhjk/trunk/design_implementation/Server/library/libWSPublic/
-LDFLAGS=-L/home/spring/project/qhjk/product/Linux64/lib
+CPPFLAGS+=-I/mnt/winshared/strt/trunk/design_implementation/02-Server/library/libWSPublic/
+LDFLAGS=-L/home/spring/projects/bobqf/product/Linux64/lib
 LIBS=-laps.base -laps.iconv -lpthread -lwspublic -lssl -lcrypto
 ENOBJECTS=en.o
 DEOBJECTS=de.o
-OBJECTS= $(ENOBJECTS) $(DEOBJECTS)
+DSOBJECTS=ds.o
+OBJECTS= $(ENOBJECTS) $(DEOBJECTS) $(DSOBJECTS)
 ENTARGETS=en
 DETARGETS=de
-TARGETS=$(ENTARGETS) $(DETARGETS)
+DSTARGETS=ds
+TARGETS=$(ENTARGETS) $(DETARGETS) $(DSTARGETS)
 
 all:$(TARGETS)
 .PHONY:all
@@ -23,6 +25,9 @@ $(ENTARGETS):$(ENOBJECTS)
 $(DETARGETS):$(DEOBJECTS)
 	$(CC) $(LDFLAGS) $(LIBS) -o $@ $^
 	@rm -f $(DEOBJECTS)
+$(DSTARGETS):$(DSOBJECTS)
+	$(CC) $(LDFLAGS) $(LIBS) -o $@ $^
+	@rm -f $(DSOBJECTS)
 
 $(OBJECTS):%.o:%.cpp
 

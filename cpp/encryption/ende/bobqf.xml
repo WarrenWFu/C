@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:ns1="http://www.ylink.com.cn/bobqf.wsdl">
+<SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<ns1:bobqf>
+<Body>
+<msgtype>118106</msgtype>
+<version>1</version>
+<subnode>A09700000001</subnode>
+<sendtime>20170309131800</sendtime>
+<msgno>1004</msgno>
+<resptype>1</resptype>
+<returnencrypt>1</returnencrypt>
+<ziptype>0</ziptype>
+<gatewayversion>1</gatewayversion>
+<signature>123456789</signature>
+<msgbody><?xml version="1.0" encoding="UTF-8" ?> 
+<REQUEST xmlns="urn:ylink.cnaps2.mb.req.118106" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<HEAD>
+  <BSSCCHLID>UPPC</BSSCCHLID>
+  <BSDESTCHLID>STRT</BSDESTCHLID>
+  <PCHLCODE>SZFS</PCHLCODE>
+  <TRADCODE>118106</TRADCODE>
+  <TRADID>00002016061470000481</TRADID>
+  <SENDTIME>20160614135404</SENDTIME>
+  <EPDDATA></EPDDATA>
+</HEAD>
+<BODY>
+ <PAYWAYINFO>
+    <ROUTEMODE>RA00</ROUTEMODE>
+    <BSID>000000002016061430010481</BSID>
+    <BSTYPE>UC0043</BSTYPE>
+    <BSCLASS>U0000436</BSCLASS>
+    <TRADCCY>HKD</TRADCCY>
+    <TRADAMT>45.00</TRADAMT>
+    <REMITCRY>RI01</REMITCRY>
+    <SENDBANK>313424076706</SENDBANK>
+    <RECVBANK>313345001219</RECVBANK>
+    <PAYERACCT>6214831222222222</PAYERACCT>
+    <PAYERNAME>通</PAYERNAME>
+    <PAYEROPRBANK>313424076706</PAYEROPRBANK>
+    <PAYERBANK>313424076706</PAYERBANK>
+    <PAYEEACCT>3333333333333333</PAYEEACCT>
+    <PAYEENAME>用</PAYEENAME>
+    <PAYEEOPRBANK>313424076706</PAYEEOPRBANK>
+    <PAYEEBANK>313345001219</PAYEEBANK>
+  </PAYWAYINFO>
+</BODY>
+</REQUEST></msgbody>
+</Body>
+</ns1:bobqf>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope> 
