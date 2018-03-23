@@ -1,11 +1,11 @@
-/*******************************************************************************
+/**
  *
- * author:Warren Fu
- * date:
- * description:使用javac HelloWorld.java之后用java HelloWorld运行即可
+ * @author:Warren Fu
+ * 使用javac HelloWorld.java之后用java HelloWorld运行即可 
  * 就算不使用super(),同样会调用父类的默认构造函数
+ * 使用 jar -cvfe test.jar HelloWorld *.class打成jar包，使用java -jar test.jar执行也可以
  *
-*******************************************************************************/
+ */
 public class HelloWorld{
     class Foo {
         Foo() {
