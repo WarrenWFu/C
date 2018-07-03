@@ -5,14 +5,21 @@
  * @author      Warren.Fu
  * @date        
  * @copyright   
- */
+*/
 
 #include <iostream>
 #include <string>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main()
 {
+    struct stat64 t;
+
+
+
+
     return 0;
 }

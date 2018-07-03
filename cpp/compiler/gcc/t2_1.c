@@ -7,12 +7,8 @@
  * @copyright   
  */
 
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-int main(int argc, char *argv[])
+int foo(int v1)
 {
-    return 0;
+    return v1 + 10;
 }
+
