@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+  <title>为了测试</title>
+  <script>
+    function foo() {
+      setTimeout(function () {
+        console.log(this.a);
+      }, 1000);
+    };
+
+    var a = 10;
+
+    var o1 = { a: 1 };
+    foo();
+  </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
