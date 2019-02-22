@@ -253,7 +253,59 @@ delete o1.b;
 console.log(o1);
  */
 
-var o1 = {};
+/* 
+//使用Object.create来创建原型继承
+function Foo(name) {  
+  this.name = name;
+}
 
-console.log(o1.a);
-console.log(a);
+Foo.prototype.myName = function() {
+  return this.name;
+};
+
+function Bar(name, label) {
+  Foo.call(this, name);
+  this.label = label;
+}
+
+Bar.prototype = Object.create(Foo.prototype);
+
+Bar.prototype.myLabel = function() {
+  return this.label;
+}
+
+var v1 = new Bar('v1', 'obj v1');
+
+console.log(v1.myName());
+console.log(v1.myLabel());
+ */
+/* 
+//__proto__返回内置的prototype，node支持但不是标准
+function Foo(a) {
+  this.a = a;
+}
+
+var v1 = new Foo('1');
+console.log(v1.__proto__ === Foo.prototype);
+*/
+/* 
+//虽然数值是NaN，但是类型还可以是number
+var v1 = 2/'foo';
+console.log(typeof v1 === 'number'); //打印true
+ */
+
+var v1 = 20;
+
+function foo() {
+  v1 = v1 + 1;
+}
+
+function bar() {  
+  v1 = v1 * 2;
+}
+
+ajax('http://www.baidu.com', foo);
+ajax('http://www.sina.com', bar);
+
+console.log(v1);
+
