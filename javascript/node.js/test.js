@@ -294,18 +294,58 @@ var v1 = 2/'foo';
 console.log(typeof v1 === 'number'); //打印true
  */
 
-var v1 = 20;
+/* 
+//简单的Promise调用
+var p = new Promise(function(resolve, reject){
+  //做一些异步操作
+  setTimeout(function(){
+    console.log('done');
+    //resolve('resolve');
+    reject('reject');
+  }, 1000);
+});
 
-function foo() {
-  v1 = v1 + 1;
+console.log(1);
+
+p.then(function (data) {  
+  console.log(data);
+}, function (reason, data) {
+  console.log(reason);
+  console.log(data);
+});
+ */
+
+/* 
+//对应原型的修改会影响到已经new出来的对象
+function Foo() {  }
+Foo.prototype.bar = function () {
+  console.log('from bar');
+};
+
+var o1 = new Foo();
+
+o1.bar();
+Foo.prototype.fun1 = function () {
+  console.log('from fun1');
+};
+
+o1.fun1();
+*/
+
+/* 
+//实现一个阻塞的sleep方法
+setTimeout(function () {
+  console.log('no');
+}, 0);
+
+function sleep(d) {
+  for (var i = Date.now(); Date.now() - i <= d;);
 }
 
-function bar() {  
-  v1 = v1 * 2;
-}
+sleep(3000);
 
-ajax('http://www.baidu.com', foo);
-ajax('http://www.sina.com', bar);
+console.log('yes');
+ */
 
-console.log(v1);
-
+console.log();
+console.log();
