@@ -347,8 +347,14 @@ sleep(3000);
 console.log('yes');
  */
 
-//实现一个简单的tcp服务器
+/* 
+//实现一个简单的HTTP服务器
 require('http').createServer(function (req, res) {
   //res.writeHead(200, {'Content-Type': 'text/html'});
   res.end('<h1>Hello <i>World</i></h1>');
 }).listen(3000);
+ */
+/* 
+console.log(isNaN('abc'));
+ */
+
