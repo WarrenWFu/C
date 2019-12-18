@@ -346,15 +346,64 @@ sleep(3000);
 
 console.log('yes');
  */
+/* 
+//ES6的解构赋值
+var foo = {
+  val1: 1,
+  val2: 'abc'
+};
+
+var {val1} = foo;
+const {val2} = foo;
+
+console.log(val1);
+console.log(val2);
+console.log(foo.val1);
+console.log(foo.val2);
+ */
 
 /* 
-//实现一个简单的HTTP服务器
-require('http').createServer(function (req, res) {
-  //res.writeHead(200, {'Content-Type': 'text/html'});
-  res.end('<h1>Hello <i>World</i></h1>');
-}).listen(3000);
+//多进程，有待了解
+const { spawn } = require('child_process');
+const ls = spawn('dir', ['E:/itdocs/1']);
+
+ls.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+ls.stderr.on('data', (data) => {
+  console.log(`stderr: ${data}`);
+});
+
+ls.on('close', (code) => {
+  console.log(`child process exited with code ${code}`);
+});
  */
 /* 
-console.log(isNaN('abc'));
+//命令行参数
+process.argv.forEach((val, index) => {
+  console.log(`${index}: ${val}`);
+});
  */
+/* 
+//所有普通对象继承链最终指向Object.prototype
+var foo = {};
+
+if (Object.getPrototypeOf(foo) === Object.prototype) {
+  console.log('yes'); //打印yes
+} else {
+  console.log('no');
+}
+ */
+
+const fs = require('fs');
+
+fs.access()
+
+
+
+console.log(Object.prototype.toString());
+
+const net = require('net');
+
 
