@@ -346,64 +346,31 @@ sleep(3000);
 
 console.log('yes');
  */
-/* 
-//ES6的解构赋值
-var foo = {
-  val1: 1,
-  val2: 'abc'
-};
-
-var {val1} = foo;
-const {val2} = foo;
-
-console.log(val1);
-console.log(val2);
-console.log(foo.val1);
-console.log(foo.val2);
- */
 
 /* 
-//多进程，有待了解
-const { spawn } = require('child_process');
-const ls = spawn('dir', ['E:/itdocs/1']);
+var ma = require('fs');
+var mb = require('module_b');
 
-ls.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
-
-ls.stderr.on('data', (data) => {
-  console.log(`stderr: ${data}`);
-});
-
-ls.on('close', (code) => {
-  console.log(`child process exited with code ${code}`);
-});
+(ma.readFile('./node_modules/module_b.js', (err, data) => {
+  if (err)
+    throw err;
+  console.log(data.toString());
+}));
  */
 /* 
-//命令行参数
-process.argv.forEach((val, index) => {
-  console.log(`${index}: ${val}`);
-});
- */
-/* 
-//所有普通对象继承链最终指向Object.prototype
-var foo = {};
+//slice返回数组中的片段，splice删除数组中的片段，并将删除部分返回
+var foo = [1, 2, 3, 4, 5];
 
-if (Object.getPrototypeOf(foo) === Object.prototype) {
-  console.log('yes'); //打印yes
-} else {
-  console.log('no');
-}
+console.log(foo.slice(0, 3)); //2个参数表示开始、结束下标不包括结束下标，返回1, 2, 3
+console.log(foo.slice(3)); //1个参数表示开始的下标，返回4, 5
+console.log(foo.slice(1, -1)); //-1表示最后一个元素的下标，返回2, 3, 4
+console.log(foo.slice(-3, -2)); //-3表示倒数第3个元素的下标，返回3
+
+var foo = [1, 2, 3, 4, 5];
+
+console.log(foo.splice(1, 2), foo);
+console.log(foo.splice(2), foo);
  */
 
-const fs = require('fs');
 
-fs.access()
-
-
-
-console.log(Object.prototype.toString());
-
-const net = require('net');
-
-
+console.log(typeof {});
