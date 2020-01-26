@@ -14,4 +14,3 @@ ls.stderr.on('data', (data) => {
 ls.on('close', (code) => {
   console.log(`child process exited with code ${code}`);
 });
-
