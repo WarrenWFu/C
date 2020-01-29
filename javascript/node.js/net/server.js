@@ -1,3 +1,4 @@
+//一个简单的TCP服务端
 const net = require('net');
 /* const fs = require('fs');
 

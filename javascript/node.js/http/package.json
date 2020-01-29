@@ -1,0 +1,5 @@
+{
+  "name": "FYM_NODEJS_HTTP_TEST",
+  "version": "0.0.1",
+  "main": "./server"
+}
