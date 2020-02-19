@@ -372,5 +372,63 @@ console.log(foo.splice(1, 2), foo);
 console.log(foo.splice(2), foo);
  */
 
+/* 
+//使用Vue.js的语法来定义对象，及其调动时的方法
+var app5 = {
+  el: '#app-5',
+  data: {
+    message: 'Hello Vue.js!'
+  },
+  methods: {
+    reverseMessage: function () {
+      this.data.message = this.data.message.split('').reverse().join('');
+    }
+  }
+};
 
-console.log(typeof {});
+//console.log(app5.data.message);
+console.log(app5.data.message);
+app5.methods.reverseMessage.call(app5);//应该注意使用原生的Vue语法，要这样来调用定义的方法，因为reverseMessage是在methods对象中，说明隐式绑定是不可传递的
+console.log(app5.data.message);
+ */
+/* 
+//UTF-8获取字节数
+function byteLength(s) {
+  var totalLength = 0;
+  var charCode;
+  for (var i = 0; i < s.length; ++i) {
+    console.log('-------------');
+    charCode = s.charCodeAt(i);
+    if (charCode < 0x0080) {
+      ++totalLength;
+    } else if (charCode < 0x0800) {
+      totalLength += 2;
+    } else if (charCode <= 0xffff) {
+      totalLength += 3;
+    } else {
+      totalLength += 4;
+    }
+  }
+  return totalLength;
+}
+
+console.log(byteLength('人a民'));
+ */
+/* 
+//获取本地IP地址
+const os = require('os');
+function getIPAdress() {
+  var interfaces = os.networkInterfaces();
+  for (var devName in interfaces) {
+    var iface = interfaces[devName];
+    for (var idx in iface) {
+      console.log(`${devName} ${iface[idx].family} ${iface[idx].address} ${iface[idx].internal}`);
+      if (iface[idx].family === 'IPv4' && iface[idx].address !== '127.0.0.1' && !iface[idx].internal) {
+        return iface[idx].address;
+      }
+    }
+  }
+}
+console.log(getIPAdress());
+ */
+
