@@ -432,3 +432,24 @@ function getIPAdress() {
 console.log(getIPAdress());
  */
 
+//对象和数组都可以使用forin，要区分还是要通过instanceof或typeof
+var foo = {
+  v1: 'a',
+  v2: 'b',
+  v3: 3
+};
+
+var bar = ['a', 'b', 3];
+
+for (var v in foo) {
+  console.log(v, foo[v]);
+}
+
+for (v in bar) {
+  console.log(v, bar[v]);
+}
+
+console.log(foo instanceof Array);
+console.log(typeof foo);
+console.log(bar instanceof Array);
+console.log(typeof bar);
