@@ -46,7 +46,8 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  fs.access(__dirname + req.url, fs.constants.R_OK, err => {
+  //测试对应文件夹修改第一个参数，默认为__dirname
+  fs.access(__dirname + '../' + req.url, fs.constants.R_OK, err => {
     //返回404
     if (err) {
       console.log(err);
