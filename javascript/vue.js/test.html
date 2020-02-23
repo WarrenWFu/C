@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Vue.js测试</title>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+<!--   <meta http-equiv="cache-control" content="public, max-age=50"> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+  <!--切换元素可见-->
+<!--   <div id="app-3">
+    <p v-if="seen">现在你看到我了</p>
+  </div>
+
+  <script>
+    var app3 = new Vue({
+      el: '#app-3',
+      data: {
+        seen: true
+      }
+    });
+  </script> -->
+  
+  <!--循环获取数组元素, 注意和JS还是有点区别，是直接获取的成员而不是下标-->
+<!--   <div id="app-4">
+    <ol>
+      <li v-for="todo in todos">
+        {{ todo }}
+      </li>
+    </ol>
+  </div>
+  <script>
+    var app4 = new Vue({
+      el: '#app-4',
+      data: {
+        todos: [
+          '学习 JavaScript',
+          '学习 Vue',
+          '整个牛项目'
+        ]
+      }
+    })
+  </script> -->
+
+  <!--为button添加监听-->
+  <div id="app-5">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">反转编码</button>
+  </div>
+  <div>
+    <a href="test.html">跳转自己</a>
+  </div>
+  <script>
+    var app5 = new Vue({
+      el: '#app-5',
+      data: {
+        message: 'Hello Vue.js!'
+      },
+      methods: {
+        reverseMessage: function () {
+          this.message = this.message.split('').reverse().join('')
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>
