@@ -473,5 +473,95 @@ foo();
 foo();
 foo();
  */
+/* 
+//模仿iterator
+var it = makeIterator(['a', 'b']);
 
-console.log(__dirname.substr(0, __dirname.length-4));
+console.log(it.next().value);
+console.log(it.next().value);
+console.log(it.next().value);
+
+function makeIterator(array) {
+  var nextIndex = 0;
+
+  return {
+    next: function () {
+      return nextIndex < array.length? 
+        { value: array[nextIndex++], done: false } :
+        { value: undefined, done: true };
+    }
+  };
+}
+ */
+/* 
+//使用数组的iterator
+var foo = ['a', 'b', 'c'];
+
+var it = foo[Symbol.iterator]();
+
+console.log(it.next().value);
+console.log(it.next().value);
+console.log(it.next().value);
+ */
+/* 
+//for...of
+var arr = ['a', 'b', 'c', 'd'];
+for (let a in arr) {
+  console.log(a);
+}
+
+for (let a of arr) {
+  console.log(a);
+}
+ */
+/* 
+function* helloWorldGenerator() {
+  yield 'hello';
+  yield 'world';
+  return 'ending';
+}
+
+var hw = helloWorldGenerator();
+
+console.log(hw.next().value); //返回hello
+console.log(hw.next().value); //返回world
+console.log(hw.next().value); //返回ending
+ */
+/* 
+function* demo() {
+  console.log('Hello' + (yield));
+  console.log('Hello' + (yield 123));
+}
+
+var it = demo();
+//console.log(it.next().value);
+//console.log(it.next().value);
+it.next();
+it.next();
+ */
+
+//理解这个例子
+var fs = require('fs');
+var readFile = function (fileName) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(fileName, function (error, data) {
+      if (error) return reject(error);
+      resolve(data);
+    });
+  });
+};
+
+var gen = function* () {
+  var f1 = yield readFile('./module_a.js');
+  var f2 =yield readFile('./module_b.js');
+  console.log(f1.toString());
+  console.log(f2.toString());
+};
+
+var g = gen();
+
+g.next().value.then( function (data) {
+  g.next(data).value.then(function (data) {
+    g.next(data);
+  });
+});
