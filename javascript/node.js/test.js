@@ -539,7 +539,7 @@ var it = demo();
 it.next();
 it.next();
  */
-
+/* 
 //理解这个例子
 var fs = require('fs');
 var readFile = function (fileName) {
@@ -565,3 +565,16 @@ g.next().value.then( function (data) {
     g.next(data);
   });
 });
+ */
+/* 
+//setTimeout可以传递参数
+setTimeout((data) => {
+  for (var v1 in data) {
+    console.log(v1, data[v1]);
+  }
+}, 100, '1');
+ */
+
+var foo = (data) => console.log(data);
+
+foo('test');
