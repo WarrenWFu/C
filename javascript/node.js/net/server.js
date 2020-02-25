@@ -16,6 +16,9 @@ const server = net.createServer(socket => {
     console.log(data.toString());
   });
 }).on('error', err => {
+  if (err.code === 'EADDRINUSE') {
+    console.log('Address in use, retrying...');
+  }
   throw err;
 });
 
@@ -26,6 +29,11 @@ server.on('connection', socket => {
 });
 
 //返回监听的地址
-server.listen(61001, () => {
+server.listen({
+  host: 'localhost',
+  port: 61001,
+  backlog: 100,
+  exclusive: false //默认为false
+}, () => {
   console.log('open server on', server.address());
 });

@@ -1,5 +1,5 @@
 {
-  "name": "FYM_NODEJS_PROMISE_TEST",
+  "name": "FYM_NODEJS_ASYNC_TEST",
   "version": "0.0.1",
   "main": "./main"
 }

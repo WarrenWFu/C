@@ -10,7 +10,7 @@ timeout(50).then((value) => {
   console.log(value);
 });
  */
-
+/* 
 //理解Promise的执行顺序
 let promise = new Promise((resolve, reject) => {
   console.log(1); 
@@ -23,7 +23,7 @@ promise.then(() => {
 }); 
 
 console.log(3);
-
+*/
 /* 
 //Promise实现AJAX,浏览器中运行
 var getJSON = function (url) {
@@ -54,3 +54,15 @@ getJSON('/post.json').then(function (json) {
   console.log('出错了', error);
 });
  */
+/* 
+async function f() {
+  return 'hello world';
+}
+
+f().then(v => console.log(v));
+*/
+
+//理解async函数
+async function foo() {  
+  //yield :q
+}

@@ -553,28 +553,17 @@ var readFile = function (fileName) {
 
 var gen = function* () {
   var f1 = yield readFile('./module_a.js');
-  var f2 =yield readFile('./module_b.js');
+  var f2 = yield readFile('./module_b.js');
   console.log(f1.toString());
   console.log(f2.toString());
 };
 
 var g = gen();
 
-g.next().value.then( function (data) {
+g.next().value.then(function (data) {
   g.next(data).value.then(function (data) {
     g.next(data);
   });
 });
- */
-/* 
-//setTimeout可以传递参数
-setTimeout((data) => {
-  for (var v1 in data) {
-    console.log(v1, data[v1]);
-  }
-}, 100, '1');
- */
+*/
 
-var foo = (data) => console.log(data);
-
-foo('test');
