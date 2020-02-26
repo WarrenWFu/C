@@ -61,8 +61,27 @@ async function f() {
 
 f().then(v => console.log(v));
 */
+/* 
+//理解Generator函数的执行逻辑
+const fs = require('fs');
 
-//理解async函数
-async function foo() {  
-  //yield :q
+function* foo() {  
+  console.log('1'); //只有执行了next,才能到这句
+  yield console.log('2'); //第一个next执行
+
+  yield fs.readFile('./package.json', 'utf8', (err, data) => { //第二个next执行此句，但是注意本身是一个异步函数，其回调还是要下一轮执行
+    if (err) throw err;
+    
+    console.log('5');
+  });
+
+  console.log('4'); //第三个next执行
 }
+
+var it = foo();
+it.next();
+console.log('3');
+it.next();
+it.next();
+ */
+
