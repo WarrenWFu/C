@@ -17,11 +17,10 @@ fs.access('./test.txt', fs.constants.W_OK | fs.constants.R_OK, err => {
 
 //异步读取整个文件, 如果没有encoding则返回ascii十进制的Buffer，否则是一个原生string
 //fs.readFile('./test.txt', (err, data) => {
-var foo = fs.readFile('./test.txt', 'utf8', (err, data) => {
+fs.readFile('./test.txt', 'utf8', (err, data) => {
   if (err) throw err;
   console.log(typeof data);
   console.log(data);
 });
 
-console.log(typeof foo);
 
