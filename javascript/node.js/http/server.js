@@ -35,6 +35,8 @@ const server = http.createServer((req, res) => {
     headers['Content-Type'] = 'application/x-ico';
   } else if ('jpg' == suffix) {
     headers['Content-Type'] = 'image/jpeg';
+  } else if ('js' == suffix) {
+    headers['Content-Type'] = 'application/x-javascript';
   } else if ('html' == suffix) {
     //直接使用HTML文件中的
     //headers = '';

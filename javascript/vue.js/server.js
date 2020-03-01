@@ -35,6 +35,8 @@ const server = http.createServer((req, res) => {
     headers['Content-Type'] = 'application/x-ico';
   } else if ('jpg' == suffix) {
     headers['Content-Type'] = 'image/jpeg';
+  } else if ('js' == suffix) {
+    headers['Content-Type'] = 'application/x-javascript';
   } else if ('html' == suffix) {
     //直接使用HTML文件中的
     //headers = '';
@@ -47,7 +49,7 @@ const server = http.createServer((req, res) => {
   }
 
   //测试对应文件夹修改第一个参数，默认为__dirname
-  fs.access(__dirname + '../' + req.url, fs.constants.R_OK, err => {
+  fs.access(__dirname + req.url, fs.constants.R_OK, err => {
     //返回404
     if (err) {
       console.log(err);
@@ -97,6 +99,7 @@ server.on('clientError', (err, socket) => {
 
 server.listen(61001, getIPAdress(), () => {
   console.log('open http server on', server.address());
+  console.log('eshi ');
 });
 
 function getIPAdress() {

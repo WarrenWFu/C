@@ -567,3 +567,8 @@ g.next().value.then(function (data) {
 });
 */
 
+var foo = function bar() {
+  console.log('test');
+};
+
+foo();

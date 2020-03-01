@@ -1,7 +1,8 @@
 //导入模块foo和bar
-module foo from "foo";
-module bar from "bar";
+import {hello} from './bar';
+import {awesome} from './foo';
+
 console.log(
-  bar.hello("rhino")
+  hello("rhino")
 ); // Let me introduce: rhino
-foo.awesome(); // LET ME INTRODUCE: HIPPO
+//awesome(); // LET ME INTRODUCE: HIPPO
