@@ -99,7 +99,6 @@ server.on('clientError', (err, socket) => {
 
 server.listen(61001, getIPAdress(), () => {
   console.log('open http server on', server.address());
-  console.log('eshi ');
 });
 
 function getIPAdress() {

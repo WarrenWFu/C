@@ -173,7 +173,8 @@ r1.value((err, data) => {
   });
 });
  */
- 
+/*  
+//了解async函数的执行顺序
 const fs = require('fs');
 
 var readFile = function (fileName) {
@@ -186,13 +187,21 @@ var readFile = function (fileName) {
 };
 
 async function asyncReadFile() {
+  console.log(2);
+  await console.log(3); //先执行console.log(3),然后将其返回值转换为Promise
   var r1 = await readFile('./package.json');
   console.log(r1);
   var r2 = await readFile('./package.json');
   console.log(r2);
-  console.log(3);
+  console.log(5);
 }
 
 console.log(1);
 asyncReadFile();
-console.log(2);
+console.log(4);
+ */
+
+var foo = new Array();
+console.log(foo.constructor);
+console.log(foo.constructor === Array);
+

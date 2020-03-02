@@ -567,8 +567,20 @@ g.next().value.then(function (data) {
 });
 */
 
-var foo = function bar() {
-  console.log('test');
+//var foo = new Promise((resolve, reject) => {
+var foo = function (data) {
+  return new Promise((resolve, reject) => {
+    console.log(1);
+    setTimeout(resolve, 1000, data);
+    console.log(2);
+  })
 };
 
-foo();
+foo('yes').then(data => {
+  console.log(4);
+  console.log(data);
+}).catch(err => {
+  console.log(err);
+});
+
+console.log(3);
