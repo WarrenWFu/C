@@ -31,10 +31,24 @@ bar = new function () {return;};
 
 console.log(bar === undefined);
 console.log(bar instanceof Object);
-
-
 */
+/* 
+//setTimeout0的意义就是将命令放在所有同步命令之后执行，其实可以用Promise.resolve来实现，Promise优先级稍微高一些
+console.log(1);
+setTimeout(() => {
+  console.log(5);
+}, 0);
 
+Promise.resolve().then(() => {
+  console.log(3);
+});
+
+Promise.resolve().then(() => {
+  console.log(4);
+});
+
+console.log(2);
+ */
 /* 
 //简单的添加事件
 var EventEmitter = require('events').EventEmitter, a = new EventEmitter; //注意这种变量定义方式
@@ -566,7 +580,8 @@ g.next().value.then(function (data) {
   });
 });
 */
-
+/* 
+//验证Promise执行顺序
 //var foo = new Promise((resolve, reject) => {
 var foo = function (data) {
   return new Promise((resolve, reject) => {
@@ -584,3 +599,4 @@ foo('yes').then(data => {
 });
 
 console.log(3);
+ */

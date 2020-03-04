@@ -109,7 +109,71 @@ function run(gen) {
 
 run(gen);
  */
-//////////////////////////////////////////////////////Generator/////////////////////////////////////////////////////////////////////
+/* 
+//验证Promise执行顺序
+//var foo = new Promise((resolve, reject) => {
+var foo = function (data) {
+  return new Promise((resolve, reject) => {
+    console.log(1);
+    setTimeout(resolve, 1000, data);
+    console.log(2);
+  })
+};
+
+foo('yes').then(data => {
+  console.log(4);
+  console.log(data);
+}).catch(err => {
+  console.log(err);
+});
+
+console.log(3);
+*/
+/* 
+//使用Promise封装TCP服务器，还是适合多重回调的情况，这种情况用Promise感觉多此一举
+const net = require('net');
+
+var server = undefined;
+
+var p1 = new Promise((resolve, reject) => {
+  return server = net.createServer(resolve);
+});
+
+p1.then(socket => {
+  console.log('get a connection');
+  socket.end('goodbye\n');
+  socket.on('data', data => {
+    console.log(data.toString());
+  });
+});
+
+(new Promise((resolve, reject) => {
+  return server.on('error', reject);
+})).catch(err => {
+  if (err.code === 'EADDRINUSE') {
+    console.log('Address in use, retrying...');
+  }
+  throw err;
+});
+
+(new Promise((resolve, reject) => {
+  return server.on('connect', reject);
+})).then(() => {
+  console.log('get a connection ------------');
+});
+
+(new Promise((resolve, reject) => {
+  return server.listen({
+    host: 'localhost',
+    port: 61001,
+    backlog: 100,
+    exclusive: false //默认为false
+  }, resolve);
+})).then(() => {
+  console.log('open server on', server.address());
+});
+ */
+/////////////////////////////////////////////////////Generator/////////////////////////////////////////////////////////////////////
 /* 
 //理解Generator函数的执行逻辑
 const fs = require('fs');
@@ -200,8 +264,4 @@ console.log(1);
 asyncReadFile();
 console.log(4);
  */
-
-var foo = new Array();
-console.log(foo.constructor);
-console.log(foo.constructor === Array);
 
