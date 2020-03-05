@@ -88,6 +88,100 @@
     })
   </script> -->
 
+  <!--使用bind给props赋值-->
+<!--   <div id="app-6">
+    <test-component :p1 = "d1"></test-component>
+  </div>
+
+  <script>
+    Vue.component('test-component', {
+      props:['p1'],
+      template: `<div>{{p1}}</div>`
+    });
+    var app6 = new Vue({
+      el: '#app-6',
+      data: {
+        d1: 'abc'
+      }
+    });
+  </script> -->
+
+  <!--v-model绑定textarea-->
+<!--   <div id="app-7">
+    <span>Multiline message is:</span>
+    <p style="white-space: pre-line;">{{ message }}</p>
+    <br>
+    <textarea v-model="message" placeholder="add multiple lines"></textarea>
+  </div>
+  <script>
+    var app7 = new Vue({
+      el: '#app-7',
+      data: {
+        message:'初始值'
+      }
+    });
+  </script> -->
+
+  <!--v-model绑定checkbox, 并不是覆盖绑定值而是增删-->
+<!--   <div id="app-7">
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ checkedNames }}</span>
+  </div>
+  <script>
+    new Vue({
+      el: '#app-7',
+      data: {
+        checkedNames: []
+      }
+    })
+  </script> -->
+
+  <!--v-model绑定单选按钮-->
+<!--   <div id="app-7">
+    <input type="radio" id="one" value="One" v-model="picked">
+    <label for="one">One</label>
+    <br>
+    <input type="radio" id="two" value="Two" v-model="picked">
+    <label for="two">Two</label>
+    <br>
+    <span>Picked: {{ picked }}</span>
+  </div>
+  <script>
+    var app7 = new Vue({
+      el: '#app-7',
+      data:{
+        picked:false
+      }
+    });
+  </script> -->
+
+  <!--使用变量给插槽传值-->
+<!--   <div id="slot-0">
+    <test-component>
+      {{ d1 }}
+    </test-component>
+  </div>
+
+  <script>
+    Vue.component('test-component', {
+      props:['p1'],
+      template: `<div><slot>默认值</slot></div>`
+    });
+    new Vue({
+      el: '#slot-0',
+      data: {
+        d1: '123'
+      }
+    });
+  </script> -->
+
+
 </body>
 
 </html>
